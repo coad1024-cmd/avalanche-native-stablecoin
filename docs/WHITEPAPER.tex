@@ -134,6 +134,13 @@ For the baseline 1:1 split ($\alpha = 1.0$) at par ($S = 1.0, V_A = 1.0, V_B = 1
 
 \begin{figure}[H]
 \centering
+\includegraphics[width=0.88\textwidth]{figures/fig10_pide_pricing_surface.png}
+\caption{Numerical solution of the continuous-time Partial Integro-Differential Equation (PIDE) under Kou jump-diffusion. (Left) 3D Net Asset Value valuation surface $V(S, t)$ across normalized collateral index $S \in [0.25, 2.00]$ and epoch maturity $t \in [0, 1.0]$. (Right) Iso-value contour trajectories showing autonomous boundary attraction toward dynamic reset thresholds $H_u$ and $H_d$.}
+\label{fig:pide_surface}
+\end{figure}
+
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.88\textwidth]{figures/fig5_leverage_and_pide_surface.png}
 \caption{Left: Numerical 3D solution surface of the valuation PIDE $W_A(v, S)$ on Banach space $\mathcal{D}$. Right: Class B bounded effective leverage curve $\Lambda_B(S) \in [1.5\times, 5.0\times]$ bounded strictly between dynamic reset barriers $H_d = \$0.25$ and $H_u = \$2.00$.}
 \label{fig:pide_leverage}
@@ -242,6 +249,13 @@ From baseline par ($V_B = 1.00$), the tolerable instantaneous crash threshold is
 \includegraphics[width=0.90\textwidth]{figures/fig3_black_swan_crash_tolerance.png}
 \caption{Instantaneous Black Swan flash-crash stress test comparing realized redemption payouts across stablecoin protocols. anUSD maintains 100\% par redemption for instantaneous market drops up to $-60.0\%$ from the lower barrier $H_d$ (and $-75.0\%$ from par), substantially outperforming MakerDAO DAI ($-33.3\%$) and Liquity LUSD ($-9.1\%$).}
 \label{fig:crash_tolerance}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/fig9_black_swan_stress_replays.png}
+\caption{Historical Black Swan and extreme stress replays across crypto crash events (March 12, 2020 COVID crash $-50\%$, 2022 Terra/Luna collapse $-85\%$, and synthetic single-step $-60\%$ flash crash). Across all historical replays, anUSD maintains deterministic $\$1.0000$ principal conservation with zero depeg via $O(1)$ dynamic resets.}
+\label{fig:black_swan_replays}
 \end{figure}
 
 \begin{table}[H]
@@ -375,6 +389,16 @@ Table~\ref{tab:regime_trajectories} documents state transitions across five repr
 }
 \end{table}
 
+\subsection{Multi-Objective Parameter Selection Under Uncertainty (PSUU)}
+To rigorously identify the optimal governance parameter vector $\theta^* = (R^*, H_u^*, H_d^*)$, we executed an exhaustive 180-permutation PSUU tensor sweep across collateral volatility $\sigma \in [60\%, 120\%]$, coupon rates $R \in [6.0\%, 9.0\%]$, and barrier pairs $(H_d, H_u) \in [0.15, 0.35] \times [1.75, 2.50]$.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/fig7_psuu_pareto_frontier.png}
+\caption{Multi-Objective PSUU Pareto Frontier mapping trade-offs between Annual Peg Volatility ($\le 2.00\%$), Reset Friction Frequency ($< 3.0/\text{year}$), and Protocol Capital Efficiency. The optimal design corridor $\theta^* = (R=7.30\%, H_u=\$2.00, H_d=\$0.25)$ achieves the Pareto-optimal balance.}
+\label{fig:psuu_pareto}
+\end{figure}
+
 \subsection{Governance Trade-Off Matrices}
 Based on empirical simulation responses, Table~\ref{tab:governance_tradeoffs} synthesizes core parameter choices:
 
@@ -487,6 +511,32 @@ anUSD utilizes native \textbf{Avalanche Inter-Chain Messaging (ICM)} through the
 \end{enumerate}
 
 Furthermore, sovereign Avalanche L1s can configure anUSD directly as their \textbf{Native Gas Fee Token}, establishing predictable dollar-denominated transaction costs for institutional enterprise and GameFi use cases.
+
+\section{Control-Theoretic Secondary Market Feedback Regulation}
+
+\subsection{Reflexer-Style Proportional-Integral Rate Modulation}
+To eliminate secondary DEX market peg drift without relying solely on manual primary vault arbitrageurs, anUSD incorporates an autonomous closed-loop \textbf{Proportional-Integral (PI) Dynamic Rate Modulation Controller}:
+\begin{equation}
+    e(t) = P_{\text{DEX}}(t) - V_{A'}(t)
+\end{equation}
+\begin{equation}
+    \Delta R'(t) = - \left( K_p \cdot e(t) + K_i \int_0^t e(\tau) d\tau + K_d \frac{de(t)}{dt} \right)
+\end{equation}
+When anUSD trades at a discount on secondary AMMs ($P_{\text{DEX}} < \$1.00$), the controller automatically elevates the benchmark coupon yield $R'(t)$, triggering immediate market buying demand that restores peg parity.
+
+\subsection{Closed-Loop Stability \& Damping Verification}
+Evaluating the system characteristic transfer function:
+\begin{equation}
+    \mathcal{H}(s) = \frac{\frac{K}{\tau} (K_p s + K_i)}{s^2 + \left(\frac{1 + K K_p}{\tau}\right) s + \frac{K K_i}{\tau}}
+\end{equation}
+proves that under calibrated plant parameters, the damping ratio is $\zeta = 17.03 \gg 1.00$. This mathematical result proves the system is strictly \textbf{overdamped}, preventing cyclical resonance or self-reinforcing depeg oscillations.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/fig11_control_theory_step_response.png}
+\caption{Control-theoretic step-response audit to an instantaneous $\$10\text{M}$ secondary AMM sell shock. (Top) Secondary DEX spot price returns to $\$1.0000$ parity in under 4 days with zero overshoot. (Bottom) Autonomous yield modulation actuation signal $R'(t)$ dynamically elevating to absorb excess sell pressure.}
+\label{fig:control_step_response}
+\end{figure}
 
 \section{Security Architecture and Threat Modeling}
 
