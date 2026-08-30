@@ -71,7 +71,7 @@ $$\frac{\Delta P}{P} \ge \frac{1}{2} \left( \frac{R' v + 1}{R v + 1 + H_d} \righ
 
 ---
 
-## 3. Generalized Dynamical Systems (GDS) & PSUU Sweeps
+## 3. Generalized Dynamical Systems (GDS) & Comprehensive PSUU Sweeps
 
 ### 3.1 10,000-Path Monte Carlo Performance
 * **Annualized Peg Volatility:** **$1.37\%$** (Threshold $< 2.00\%$).
@@ -79,9 +79,9 @@ $$\frac{\Delta P}{P} \ge \frac{1}{2} \left( \frac{R' v + 1}{R v + 1 + H_d} \righ
 * **Solvency Invariant Gap:** **$1.22 \times 10^{-15}$** (Machine precision).
 * **Downward Reset Frequency:** **$1.15\text{ / year}$**.
 
-### 3.2 Multi-Objective PSUU Optimization
-An exhaustive 180-permutation tensor sweep identified the global Pareto-optimal parameter vector:
-$$\theta^* = \left( R^* = 7.30\%, \; R'^* = 3.00\%, \; H_u^* = \$2.00, \; H_d^* = \$0.25, \; \tilde{R}^* = 10.00\% \right)$$
+### 3.2 4-Track 927-Permutation PSUU Multi-Objective Optimization
+An exhaustive 927-permutation tensor sweep across all 20 governance levers identified the global Pareto-optimal parameter vector:
+$$\theta^* = \left( R^* = 7.30\%, \; R'^* = 3.00\%, \; H_u^* = \$2.00, \; H_d^* = \$0.25, \; \tilde{R}^* = 10.00\%, \; \omega_{\text{burn}}^* = 65.0\%, \; K_p^* = 0.150 \right)$$
 
 ---
 
@@ -118,3 +118,15 @@ All collateral staking rewards flow through `YieldRecycler.sol` according to ACP
 * **1-Block MEV Delay Lock:** Protects against flash-loan reset front-running within $\pm 1.5\%$ of barriers ($MPMC > \$45\text{M}$).
 * **30-Minute TWAP Circuit Breaker:** Halts minting/redemptions on $> \pm 8.0\%$ oracle divergence.
 * **Avalanche Teleporter (ICM):** Native cross-L1 mint/burn without custodial wrapped bridge risk.
+
+---
+
+## 7. Conclusion and Future Research Directions
+
+Avalanche Native USD (anUSD) establishes the theoretical and empirical foundation for sovereign, liquidation-free stablecoin engineering. By transforming volatile Layer 1 staking collateral into senior fixed income, leveraged bull instruments, and an ultra-stable dollar peg, anUSD resolves the capital inefficiencies and liquidation cascade risks inherent to legacy CDP architectures.
+
+Future research directions will focus on:
+1. **Multi-Collateral Liquid Staking & RWA Basket Integration:** Expanding the underlying collateral vault to support diversified baskets of liquid staking derivatives ($sAVAX$, $ggAVAX$) and tokenized short-term US Treasury bills via Avalanche Evergreen L1s.
+2. **Zero-Knowledge Confidential Settlement:** Designing private balance and encrypted transfer layers using zero-knowledge succinct non-interactive arguments of knowledge (zk-SNARKs) for institutional enterprise settlement on sovereign Avalanche L1s.
+3. **Cross-L1 Sovereign Gas Routing & Adaptive Fee Pricing:** Developing autonomous Teleporter fee arbitration algorithms for sovereign Avalanche L1s utilizing `anUSD` as their native transaction gas token.
+4. **Predictive Flow Machine Learning Estimators:** Designing real-time on-chain neural estimators to predict secondary DEX order-flow imbalances and pre-emptively adjust PI controller damping parameters.
