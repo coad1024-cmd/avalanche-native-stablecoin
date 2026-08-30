@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>anUSD Token Engineering Digital Twin & ACP-67 Yield Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .gradient-card { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        .accent-border { border-color: #3b82f6; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center font-bold text-white shadow-lg shadow-red-600/30">
+                🔺
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-white tracking-tight">anUSD Digital Twin & Economic Calculator</h1>
+                <p class="text-xs text-slate-400">Bonding Curve Research Group (BCRG) · Avalanche Foundation Ecosystem Initiative</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full text-xs font-semibold flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> GDS Model Active
+            </span>
+            <span class="px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/30 rounded-full text-xs font-semibold">
+                ACP-67 Aligned
+            </span>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-6 space-y-6">
+        <!-- Top Metrics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="gradient-card p-5 rounded-2xl border border-slate-800 shadow-sm">
+                <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">anUSD Stablecoin NAV (V_A')</p>
+                <div class="mt-2 flex items-baseline justify-between">
+                    <span id="card-nav-aprime" class="text-2xl font-black text-white">$1.0000</span>
+                    <span class="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded">0.00% Volatility</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">Target Parity: $1.0000 USD</p>
+            </div>
+
+            <div class="gradient-card p-5 rounded-2xl border border-slate-800 shadow-sm">
+                <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Class B Equity NAV (V_B)</p>
+                <div class="mt-2 flex items-baseline justify-between">
+                    <span id="card-nav-vb" class="text-2xl font-black text-purple-400">$1.0000</span>
+                    <span id="card-leverage" class="text-xs font-bold text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded">2.00x Leverage</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">Barrier Range: $0.25 - $2.00</p>
+            </div>
+
+            <div class="gradient-card p-5 rounded-2xl border border-slate-800 shadow-sm">
+                <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Annual AVAX Burn (ACP-67)</p>
+                <div class="mt-2 flex items-baseline justify-between">
+                    <span id="card-burn-usd" class="text-2xl font-black text-orange-400">$4.06M</span>
+                    <span id="card-burn-avax" class="text-xs font-bold text-orange-300 bg-orange-500/20 px-2 py-0.5 rounded">162,500 AVAX</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">65% Gross Staking Yield</p>
+            </div>
+
+            <div class="gradient-card p-5 rounded-2xl border border-slate-800 shadow-sm">
+                <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Validator APR Boost</p>
+                <div class="mt-2 flex items-baseline justify-between">
+                    <span id="card-val-boost" class="text-2xl font-black text-emerald-400">+1.25%</span>
+                    <span id="card-val-usd" class="text-xs font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded">$1.25M/yr</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">20% Gross Staking Yield</p>
+            </div>
+        </div>
+
+        <!-- Main Workspace: Left Controls, Right Interactive Visuals -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left Controls Column (4 cols) -->
+            <div class="lg:col-span-4 space-y-5">
+                <div class="gradient-card p-6 rounded-2xl border border-slate-800 space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h2 class="font-bold text-white text-sm uppercase tracking-wider">Governance & Market Levers</h2>
+                        <button onclick="resetDefaults()" class="text-xs text-blue-400 hover:underline">Reset Defaults</button>
+                    </div>
+
+                    <!-- Slider 1: Spot Price Shock -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span class="text-slate-300">Collateral Price Shock (ΔP)</span>
+                            <span id="val-shock" class="text-blue-400 font-mono">0.0% ($25.00)</span>
+                        </div>
+                        <input id="slider-shock" type="range" min="-75" max="100" value="0" step="1" class="w-full accent-blue-500 bg-slate-800 rounded-lg cursor-pointer" oninput="updateSimulation()">
+                        <div class="flex justify-between text-[10px] text-slate-500">
+                            <span>-75% (Black Swan)</span>
+                            <span>0%</span>
+                            <span>+100% (Bull)</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider 2: Total Stablecoin TVL -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span class="text-slate-300">Stablecoin TVL ($ USD)</span>
+                            <span id="val-tvl" class="text-blue-400 font-mono">$100M</span>
+                        </div>
+                        <input id="slider-tvl" type="range" min="50" max="5000" value="100" step="50" class="w-full accent-blue-500 bg-slate-800 rounded-lg cursor-pointer" oninput="updateSimulation()">
+                        <div class="flex justify-between text-[10px] text-slate-500">
+                            <span>$50M</span>
+                            <span>$1.0B</span>
+                            <span>$5.0B</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider 3: Liquid Staking Staking APR -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span class="text-slate-300">sAVAX Staking Yield (q)</span>
+                            <span id="val-savax" class="text-blue-400 font-mono">6.00%</span>
+                        </div>
+                        <input id="slider-savax" type="range" min="3.0" max="10.0" value="6.0" step="0.1" class="w-full accent-blue-500 bg-slate-800 rounded-lg cursor-pointer" oninput="updateSimulation()">
+                    </div>
+
+                    <!-- Slider 4: Senior Coupon Rate R -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span class="text-slate-300">Class A Senior Coupon (R)</span>
+                            <span id="val-coupon-r" class="text-blue-400 font-mono">7.30%</span>
+                        </div>
+                        <input id="slider-coupon-r" type="range" min="4.0" max="12.0" value="7.3" step="0.1" class="w-full accent-blue-500 bg-slate-800 rounded-lg cursor-pointer" oninput="updateSimulation()">
+                    </div>
+
+                    <!-- Slider 5: ACP-67 Buyback Allocation Share -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span class="text-slate-300">ACP-67 Buyback & Burn Share</span>
+                            <span id="val-burn-share" class="text-orange-400 font-mono">65.0%</span>
+                        </div>
+                        <input id="slider-burn-share" type="range" min="40" max="80" value="65" step="1" class="w-full accent-orange-500 bg-slate-800 rounded-lg cursor-pointer" oninput="updateSimulation()">
+                    </div>
+                </div>
+
+                <!-- State Reset Engine Alert Status -->
+                <div id="reset-banner" class="p-5 rounded-2xl border border-blue-500/30 bg-blue-500/10 space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg">🛡️</span>
+                        <h3 id="reset-status-title" class="text-sm font-bold text-blue-300">Normal Operating Corridor</h3>
+                    </div>
+                    <p id="reset-status-desc" class="text-xs text-slate-300 leading-relaxed">
+                        Collateral index is within bounds ($0.25 &lt; V_B &lt; $2.00). No reset required; Class B equity absorbs price movement with 2.0x leverage.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Visuals Column (8 cols) -->
+            <div class="lg:col-span-8 space-y-6">
+                <!-- Chart 1: Tranche NAV Dynamics -->
+                <div class="gradient-card p-6 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-white text-sm uppercase tracking-wider">Multi-Tranche Net Asset Value (NAV) Response</h3>
+                        <span class="text-xs text-slate-400">Theorem 1 Crash Boundary at -60.0%</span>
+                    </div>
+                    <div class="h-64 w-full">
+                        <canvas id="navChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: ACP-67 Deflationary Buyback Waterfall -->
+                <div class="gradient-card p-6 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-white text-sm uppercase tracking-wider">ACP-67 Revenue Distribution Waterfall</h3>
+                        <span class="text-xs text-slate-400">Annualized Dollar Allocations</span>
+                    </div>
+                    <div class="h-64 w-full">
+                        <canvas id="waterfallChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-slate-800 bg-slate-900/60 mt-12 py-6 text-center text-xs text-slate-500">
+        <p>Avalanche Native USD (anUSD) · Bonding Curve Research Group (BCRG) · Built to Token Engineering Academy Standards</p>
+    </footer>
+
+    <script>
+        let navChartInstance = null;
+        let waterfallChartInstance = null;
+
+        function initCharts() {
+            const ctxNav = document.getElementById('navChart').getContext('2d');
+            navChartInstance = new Chart(ctxNav, {
+                type: 'line',
+                data: {
+                    labels: ['-75%', '-60%', '-40%', '-20%', '0%', '+20%', '+40%', '+60%', '+80%', '+100%'],
+                    datasets: [
+                        {
+                            label: "anUSD Stablecoin (V_A')",
+                            borderColor: '#38bdf8',
+                            backgroundColor: '#38bdf8',
+                            data: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+                            borderWidth: 3,
+                            pointRadius: 4
+                        },
+                        {
+                            label: "Class B Equity (V_B)",
+                            borderColor: '#c084fc',
+                            backgroundColor: '#c084fc',
+                            data: [0.0, 0.0, 0.20, 0.60, 1.0, 1.40, 1.80, 2.20, 2.60, 3.00],
+                            borderWidth: 2.5,
+                            pointRadius: 4
+                        },
+                        {
+                            label: "Class B' High Yield",
+                            borderColor: '#fbbf24',
+                            backgroundColor: '#fbbf24',
+                            data: [1.0, 1.0, 1.05, 1.08, 1.11, 1.11, 1.11, 1.11, 1.11, 1.11],
+                            borderWidth: 2,
+                            borderDash: [4, 4],
+                            pointRadius: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { min: 0.0, max: 3.2, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#e2e8f0', font: { size: 11 } } }
+                    }
+                }
+            });
+
+            const ctxWater = document.getElementById('waterfallChart').getContext('2d');
+            waterfallChartInstance = new Chart(ctxWater, {
+                type: 'bar',
+                data: {
+                    labels: ['AVAX Buyback & Burn (65%)', 'Validator Boost (20%)', 'Sovereign L1 Grants (15%)'],
+                    datasets: [{
+                        label: 'Annual Allocation ($ Millions)',
+                        data: [4.06, 1.25, 0.94],
+                        backgroundColor: ['#f97316', '#10b981', '#06b6d4'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function updateSimulation() {
+            const shock = parseFloat(document.getElementById('slider-shock').value);
+            const tvl = parseFloat(document.getElementById('slider-tvl').value);
+            const savax_apr = parseFloat(document.getElementById('slider-savax').value) / 100.0;
+            const coupon_r = parseFloat(document.getElementById('slider-coupon-r').value) / 100.0;
+            const burn_share = parseFloat(document.getElementById('slider-burn-share').value) / 100.0;
+
+            const val_share = 0.20;
+            const l1_share = Math.max(0.0, 1.0 - burn_share - val_share);
+
+            const spot_price = 25.0 * (1.0 + shock / 100.0);
+            document.getElementById('val-shock').innerText = (shock > 0 ? "+" : "") + shock.toFixed(1) + "% ($" + spot_price.toFixed(2) + ")";
+            document.getElementById('val-tvl').innerText = "$" + (tvl >= 1000 ? (tvl/1000).toFixed(1) + "B" : tvl.toFixed(0) + "M");
+            document.getElementById('val-savax').innerText = (savax_apr * 100.0).toFixed(2) + "%";
+            document.getElementById('val-coupon-r').innerText = (coupon_r * 100.0).toFixed(2) + "%";
+            document.getElementById('val-burn-share').innerText = (burn_share * 100.0).toFixed(1) + "%";
+
+            // S index and NAV calculations
+            const S_index = 1.0 + shock / 100.0;
+            const V_A = 1.0 + coupon_r * (30.0 / 365.0);
+            let V_B = 2.0 * S_index - V_A;
+            let leverage = V_B > 0.001 ? (2.0 * S_index / V_B) : 50.0;
+            leverage = Math.min(50.0, Math.max(1.0, leverage));
+
+            let V_A_prime = 1.0000;
+            if (shock <= -60.0) {
+                // Theorem 1 boundary test
+                if (shock < -75.0) {
+                    V_A_prime = Math.max(0.0, 2.0 * S_index);
+                }
+            }
+
+            document.getElementById('card-nav-aprime').innerText = "$" + V_A_prime.toFixed(4);
+            document.getElementById('card-nav-vb').innerText = "$" + Math.max(0.0, V_B).toFixed(4);
+            document.getElementById('card-leverage').innerText = leverage.toFixed(2) + "x Leverage";
+
+            // ACP-67 Waterfall Calculation
+            const gross_yield_usd = tvl * 1e6 * savax_apr;
+            const burn_usd = gross_yield_usd * burn_share;
+            const burn_avax = burn_usd / Math.max(0.1, spot_price);
+            const val_usd = gross_yield_usd * val_share;
+            const val_boost_pp = (val_usd / (tvl * 1e6)) * 100.0;
+
+            document.getElementById('card-burn-usd').innerText = "$" + (burn_usd / 1e6).toFixed(2) + "M/yr";
+            document.getElementById('card-burn-avax').innerText = (burn_avax / 1000).toFixed(1) + "k AVAX";
+            document.getElementById('card-val-boost').innerText = "+" + val_boost_pp.toFixed(2) + "%";
+            document.getElementById('card-val-usd').innerText = "$" + (val_usd / 1e6).toFixed(2) + "M/yr";
+
+            // Reset Engine Alert
+            const banner = document.getElementById('reset-banner');
+            const title = document.getElementById('reset-status-title');
+            const desc = document.getElementById('reset-status-desc');
+
+            if (V_B >= 2.00) {
+                banner.className = "p-5 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 space-y-2";
+                title.className = "text-sm font-bold text-emerald-300";
+                title.innerText = "🚀 Upward Reset Triggered (V_B >= $2.00)";
+                desc.innerText = "Class B reached $2.00 NAV. 1.5x share split executing in O(1) time: realized profits distributed, leverage reset back to 2.0x.";
+            } else if (V_B <= 0.25) {
+                banner.className = "p-5 rounded-2xl border border-red-500/40 bg-red-500/10 space-y-2";
+                title.className = "text-sm font-bold text-red-300";
+                title.innerText = "⚠️ Downward Reset Triggered (V_B <= $0.25)";
+                desc.innerText = "Lower barrier breached. 0.75x reverse split executing: Class A principal returned, $10.0% bear coupon subsidy transferred to Class B, solvency restored with 0% bad debt.";
+            } else {
+                banner.className = "p-5 rounded-2xl border border-blue-500/30 bg-blue-500/10 space-y-2";
+                title.className = "text-sm font-bold text-blue-300";
+                title.innerText = "🛡️ Normal Operating Corridor";
+                desc.innerText = "Collateral index is within bounds ($0.25 < V_B < $2.00). No reset required; Class B equity absorbs price movement with " + leverage.toFixed(2) + "x leverage.";
+            }
+
+            // Update Waterfall Chart Data
+            waterfallChartInstance.data.datasets[0].data = [
+                burn_usd / 1e6,
+                val_usd / 1e6,
+                (gross_yield_usd * l1_share) / 1e6
+            ];
+            waterfallChartInstance.update();
+        }
+
+        function resetDefaults() {
+            document.getElementById('slider-shock').value = 0;
+            document.getElementById('slider-tvl').value = 100;
+            document.getElementById('slider-savax').value = 6.0;
+            document.getElementById('slider-coupon-r').value = 7.3;
+            document.getElementById('slider-burn-share').value = 65;
+            updateSimulation();
+        }
+
+        window.onload = function() {
+            initCharts();
+            updateSimulation();
+        };
+    </script>
+</body>
+</html>

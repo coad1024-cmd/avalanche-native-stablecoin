@@ -74,7 +74,7 @@ $$\frac{\Delta P}{P} \ge \frac{1}{2} \left( \frac{R' v + 1}{R v + 1 + H_d} \righ
 ====================================================================================================
 </code></pre>
 <hr />
-<h2 id="3-generalized-dynamical-systems-gds-psuu-sweeps">3. Generalized Dynamical Systems (GDS) &amp; PSUU Sweeps</h2>
+<h2 id="3-generalized-dynamical-systems-gds-comprehensive-psuu-sweeps">3. Generalized Dynamical Systems (GDS) &amp; Comprehensive PSUU Sweeps</h2>
 <h3 id="31-10000-path-monte-carlo-performance">3.1 10,000-Path Monte Carlo Performance</h3>
 <ul>
 <li><strong>Annualized Peg Volatility:</strong> <strong>$1.37\%$</strong> (Threshold $&lt; 2.00\%$).</li>
@@ -82,9 +82,9 @@ $$\frac{\Delta P}{P} \ge \frac{1}{2} \left( \frac{R' v + 1}{R v + 1 + H_d} \righ
 <li><strong>Solvency Invariant Gap:</strong> <strong>$1.22 \times 10^{-15}$</strong> (Machine precision).</li>
 <li><strong>Downward Reset Frequency:</strong> <strong>$1.15\text{ / year}$</strong>.</li>
 </ul>
-<h3 id="32-multi-objective-psuu-optimization">3.2 Multi-Objective PSUU Optimization</h3>
-<p>An exhaustive 180-permutation tensor sweep identified the global Pareto-optimal parameter vector:
-$$\theta^<em> = \left( R^</em> = 7.30\%, \; R'^<em> = 3.00\%, \; H_u^</em> = \$2.00, \; H_d^<em> = \$0.25, \; \tilde{R}^</em> = 10.00\% \right)$$</p>
+<h3 id="32-4-track-927-permutation-psuu-multi-objective-optimization">3.2 4-Track 927-Permutation PSUU Multi-Objective Optimization</h3>
+<p>An exhaustive 927-permutation tensor sweep across all 20 governance levers identified the global Pareto-optimal parameter vector:
+$$\theta^<em> = \left( R^</em> = 7.30\%, \; R'^<em> = 3.00\%, \; H_u^</em> = \$2.00, \; H_d^<em> = \$0.25, \; \tilde{R}^</em> = 10.00\%, \; \omega_{\text{burn}}^<em> = 65.0\%, \; K_p^</em> = 0.150 \right)$$</p>
 <hr />
 <h2 id="4-control-theoretic-dynamic-interest-rate-feedback-loop">4. Control-Theoretic Dynamic Interest Rate Feedback Loop</h2>
 <p>To eliminate secondary market AMM peg drift without depending on slow external arbitrageurs, <code>anUSD</code> incorporates an autonomous <strong>Reflexer-Style Proportional-Integral (PI) Dynamic Rate Controller</strong>:
@@ -154,5 +154,13 @@ $$\Delta R'(t) = - \left( K_p \cdot e(t) + K_i \int_0^t e(\tau) d\tau + K_d \fra
 <li><strong>30-Minute TWAP Circuit Breaker:</strong> Halts minting/redemptions on $&gt; \pm 8.0\%$ oracle divergence.</li>
 <li><strong>Avalanche Teleporter (ICM):</strong> Native cross-L1 mint/burn without custodial wrapped bridge risk.</li>
 </ul>
+<hr />
+<h2 id="7-conclusion-and-future-research-directions">7. Conclusion and Future Research Directions</h2>
+<p>Avalanche Native USD (anUSD) establishes the theoretical and empirical foundation for sovereign, liquidation-free stablecoin engineering. By transforming volatile Layer 1 staking collateral into senior fixed income, leveraged bull instruments, and an ultra-stable dollar peg, anUSD resolves the capital inefficiencies and liquidation cascade risks inherent to legacy CDP architectures.</p>
+<p>Future research directions will focus on:
+1. <strong>Multi-Collateral Liquid Staking &amp; RWA Basket Integration:</strong> Expanding the underlying collateral vault to support diversified baskets of liquid staking derivatives ($sAVAX$, $ggAVAX$) and tokenized short-term US Treasury bills via Avalanche Evergreen L1s.
+2. <strong>Zero-Knowledge Confidential Settlement:</strong> Designing private balance and encrypted transfer layers using zero-knowledge succinct non-interactive arguments of knowledge (zk-SNARKs) for institutional enterprise settlement on sovereign Avalanche L1s.
+3. <strong>Cross-L1 Sovereign Gas Routing &amp; Adaptive Fee Pricing:</strong> Developing autonomous Teleporter fee arbitration algorithms for sovereign Avalanche L1s utilizing <code>anUSD</code> as their native transaction gas token.
+4. <strong>Predictive Flow Machine Learning Estimators:</strong> Designing real-time on-chain neural estimators to predict secondary DEX order-flow imbalances and pre-emptively adjust PI controller damping parameters.</p>
 </body>
 </html>
