@@ -67,3 +67,15 @@ DEFAULT_ENV_PARAMS: Dict[str, Any] = {
     "jump_mean_mu_j": -0.1200,      # Mean log jump amplitude (-12.00%)
     "jump_vol_sigma_j": 0.1800      # Standard deviation of jump amplitude (18.00%)
 }
+
+# Unified Master Parameter Registry for cadCAD Experiment Pipelines
+DEFAULT_PARAMS: Dict[str, Any] = {
+    **DEFAULT_GOVERNANCE_LEVERS,
+    **DEFAULT_ENV_PARAMS,
+    "dt_years": 1.0 / DAYS_PER_YEAR,
+    "bear_subsidy_R_tilde": 0.1000,
+    "acp67_burn_share": 0.650,
+    "acp67_val_share": 0.200,
+    "acp67_l1_share": 0.150,
+}
+

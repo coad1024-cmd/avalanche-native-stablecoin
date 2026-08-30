@@ -48,3 +48,23 @@ def compute_effective_leverage(S_index: float, V_B: float, alpha: float = 1.0) -
         return 50.0  # Singularity ceiling
     raw_leverage = ((1.0 + alpha) * S_index) / V_B
     return max(1.0, min(50.0, raw_leverage))
+
+def verify_solvency_invariant(V_A: float, V_B: float, S_index: float, tolerance: float = 1e-12) -> Tuple[bool, float]:
+    """
+    Verifies the fundamental primary balance sheet solvency invariant:
+    |V_A(t) + V_B(t) - 2 * S(t)| <= tolerance
+    
+    Parameters:
+        V_A: Senior tranche NAV
+        V_B: Equity tranche NAV
+        S_index: Normalized collateral pool index
+        tolerance: Maximum allowable floating point discrepancy (default 1e-12)
+        
+    Returns:
+        is_solvent (bool): True if invariant is conserved within tolerance
+        solvency_gap (float): Absolute deviation |V_A + V_B - 2S|
+    """
+    gap = abs((V_A + V_B) - 2.0 * S_index)
+    is_solvent = gap <= tolerance
+    return is_solvent, gap
+
