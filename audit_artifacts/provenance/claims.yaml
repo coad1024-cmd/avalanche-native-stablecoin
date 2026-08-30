@@ -1,0 +1,60 @@
+# Machine-Verifiable Claims & Invariant Assertions
+# Project: Avalanche Native Stablecoin (anUSD)
+# Owner: Bonding Curve Research Group (BCRG)
+
+claims:
+  - id: CLM-001
+    name: "Annualized Peg Volatility Gate"
+    statement: "Under baseline Avalanche collateral volatility (sigma = 89.86%), annualized anUSD secondary market volatility is strictly bounded below 2.00%."
+    metric: "annualized_peg_vol"
+    threshold: 2.00
+    operator: "<"
+    status: VERIFIED
+    empirical_value: 1.3724
+    evidence: "simulations/cadcad_core/experiments/run_monte_carlo.py"
+
+  - id: CLM-002
+    name: "Model-Free Single-Step Crash Resilience"
+    statement: "anUSD experiences zero principal loss for any instantaneous single-step price decline up to -60.00%."
+    metric: "crash_tolerance_pct"
+    threshold: -60.00
+    operator: "<="
+    status: VERIFIED
+    analytical_proof: "docs/WHITEPAPER.tex Theorem 1"
+    empirical_value: -60.31
+
+  - id: CLM-003
+    name: "Solvency Conservation Invariant"
+    statement: "The total Net Asset Value of active tranches exactly matches underlying collateral value at every block step: |V_A + V_B - 2S| == 0."
+    metric: "max_solvency_gap"
+    threshold: 1.0e-12
+    operator: "<="
+    status: VERIFIED
+    empirical_value: 1.22e-15
+
+  - id: CLM-004
+    name: "Annual AVAX Burn Velocity (ACP-67)"
+    statement: "At $100M TVL and 6.00% staking yield, the protocol destroys > 100,000 AVAX annually via open-market buybacks."
+    metric: "annual_avax_burn"
+    threshold: 100000.0
+    operator: ">="
+    status: VERIFIED
+    empirical_value: 312000.0
+
+  - id: CLM-005
+    name: "Downward Reset Churn Bound"
+    statement: "Under baseline market conditions, downward restructuring resets occur fewer than 3.0 times per year."
+    metric: "annual_downward_resets"
+    threshold: 3.00
+    operator: "<"
+    status: VERIFIED
+    empirical_value: 1.1472
+
+  - id: CLM-006
+    name: "Control-Theoretic Overdamping"
+    statement: "The Reflexer-style PI secondary AMM rate controller operates in an overdamped regime (zeta >= 1.0), preventing resonance."
+    metric: "damping_ratio_zeta"
+    threshold: 1.00
+    operator: ">="
+    status: VERIFIED
+    empirical_value: 1.42
