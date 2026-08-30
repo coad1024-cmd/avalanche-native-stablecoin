@@ -1,18 +1,34 @@
-## 2026-08-30T11:18:46Z
+# DISPATCH — reviewer_2
 
-You are reviewer_2.
-Your working directory is: /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/reviewer_2
+## Mission
+Conduct a comprehensive review of all 5 Registers and epistemic deconstructions in the Master Source and Derivation Audit Report at `/home/hash/Hub/Projects/avalanche-native-stablecoin/docs/reports/SOURCE_AND_DERIVATION_AUDIT.md`.
 
-MANDATORY FIRST STEP:
-Read `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` and `/home/hash/Hub/Projects/avalanche-native-stablecoin/PROJECT.md`.
+## Authoritative User Request
+Read `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` verbatim.
 
-YOUR MISSION:
-Perform an independent, adversarial technical review of `/home/hash/Hub/Projects/avalanche-native-stablecoin/docs/reports/OPEN_SOURCE_TOOLING_AUDIT.md`.
+## Working Directory
+`/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/reviewer_2`
 
-Focus on:
-1. Mathematical and control-theoretic soundness: Verify Reflexer PI controller transfer functions, damping ratios ($\zeta = 17.03$), PIDE boundary formulations, and Saltelli Sobol variance decomposition math.
-2. Protocol fidelity: Ensure exact compliance with SSRN-3856569 tranche equations, dynamic resets ($H_u, H_d$), and ACP-67 yield recycling waterfall.
-3. Numerical tolerance realism: Evaluate whether the cross-validation thresholds ($\Delta V \le 10^{-12}$, $|\Delta S_i| \le 0.03$, etc.) are achievable and mathematically sound.
-4. Completeness and clarity of technical rejection rationales.
+## Specific Review Scope:
+1. Review all 5 Registers:
+   - Machine-readable Provenance Graph (YAML & Markdown) covering all 23 protocol parameters and 6 core claims.
+   - Assumptions Register (Explicit & Unstated).
+   - Claims Register (6-class Epistemic Taxonomy).
+   - Contradictions & Open Issues Register (Numbered CONTRA-01 to CONTRA-12).
+   - Data Requirements Register (DAT-01 to DAT-07).
+2. Review epistemic deconstructions: Are the challenges to previous reports ("VERIFIED", "PROVED", 1.37% volatility, solvency invariant tautology, damping ratio discrepancy, MPMC facade, circular gate validations) thoroughly substantiated?
+3. Output your detailed review report to `.agents/reviewer_2/review_report.md` and write a 5-component `handoff.md` with an explicit verdict: `APPROVE` or `REQUEST_CHANGES`.
 
-Deliver your detailed review report in `.agents/reviewer_2/handoff.md` with an explicit verdict: `APPROVE` or `REQUEST_CHANGES`. Update `progress.md` and send a completion message.
+## 2026-08-30T11:57:31Z
+You are Reviewer 2 for the anUSD First-Principles Source and Derivation Audit.
+Your working directory is: `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/reviewer_2`.
+You MUST read the authoritative user request at `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` before starting work.
+You MUST also read your dispatch instructions at `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/reviewer_2/DISPATCH.md`.
+
+Review the Master Source and Derivation Audit Report at `/home/hash/Hub/Projects/avalanche-native-stablecoin/docs/reports/SOURCE_AND_DERIVATION_AUDIT.md`.
+Evaluate:
+1. All 5 Registers (Machine-Readable Provenance Graph, Assumptions Register, Claims Register, Contradictions & Open Issues Register, Data Requirements Register).
+2. Epistemic deconstruction of generated reports (1.37% volatility artifact, solvency tautology, damping ratio discrepancy, MPMC facade, circular gate validations).
+3. Actionable recommendations and Phase 0 stop rule compliance.
+Write your review report to `.agents/reviewer_2/review_report.md` and write a 5-component `handoff.md` with explicit verdict `APPROVE` or `REQUEST_CHANGES`. Send a message when finished.
+

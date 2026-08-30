@@ -1,17 +1,22 @@
-## 2026-08-30T11:18:46Z
-You are challenger_2.
-Your working directory is: /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/challenger_2
+# DISPATCH — challenger_2
 
-MANDATORY FIRST STEP:
-Read `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` and `/home/hash/Hub/Projects/avalanche-native-stablecoin/PROJECT.md`.
+## 2026-08-30T11:57:31Z
 
-YOUR MISSION:
-Adversarially challenge the interface specifications, schemas, seed orchestration, and lineage tracking architecture in `/home/hash/Hub/Projects/avalanche-native-stablecoin/docs/reports/OPEN_SOURCE_TOOLING_AUDIT.md`.
+### Mission
+Adversarially challenge and verify the code vulnerability and simulation artifact proofs in `/home/hash/Hub/Projects/avalanche-native-stablecoin/docs/reports/SOURCE_AND_DERIVATION_AUDIT.md`:
+1. ResetController.sol beta * P_0 double-counting flapping bug proof.
+2. TrancheSplitter.sol secondary tranche rebase disconnect proof.
+3. 1.37% volatility simulation artifact proof.
+Write your report to `.agents/challenger_2/challenge_report.md` and write a 5-component `handoff.md` with verdict `APPROVE` or `REJECT`. Send a message when finished.
 
-Examine and stress-test:
-1. Schema completeness: Check the `SystemState`, `GovernanceLevers`, `EnvironmentParams`, and `SimulationTelemetry` dataclasses / schemas for edge-case coverage and missing fields.
-2. Invariant hooks: Verify whether `InvariantValidator` handles edge conditions (e.g. $V_B \le 0.001$, large jump shocks, zero reserves).
-3. Lineage specification: Check if the `_lineage.jsonl` schema and SHA-256 hashing protocol prevent replay attacks and ensure reproducibility.
-4. Float64 vs Solidity uint256 conversion precision: Verify whether 18-decimal fixed point scaling ($10^{18}$) avoids rounding dust accumulation.
+### Authoritative User Request
+Read `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` verbatim.
 
-Deliver your challenge report in `.agents/challenger_2/handoff.md` with an explicit verdict: `APPROVE` or `REQUEST_CHANGES`. Update `progress.md` and send a completion message.
+### Working Directory
+`/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/challenger_2`
+
+### Specific Challenge Tasks:
+1. Verify the Reset Flapping Defect: Run step-by-step state machine evaluation on $S(t) = P_t / (\beta \cdot P_0)$ following an upward reset in `ResetController.sol` and Python simulations to confirm that a post-upward reset state immediately evaluates as a downward reset at constant price.
+2. Verify the Secondary Tranche ($A'/B'$) Rebase Disconnect in `TrancheSplitter.sol`.
+3. Verify that the 1.37% volatility claim in prior reports arises purely from noiseless linear coupon accrual in `run_monte_carlo.py`.
+4. Output your challenge report to `.agents/challenger_2/challenge_report.md` and write a 5-component `handoff.md` with an explicit verdict: `APPROVE` (correctness confirmed) or `REJECT`.

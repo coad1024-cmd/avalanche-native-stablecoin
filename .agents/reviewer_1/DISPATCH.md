@@ -1,21 +1,16 @@
-## 2026-08-30T11:18:46Z
-You are reviewer_1.
-Your working directory is: /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/reviewer_1
+# DISPATCH — reviewer_1
 
-MANDATORY FIRST STEP:
-Read `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` and `/home/hash/Hub/Projects/avalanche-native-stablecoin/PROJECT.md`.
+## Mission
+Conduct a rigorous adversarial and objective review of the Master Source and Derivation Audit Report at `/home/hash/Hub/Projects/avalanche-native-stablecoin/docs/reports/SOURCE_AND_DERIVATION_AUDIT.md`.
 
-YOUR MISSION:
-Perform a comprehensive, high-reliability review of the deliverable report at `/home/hash/Hub/Projects/avalanche-native-stablecoin/docs/reports/OPEN_SOURCE_TOOLING_AUDIT.md`.
+## Authoritative User Request
+Read `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` verbatim.
 
-Review against all requirements:
-1. Executive Summary & Tooling Matrix: All 8 candidates (cadCAD, SALib, PyMC+ArviZ, QuantLib, SciPy, control, SimPy, MLflow) clearly tabulated with formal verdicts.
-2. Model-First Sovereignty Doctrine: Formalized and unambiguous.
-3. R1: Full 15-point multi-criteria evaluation across all 8 candidate tools (all 15 criteria answered per tool).
-4. R2: Canonical Model / Tool Interface Specification (type-safe dataclass/Pydantic schemas, state boundaries, invariant validation hooks, Solidity uint256 fixed-point to float64 translation).
-5. R3: Dual-Implementation Cross-Validation Protocols (4 protocols with specific numerical tolerance bounds).
-6. R4: Minimal Reproducible Research Stack & Dependency Graph (clean pyproject.toml specification, explicit rejection rationales for legacy cadCAD, SimPy, MLflow).
-7. R5: Reproducibility & Cryptographic Lineage Tracking (PCG64 seed orchestration, `_lineage.jsonl` schema).
-8. Verification commands and attestation.
+## Working Directory
+`/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/reviewer_1`
 
-Deliver your detailed review report in `.agents/reviewer_1/handoff.md` with an explicit verdict: `APPROVE` or `REQUEST_CHANGES`. Update `progress.md` and send a completion message.
+## Specific Review Scope:
+1. Examine mathematical rigor: Are the re-derivations of $\alpha$, leverage, tranche valuation, resets, crash bounds ($-60\%$ vs $-75\%$), and PIDE pricing mathematically complete and logically sound?
+2. Examine the line-by-line delta matrix: Does it accurately represent the differences between SSRN-3856569 and `docs/WHITEPAPER.tex`?
+3. Examine code vulnerability proofs: Are the reset flapping defect, secondary tranche rebase disconnect, and rounding dust bugs accurately diagnosed?
+4. Output your detailed review report to `.agents/reviewer_1/review_report.md` and write a 5-component `handoff.md` with an explicit verdict: `APPROVE` or `REQUEST_CHANGES`.

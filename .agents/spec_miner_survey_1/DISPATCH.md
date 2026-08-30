@@ -1,27 +1,22 @@
-# Dispatch History
+# DISPATCH — spec_miner_survey_1
 
-## 2026-08-30T11:10:51Z
-You are spec_miner_survey_1.
-Your working directory is: /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/spec_miner_survey_1
+## 2026-08-30T11:46:18Z
 
-MANDATORY FIRST STEP:
-Read `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` and `/home/hash/Hub/Projects/avalanche-native-stablecoin/PROJECT.md`.
+You are the Academic & Whitepaper Spec Miner for the anUSD First-Principles Source and Derivation Audit.
+Your working directory is: `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/spec_miner_survey_1`.
+You MUST read the authoritative user request at `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` before starting work.
+You MUST also read your dispatch instructions at `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/spec_miner_survey_1/DISPATCH.md`.
 
-YOUR MISSION:
-Perform a comprehensive specification mining of the authoritative mathematical, economic, control-theoretic, and smart contract models for the anUSD (Avalanche-native stablecoin) research study.
-
-Investigate:
-1. `docs/WHITEPAPER.md` & `docs/WHITEPAPER.tex`
-2. `contracts/src/` (Foundry smart contracts: Vault, Tranche tokens, ResetController, Teleporter adapters)
-3. `docs/reports/` and any accompanying economic models
-
-Document in detail:
-- Complete dual-class tranche accounting equations (NAV, $W_A$, $W_B$, Class A senior bond, Class B leveraged long equity, Class A' USD stablecoin, Class B' yield tranche).
-- Invariant equations: Solvency invariant ($W_A + W_B = 2P_t / (\beta_t P_0)$), peg parity, yield distribution conservation.
-- Reset trigger conditions: Upward reset ($P_t \ge H_u$), Downward reset ($P_t \le H_d$), automated share splits/mergers, baseline adjustment $\beta_{t+1}$.
-- Coupon rates ($R, R'$), coupon subsidies ($\tilde{R}$), and `sAVAX` liquid staking yield recycling parameters (ACP-67: 50-75% buybacks, 15-25% validator rewards, 15-25% ecosystem growth).
-- Jump-diffusion asset price dynamics ($dS_t / S_{t-} = \mu dt + \sigma dW_t + J dN_t$), jump amplitude distributions (Kou double exponential / Merton lognormal), PIDE formulation for barrier pricing.
-- Feedback control systems (PID peg stability, interest rate feedback, dynamic reset bounds).
-- State variables required for simulation and exact type/precision definitions (e.g. 18-decimal fixed-point vs float64 vs arbitrary precision).
-
-Deliver your detailed report in `.agents/spec_miner_survey_1/handoff.md` and update `.agents/spec_miner_survey_1/progress.md`. Send a completion message back when finished.
+Your mission:
+1. Search the repository for all copies or excerpts of SSRN-3856569, `docs/WHITEPAPER.tex`, `SSRN-3856569_DESIGN_SUMMARY.md`, and related research files.
+2. Independently extract, catalog, and analyze all mathematical formulations:
+   - Alpha parameter definition (alpha = 0.5 vs alpha = 1.0)
+   - Leverage calculation formulas
+   - Tranche valuation and preservation (VA + VB = V)
+   - Secondary A'/B' tranching
+   - Downward reset mechanics, conversion factor beta, and crash bounds (-60% vs -75%)
+   - Continuous-time PIDE valuation & jump-diffusion pricing models
+   - Collateral yield handling and dynamic validator subsidy (omega_val in [20%, 45%])
+   - Discrete EVM scalar rebasing vs continuous share restructuring
+3. Identify all 23 protocol parameters defined across these documents and record notation shifts, parameter domain changes, and unstated assumptions.
+4. Output your detailed findings to `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/spec_miner_survey_1/survey_academic_whitepaper.md` and write a comprehensive `handoff.md`. Send a message when complete.

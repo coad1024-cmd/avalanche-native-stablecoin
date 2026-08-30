@@ -1,40 +1,26 @@
-## 2026-08-30T11:10:51Z
-You are explorer_survey_3.
-Your working directory is: /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/explorer_survey_3
+# DISPATCH — explorer_survey_3
 
-MANDATORY FIRST STEP:
-Read `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` and `/home/hash/Hub/Projects/avalanche-native-stablecoin/PROJECT.md`.
+## 2026-08-30T11:13:00Z
+Initial dispatch for Open Source Tooling Audit.
 
-YOUR MISSION:
-Perform a systematic survey and evaluation of candidate open-source software libraries for the anUSD adversarial research study.
+## 2026-08-30T11:46:18Z
+<USER_REQUEST>
+You are the Code Implementation Auditor for the anUSD First-Principles Source and Derivation Audit.
+Your working directory is: `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/explorer_survey_3`.
+You MUST read the authoritative user request at `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` before starting work.
+You MUST also read your dispatch instructions at `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/explorer_survey_3/DISPATCH.md`.
 
-Evaluate:
-- Primary Candidates:
-  1. cadCAD
-  2. SALib (Sensitivity Analysis Library in Python)
-  3. PyMC + ArviZ (Bayesian Modeling & Probabilistic Programming)
-  4. QuantLib (via QuantLib-Python / pyql)
-- Auxiliary Scientific Libraries:
-  5. SciPy (specifically scipy.stats.qmc, scipy.optimize, scipy.integrate)
-  6. control (Python Control Systems Library)
-  7. SimPy (Process-based discrete-event simulation)
-  8. MLflow (Experiment tracking & model registry)
+Your mission:
+1. Search and index all codebase components:
+   - Solidity smart contracts in `contracts/` (or wherever located in repo)
+   - cadCAD and Python simulation code in `src/`, `sim/`, `models/`, `scripts/`
+   - Test suites (Foundry/Hardhat/pytest)
+2. Trace all 23 protocol parameters and core mechanisms to their exact variable names, constants, state variables, and functions in code.
+3. Compare implementation semantics against mathematical specifications:
+   - Discrete EVM fixed-point math vs continuous formulas
+   - Tranche minting, burning, splitting, and rebasing mechanisms
+   - Reset execution, oracle updates, and fee distribution
+4. Document all semantic divergences, lossy transformations, rounding vulnerabilities, and unstated implementation shortcuts.
+5. Output your detailed findings to `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/explorer_survey_3/survey_code_implementation.md` and write a comprehensive `handoff.md`. Send a message when complete.
+</USER_REQUEST>
 
-For each candidate, investigate against the 15 criteria in R1:
-1. Exact problem solved
-2. Research component requiring it
-3. Whitepaper necessity
-4. Semantic fidelity to canonical model
-5. Mathematical/numerical methods used
-6. Maintenance & activity status
-7. Open-source license
-8. Reproducibility implications
-9. Determinism & random-seed management
-10. Numerical stability & precision bounds
-11. Performance & scaling throughput
-12. Integration & dependency complexity
-13. Hidden assumptions or default biases
-14. Simpler native implementation trade-off
-15. Recommended formal verdict (REQUIRED | RECOMMENDED | OPTIONAL | REJECTED)
-
-Deliver your detailed evaluation report in `.agents/explorer_survey_3/handoff.md` and update `.agents/explorer_survey_3/progress.md`. Send a completion message back when finished.

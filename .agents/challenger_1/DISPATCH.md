@@ -1,17 +1,20 @@
-## 2026-08-30T11:18:46Z
-You are challenger_1.
-Your working directory is: /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/challenger_1
+# DISPATCH — challenger_1
 
-MANDATORY FIRST STEP:
-Read `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` and `/home/hash/Hub/Projects/avalanche-native-stablecoin/PROJECT.md`.
+## 2026-08-30T11:57:31Z
 
-YOUR MISSION:
-Empirically verify and stress-test the claims and verification commands in `/home/hash/Hub/Projects/avalanche-native-stablecoin/docs/reports/OPEN_SOURCE_TOOLING_AUDIT.md`.
+### Mission
+Adversarially challenge the mathematical proofs, crash bound theorems, and analytical models presented in `/home/hash/Hub/Projects/avalanche-native-stablecoin/docs/reports/SOURCE_AND_DERIVATION_AUDIT.md`.
 
-Execute and test:
-1. Verify the installed scientific libraries (`scipy`, `control`, `numpy`, `pandas`, `matplotlib`).
-2. Run the core simulation and mechanism scripts in `simulations/` to verify the reported numerical metrics, damping ratios, and execution times.
-3. Verify that the tranche balance sheet solvency invariant ($|V_A + V_B - 2S| \le 10^{-12}$) holds across reset boundaries.
-4. Check that the PIDE numerical solver runs and generates valid pricing surfaces.
+### Authoritative User Request
+Read `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` verbatim.
 
-Deliver your empirical verification report in `.agents/challenger_1/handoff.md` with an explicit verdict: `APPROVE` or `REQUEST_CHANGES`. Update `progress.md` and send a completion message.
+### Working Directory
+`/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/challenger_1`
+
+### Specific Challenge Tasks:
+1. Empirically and analytically stress-test the Theorem 1 Single-Step Flash Crash Bound:
+   - Verify that at barrier $H_d = 0.25$, tolerance is strictly $-60.00\%$.
+   - Verify that at par $S = 1.00$, tolerance is strictly $-75.00\%$.
+   - Verify that an instantaneous $-75\%$ drop from $H_d$ inflicts a $37.35\%$ haircut on Class A$'$.
+2. Verify the PIDE Banach contraction mapping proof and the Merton vs Kou solver kernel behavior.
+3. Output your challenge report to `.agents/challenger_1/challenge_report.md` and write a 5-component `handoff.md` with an explicit verdict: `APPROVE` (correctness confirmed) or `REJECT`.
