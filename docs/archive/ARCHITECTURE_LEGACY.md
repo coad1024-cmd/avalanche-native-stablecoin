@@ -24,5 +24,5 @@
 ## 2. Avalanche Specific Integrations
 
 - **Avalanche ICM & Teleporter**: Native cross-chain routing between C-Chain and sovereign Avalanche L1s without third-party bridge risks.
-- **Subnet / L1 Gas Subsidies**: Native stablecoin can serve as custom gas token or liquidity quote asset on partner L1s.
+- **Avalanche L1 / L1 Gas Subsidies**: Native stablecoin can serve as custom gas token or liquidity quote asset on partner L1s.
 - **Sub-Second Finality**: Instant liquidation settlement minimizing bad debt exposure during high volatility.

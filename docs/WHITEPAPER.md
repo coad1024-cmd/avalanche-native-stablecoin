@@ -1,7 +1,7 @@
 # Avalanche Native USD (anUSD): A Dual-Class Securitization Architecture with Dynamic Reset Mechanics, Liquid Staking Integration, and On-Chain Value Recirculation
 
 **Authors:** Bonding Curve Research Group  
-**Target Infrastructure:** Avalanche Primary Network (C-Chain) & Avalanche Sovereign L1s (Subnets)  
+**Target Infrastructure:** Avalanche Primary Network (C-Chain) & Avalanche Sovereign L1s  
 **Version:** 1.0.0-PROD (August 2026)  
 **LaTeX Source:** [`docs/WHITEPAPER.tex`](file:///home/hash/Hub/Projects/avalanche-native-stablecoin/docs/WHITEPAPER.tex)  
 **Publication PDF:** [`docs/WHITEPAPER.pdf`](file:///home/hash/Hub/Projects/avalanche-native-stablecoin/docs/WHITEPAPER.pdf)  
@@ -12,7 +12,7 @@
 
 ## Abstract
 
-We introduce **Avalanche Native USD (anUSD)**, a fully decentralized, mathematically secure, and capital-efficient sovereign stablecoin architecture engineered natively for the Avalanche Primary Network (C-Chain) and Avalanche Sovereign L1s (Subnets). Existing decentralized stablecoins rely predominantly on overcollateralized debt positions (CDPs) with liquidation auctions (MakerTeam, 2017; Klages-Mundt et al., 2020). During rapid market dislocations, these auctions suffer from mempool latency, miner-extractable value (MEV) exploitation, oracle front-running, and systemic bad-debt accumulation. Concurrently, centralized fiat-backed stablecoins (Tether, 2016; Griffin & Shams, 2020) extract 100% of underlying reserve yields, draining hundreds of millions in potential economic surplus from the host blockchain ecosystem.
+We introduce **Avalanche Native USD (anUSD)**, a fully decentralized, mathematically secure, and capital-efficient sovereign stablecoin architecture engineered natively for the Avalanche Primary Network (C-Chain) and Avalanche Sovereign L1s. Existing decentralized stablecoins rely predominantly on overcollateralized debt positions (CDPs) with liquidation auctions (MakerTeam, 2017; Klages-Mundt et al., 2020). During rapid market dislocations, these auctions suffer from mempool latency, miner-extractable value (MEV) exploitation, oracle front-running, and systemic bad-debt accumulation. Concurrently, centralized fiat-backed stablecoins (Tether, 2016; Griffin & Shams, 2020) extract 100% of underlying reserve yields, draining hundreds of millions in potential economic surplus from the host blockchain ecosystem.
 
 Synthesizing continuous-time option pricing theory and financial securitization mathematics (Cao, Dai, Kou, Li, & Yang, 2021; Ingersoll, 1976; Jarrow & O'Hara, 1989) with Avalanche community governance economics (ACP-67), anUSD establishes an indigenous multi-tranche securitization structure backed 1:1 by liquid-staked Avalanche collateral ($sAVAX$). The underlying collateral pool is partitioned into a Senior Fixed-Income Tranche (Class A) and a Leveraged Long Tranche (Class B), with Class A further sub-tranched into an ultra-low volatility USD stablecoin (Class A$'$ / anUSD) and a leveraged high-yield asset (Class B$'$). To maintain continuous capital solvency without liquidation auctions, the protocol enforces an $O(1)$ constant-time dynamic upward ($H_u$) and downward ($H_d$) reset state machine executed via global scalar multipliers.
 
@@ -220,7 +220,7 @@ anUSD uses native **Avalanche Inter-Chain Messaging (ICM)** via `TeleporterUSDAd
 1. **Origin Burn:** Tokens burned on source chain.
 2. **Warp Consensus Signing:** Avalanche validators sign state payload with BLS multi-signatures.
 3. **Target Mint:** Target sovereign L1 verifies BLS signature and mints native anUSD with zero slippage and zero wrapped bridge risk.
-4. **Native Subnet Gas:** Subnets can configure anUSD as their native transaction gas token for predictable dollar fees.
+4. **Native Native L1 Gas:** Avalanche L1s can configure anUSD as their native transaction gas token for predictable dollar fees.
 
 ---
 
@@ -243,7 +243,7 @@ With verified mathematical immunity against $-60.0\%$ single-step black swan cra
 
 Future research directions will focus on:
 1. **Robust Parameter Selection Under Uncertainty (PSUU):** Applying generalized robust optimization and adversarial sensitivity analysis across continuous stochastic jump regimes $(\sigma \in [50\%, 120\%], \lambda \in [1.0, 6.0], q \in [4.0\%, 8.0\%])$ to formally solve the multi-objective governance selection problem $\theta^* = \arg\max_{\theta \in \Theta} \min_{u \in \mathcal{U}} \mathbb{E}[\mathcal{U}(\theta, u)]$.
-2. **Multi-Collateral RWA Basket Expansion:** Incorporating tokenized real-world assets (such as tokenized US Treasury bills via Avalanche Evergreen Subnets) into the collateral pool.
+2. **Multi-Collateral RWA Basket Expansion:** Incorporating tokenized real-world assets (such as tokenized US Treasury bills via Avalanche Evergreen L1s) into the collateral pool.
 3. **Zero-Knowledge Privacy Extensions:** Designing confidential balance and transfer layers for institutional enterprise settlement.
 
 ---

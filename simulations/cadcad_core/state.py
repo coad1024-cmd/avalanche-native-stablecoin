@@ -40,7 +40,7 @@ class SystemState(NamedTuple):
     # Macroeconomic & Governance Sinks (ACP-67)
     B_cum_AVAX_burned: float # Cumulative native AVAX destroyed
     R_cum_val_rewards: float # Cumulative validator staking enhancement (USD)
-    G_cum_l1_grants: float   # Cumulative sovereign Subnet grants (USD)
+    G_cum_l1_grants: float   # Cumulative sovereign Avalanche L1 grants (USD)
     
     # Discrete State Transition Counters & Telemetry
     N_upward_resets: int

@@ -52,7 +52,7 @@
 * **Justification:** Prevents single-block flash loan price manipulation attacks on reset barriers.
 
 ### A09: Teleporter Cross-L1 Consensus Integrity
-* **Statement:** Cross-subnet transfers executed via Avalanche Inter-Chain Messaging (ICM / Teleporter) rely on BLS multi-signature threshold signing by active Avalanche validators, with zero wrapped bridge counterparty risk.
+* **Statement:** Cross-L1 transfers executed via Avalanche Inter-Chain Messaging (ICM / Teleporter) rely on BLS multi-signature threshold signing by active Avalanche validators, with zero wrapped bridge counterparty risk.
 * **Justification:** Avalanche Warp Messaging (AWM) cryptographic protocol specification.
 
 ---

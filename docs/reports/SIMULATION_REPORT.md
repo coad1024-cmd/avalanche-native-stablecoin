@@ -2,7 +2,7 @@
 ## Avalanche Native USD (anUSD) Protocol
 
 **Authors:** Bonding Curve Research Group  
-**Target Infrastructure:** Avalanche Primary Network (C-Chain) & Sovereign L1s (Subnets)  
+**Target Infrastructure:** Avalanche Primary Network (C-Chain) & Sovereign Avalanche L1s  
 **Frameworks Used:** Generalized Dynamical Systems (`gds-framework`, `gds-sim`), `cadCAD`, NumPy, Matplotlib  
 **Status:** Complete & Empirically Verified  
 **Date:** August 2026  

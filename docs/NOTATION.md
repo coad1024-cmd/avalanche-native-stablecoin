@@ -34,7 +34,7 @@
 | $C_{\text{pool}}(t)$ | `C_pool_sAVAX` | State·Stock | $\mathbb{R}_{\ge 0}$ | sAVAX | Physical collateral tokens held in custodian vault | `CustodianVault.sol` |
 | $B_{\text{cum}}(t)$ | `B_cum_AVAX` | State·Sink | $\mathbb{R}_{\ge 0}$ | AVAX | Cumulative native AVAX destroyed via buyback & burn | ACP-67 / Burn Address |
 | $R_{\text{val}}(t)$ | `R_cum_val_USD`| State·Sink | $\mathbb{R}_{\ge 0}$ | USD | Cumulative validator staking rewards distributed | ACP-67 / Escrow |
-| $G_{\text{eco}}(t)$ | `G_cum_l1_USD` | State·Sink | $\mathbb{R}_{\ge 0}$ | USD | Cumulative sovereign Subnet / L1 liquidity grants | ACP-67 / Grants Pool |
+| $G_{\text{eco}}(t)$ | `G_cum_l1_USD` | State·Sink | $\mathbb{R}_{\ge 0}$ | USD | Cumulative sovereign Avalanche L1 / L1 liquidity grants | ACP-67 / Grants Pool |
 | $R$ | `coupon_R` | Param·Gov | $[0.05, 0.10]$ | Annual Fraction | Contracted Senior Class A coupon rate ($7.30\%$) | SSRN-3856569 |
 | $R'$ | `coupon_R_prime`| Param·Gov | $[0.02, 0.045]$| Annual Fraction | anUSD benchmark money-market coupon rate ($3.00\%$) | SSRN-3856569 |
 | $\tilde{R}$ | `bear_subsidy_R`| Param·Gov | $[0.00, 0.15]$ | Annual Fraction | Bear-market coupon subsidy transferred from A to B ($10.00\%$) | SSRN-3856569 Sec 2.5 |

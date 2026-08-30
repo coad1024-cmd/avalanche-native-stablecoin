@@ -36,7 +36,7 @@ flowchart TD
     subgraph Layer4["4. Macroeconomic Recirculation Layer (ACP-67)"]
         YieldWaterfall["Staking Yield Waterfall"] -->|65%| BurnSink["AVAX Buyback & Burn Sink (0x0)"]
         YieldWaterfall -->|20%| ValSink["Validator Staking Boost Escrow"]
-        YieldWaterfall -->|15%| L1Sink["Sovereign Subnet Liquidity Grants"]
+        YieldWaterfall -->|15%| L1Sink["Sovereign L1 Liquidity Grants"]
     end
 
     Layer1 --> Layer2
@@ -96,7 +96,7 @@ flowchart LR
         StakingYield --> Waterfall["3-Way Yield Recycler"]
         Waterfall -->|65%| BurnSink["[Sink] AVAX Burn Address (0x0)"]
         Waterfall -->|20%| ValSink["[Stock] Validator Staking Boost Pool"]
-        Waterfall -->|15%| L1Sink["[Stock] Sovereign Subnet Grants"]
+        Waterfall -->|15%| L1Sink["[Stock] Sovereign L1 Grants"]
     end
 ```
 

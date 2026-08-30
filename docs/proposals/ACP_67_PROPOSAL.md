@@ -12,7 +12,7 @@ Requires: ACP-67
 
 ## Abstract
 
-This proposal establishes the technical and economic specifications for **Avalanche Native USD (anUSD)**—an indigenous, capital-efficient, dual-class securitization stablecoin protocol for the Avalanche Primary Network (C-Chain) and Avalanche L1s (Subnets). 
+This proposal establishes the technical and economic specifications for **Avalanche Native USD (anUSD)**—an indigenous, capital-efficient, dual-class securitization stablecoin protocol for the Avalanche Primary Network (C-Chain) and Avalanche L1s. 
 
 Rather than relying on third-party centralized issuers or auction-based overcollateralization with liquidation contagion risk, anUSD implements an on-chain **Dual-Class Tranche Engine** with **Dynamic Upward ($H_u=2.0$) and Downward ($H_d=0.25$) State Resets** (based on SSRN-3856569). The protocol features mathematical immunity against instantaneous crashes up to $-60.0\%$, integrates $sAVAX$ liquid staking yield, and programmatically executes the **ACP-67 Yield Recycling Waterfall** (50–75% AVAX buyback & burn, 15–25% validator incentives, 15–25% ecosystem growth).
 

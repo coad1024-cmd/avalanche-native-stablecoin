@@ -8,12 +8,12 @@
 
 ## Executive Summary
 
-We present **Avalanche Native USD (anUSD)**—the first liquidation-free, dual-class securitization stablecoin protocol engineered natively for Avalanche C-Chain and sovereign L1s (Subnets).
+We present **Avalanche Native USD (anUSD)**—the first liquidation-free, dual-class securitization stablecoin protocol engineered natively for Avalanche C-Chain and sovereign Avalanche L1s.
 
 By acquiring and officially canonizing anUSD as the primary native stablecoin primitive for the Avalanche network, the **Avalanche Foundation / Ava Labs** can:
 1. **Reclaim $100M+ in Annual Economic Value**: Programmatically capture and recycle millions in yield and fees directly into **AVAX buybacks, burns, and validator incentives** (fully automating ACP-67).
 2. **Eliminate Third-Party Stablecoin Vulnerabilities**: Establish a sovereign dollar standard immune to external issuer freezes, regulatory embargoes, or liquidation auction death spirals.
-3. **Power Sovereign L1 Gas Economics**: Provide Avalanche Subnets with a native, zero-slippage, Teleporter-enabled dollar asset for transaction fees and institutional RWA settlements.
+3. **Power Sovereign L1 Gas Economics**: Provide Avalanche Avalanche L1s with a native, zero-slippage, Teleporter-enabled dollar asset for transaction fees and institutional RWA settlements.
 
 ---
 

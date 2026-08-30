@@ -61,9 +61,9 @@ flowchart TD
         Splitter -->|Subordinated Equity| B["Agent 3: Bull Speculator (Class B)\nMax Leveraged Long Exposure (2.0x)"]
     end
 
-    subgraph EcosystemAgents["2. Ecosystem & Subnet Builders"]
-        Splitter -->|Dynamic Grants Phi_eco| Grantee["Agent 4: Subnet Builders & Grantees\nDeploy funding for bridge routing & dApp tooling"]
-        Splitter -->|Native Gas Token| GasUser["Agent 5: Subnet Gas Payers (Enterprise/Gaming)\nPredictable dollar-denominated transaction fees"]
+    subgraph EcosystemAgents["2. Ecosystem & Sovereign L1 Builders"]
+        Splitter -->|Dynamic Grants Phi_eco| Grantee["Agent 4: Sovereign L1 Builders & Grantees\nDeploy funding for bridge routing & dApp tooling"]
+        Splitter -->|Native Gas Token| GasUser["Agent 5: L1 Gas Payers (Enterprise/Gaming)\nPredictable dollar-denominated transaction fees"]
         Splitter -->|sAVAX Underwriting| LST["Agent 6: Liquid Staking Issuers (sAVAX)\nUnderwrite staking yield (q) & manage validator queues"]
     end
 
@@ -93,13 +93,13 @@ flowchart TD
   $$\max \mathcal{U}_B = \mathbb{E}\left[ \Lambda_B(t) \cdot \frac{\Delta P_t}{P_t} \right] - \text{CarryCost}(R) - \text{VolDrag}(\sigma)$$
 * **Effective Leverage:** $\Lambda_B(t) \in [1.5\times, 5.0\times]$, dynamically constrained between $H_d = \$0.25$ and $H_u = \$2.00$.
 
-#### 4. Sovereign Subnet Builders & Grantees
+#### 4. Sovereign Sovereign L1 Builders & Grantees
 * **Economic Objective:** Maximize sovereign L1 liquidity depth, developer adoption, and Teleporter bridge routes.
 * **Objective Function:**
-  $$\max \mathcal{U}_{\text{Grantee}} = \text{TVL}_{\text{Subnet}} + \text{Volume}_{\text{Bridge}} - \text{Slippage}$$
+  $$\max \mathcal{U}_{\text{Grantee}} = \text{TVL}_{\text{Avalanche L1}} + \text{Volume}_{\text{Bridge}} - \text{Slippage}$$
 * **Funding Flow:** Receives dynamic ecosystem disbursements $\Phi_{\text{eco}}(t)$ based on milestone completion.
 
-#### 5. Subnet Gas Payers (Enterprise & GameFi)
+#### 5. L1 Gas Payers (Enterprise & GameFi)
 * **Economic Objective:** Predictable, low-volatility transaction execution on sovereign Avalanche L1s using anUSD as native gas.
 * **Objective Function:**
   $$\max \mathcal{U}_{\text{Gas}} = \text{Utility}_{\text{dApp}} - \text{TxFee}_{\text{anUSD}}$$

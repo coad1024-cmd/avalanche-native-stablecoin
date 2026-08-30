@@ -4,7 +4,7 @@
 **Document Type:** Formal System Architecture & Token Engineering Specification  
 **Engineering Methodology:** BlockScience / Token Engineering Academy Standard (HydraDX Omnipool & Subspace Reference)  
 **Authors:** Bonding Curve Research Group (BCRG)  
-**Target Infrastructure:** Avalanche Primary Network (C-Chain) & Avalanche Sovereign L1s (Subnets)  
+**Target Infrastructure:** Avalanche Primary Network (C-Chain) & Avalanche Sovereign L1s  
 **Status:** Canonical Engineering Specification · August 2026  
 
 ---
@@ -26,8 +26,8 @@ flowchart TD
     end
 
     subgraph EcosystemBuilders["2. Builders & Infrastructure"]
-        A4["4. Sovereign Subnet Builders & Grantees\n• Receive ecosystem liquidity grants\n• Bootstrap Teleporter bridge routes & dApp tooling"]
-        A5["5. Subnet Gas Payers (Enterprise / GameFi)\n• Utilize anUSD as native gas token on Subnets\n• Stable, predictable dollar transaction costs"]
+        A4["4. Sovereign Sovereign L1 Builders & Grantees\n• Receive ecosystem liquidity grants\n• Bootstrap Teleporter bridge routes & dApp tooling"]
+        A5["5. L1 Gas Payers (Enterprise / GameFi)\n• Utilize anUSD as native gas token on Avalanche L1s\n• Stable, predictable dollar transaction costs"]
         A6["6. Liquid Staking Providers (sAVAX Issuers)\n• Underwrite staking yields (q = 6.0%)\n• Manage validator staking queues"]
     end
 
@@ -48,8 +48,8 @@ flowchart TD
 | **1. Stablecoin Transactor ($A'$)** | Mint / Redeem / Hold $A'$ | $\max \mathcal{U}_{A'} = -\alpha_{\text{peg}} \|V_{A'}(t) - 1.00\| + R' \cdot v_t - \text{Gas}$ | Zero principal loss tolerance ($\Delta V_{A'} \ge 0$) |
 | **2. Yield Allocator ($B'$)** | Mint / Redeem / Hold $B'$ | $\max \mathcal{U}_{B'} = (2R - R') - r_{\text{bench}} - \gamma \mathbb{V}\text{ar}(\text{Yield})$ | Predictable senior cash flow, zero leverage risk |
 | **3. Leveraged Speculator ($B$)** | Long / Exit / Rebalance $B$ | $\max \mathcal{U}_B = \mathbb{E}\left[\Lambda_B(t) \frac{\Delta P}{P}\right] - R \cdot v_t - \text{VolDrag}(\sigma)$ | Bounded leverage $\Lambda_B \in [1.5\times, 5.0\times]$ |
-| **4. Subnet Builder / Grantee** | Deploy grants / Seed DEX | $\max \mathcal{U}_{\text{Grantee}} = \text{TVL}_{\text{Subnet}} + \text{Volume}_{\text{Bridge}} - \text{Slippage}$ | Milestone-based grant disbursement rules |
-| **5. Subnet Gas Consumer** | Execute Subnet Tx | $\max \mathcal{U}_{\text{Gas}} = \text{Utility}_{\text{dApp}} - \text{TxFee}_{\text{anUSD}}$ | Fee predictability ($<\$0.01$ variance) |
+| **4. Sovereign L1 Builder / Grantee** | Deploy grants / Seed DEX | $\max \mathcal{U}_{\text{Grantee}} = \text{TVL}_{\text{Avalanche L1}} + \text{Volume}_{\text{Bridge}} - \text{Slippage}$ | Milestone-based grant disbursement rules |
+| **5. L1 Gas Consumer** | Execute Avalanche L1 Tx | $\max \mathcal{U}_{\text{Gas}} = \text{Utility}_{\text{dApp}} - \text{TxFee}_{\text{anUSD}}$ | Fee predictability ($<\$0.01$ variance) |
 | **6. Active Validator** | Stake AVAX / Run Node | $\max \mathcal{U}_{\text{Val}} = \frac{\Phi_{\text{val}}(t) \cdot M_{\text{TVL}} \cdot q}{N_{\text{validators}}}$ | Node uptime $> 99.5\%$, $sAVAX$ delegation |
 | **7. Network / Token Holder** | Hold AVAX / Governance | $\max \mathcal{U}_{\text{Net}} = \dot{B}_{\text{AVAX}}(t) = \frac{\Phi_{\text{burn}}(t) \cdot M_{\text{TVL}} \cdot q}{P_t}$ | Maximum long-term circulating scarcity |
 | **8. Keeper / Arbitrageur** | Trigger reset / DEX swap | $\max \mathcal{U}_{\text{Keeper}} = \text{Bounty}_{\text{reset}} + \|P_{\text{DEX}} - 1.00\| - \text{Gas}$ | 1-block delay lock compliance ($\pm 1.5\%$) |
@@ -74,14 +74,14 @@ flowchart TD
     
     PolicyEngine -->|Phi_burn(t) [40% - 80%]| BurnSink["AVAX Buyback & Burn (0x...dEaD)\n• Scarcity & Velocity Deflation"]
     PolicyEngine -->|Phi_val(t) [10% - 40%]| ValEscrow["Consensus Validator Security Pool\n• Consensus Staking Yield Boost"]
-    PolicyEngine -->|Phi_eco(t) [10% - 35%]| GrantPool["Sovereign Subnet Grants & Liquidity\n• Teleporter Bridge Seeding & Developer Grants"]
+    PolicyEngine -->|Phi_eco(t) [10% - 35%]| GrantPool["Sovereign L1 Grants & Liquidity\n• Teleporter Bridge Seeding & Developer Grants"]
 ```
 
 ### 2.3 Adaptive Policy Regimes Across Protocol Lifecycle
 
 | Protocol Phase / Market Regime | $\Phi_{\text{burn}}$ (Burn Share) | $\Phi_{\text{val}}$ (Validator Share) | $\Phi_{\text{eco}}$ (Grantee/L1 Share) | Strategic Token Engineering Objective |
 | :--- | :--- | :--- | :--- | :--- |
-| **Phase I: Bootstrapping & Growth** | $45.00\%$ | $20.00\%$ | **$35.00\%$** | Aggressively fund Subnet integrations, Teleporter liquidity, and grantee developer tooling. |
+| **Phase I: Bootstrapping & Growth** | $45.00\%$ | $20.00\%$ | **$35.00\%$** | Aggressively fund Avalanche L1 integrations, Teleporter liquidity, and grantee developer tooling. |
 | **Phase II: Steady-State Baseline** | **$65.00\%$** | **$20.00\%$** | **$15.00\%$** | Balanced regime: substantial deflation with sustained validator staking enhancement. |
 | **Phase III: Mature Macro Scale ($>\$1\text{B}$)** | **$75.00\%$** | $15.00\%$ | $10.00\%$ | Maximize structural AVAX supply contraction ($> 1.5\text{M AVAX/year}$). |
 | **Consensus Defense Regime** | $40.00\%$ | **$45.00\%$** | $15.00\%$ | Triggered if staking ratio falls: heavily incentivizes node operators. |
@@ -124,7 +124,7 @@ flowchart TD
     subgraph GovernanceDomain["Adaptive Policy Recirculation Subsystem"]
         Burn_Sink["[Sink] AVAX Burn Address (0x...dEaD)"]
         Val_Pool["[Stock] Validator Reward Escrow"]
-        L1_Grants["[Stock] Subnet Builder & Grantee Treasury"]
+        L1_Grants["[Stock] Sovereign L1 Builder & Grantee Treasury"]
     end
 
     C_pool --> Yield_Flow
@@ -143,4 +143,4 @@ flowchart TD
 1. **Agent Utilities:** Implemented in `contracts/src/tranches/TrancheToken.sol` and `TrancheSplitter.sol`.
 2. **Policy Simplex ($\Phi(t)$):** Governed via `contracts/src/economics/YieldRecycler.sol` with updateable governance setters bounded by safety invariants ($\sum \Phi_i = 1$).
 3. **Auctionless Solvency ($H_u, H_d$):** Executed deterministically by `contracts/src/core/ResetController.sol`.
-4. **Grantee & Subnet Interoperability:** Handled by `contracts/src/icm/TeleporterUSDAdapter.sol`.
+4. **Grantee & Avalanche L1 Interoperability:** Handled by `contracts/src/icm/TeleporterUSDAdapter.sol`.
