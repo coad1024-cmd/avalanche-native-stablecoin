@@ -321,7 +321,7 @@ def run_comprehensive_gsa_and_out_of_sample_suite():
     # --------------------------------------------------------------------------
     print("\n[3/5] Executing Controller Ablation Study across Liquidity Levels...")
     df_ctrl = run_controller_isolation_experiment(shock_size_usd=10_000_000.0)
-    print(df_ctrl[["liquidity_label", "controller_config", "annualized_peg_vol", "settling_time_days", "is_stable"]].to_string(index=False))
+    print(df_ctrl.to_string(index=False))
     
     # --------------------------------------------------------------------------
     # TASK 4: ADVERSARIAL CRASH STRESS & BREAKDOWN BOUNDS

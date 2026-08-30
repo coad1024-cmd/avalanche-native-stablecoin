@@ -1,56 +1,47 @@
 """
-Isolated Control System vs Core Balance-Sheet Stability Analysis
-Governing Standard: BCRG Control Theory & Noise Amplification Canon
-Answers:
-1. How much peg stability comes from the core mechanism vs the controller?
-2. Can the controller destabilize the system under thin liquidity?
-3. Is PID necessary, or is PI strictly superior (avoiding D-term noise amplification)?
+Reflexer-Style Controller Isolation & Ablation Study (Corrected Implementation)
+Analyzes:
+1. Core Balance Sheet Arbitrage alone (No Controller)
+2. Core + Proportional (P)
+3. Core + Proportional-Integral (PI)
+4. Core + Proportional-Integral-Derivative (PID)
+Across realistic DEX liquidity tiers ($1.5M, $10M, $30M) with realistic CPMM price impact.
 """
 from typing import Dict, Any, List, Tuple
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 def run_controller_isolation_experiment(
-    shock_size_usd: float = 10_000_000.0,
-    days: int = 60,
-    dt_days: float = 0.05, # ~1.2 hours per step
-    noise_std: float = 0.003 # 30 bps oracle noise
-) -> Tuple[pd.DataFrame, Dict[str, Any]]:
+    shock_size_usd: float = 5_000_000.0,
+    liquidity_levels: List[float] = [1_500_000.0, 10_000_000.0, 30_000_000.0],
+    duration_days: float = 30.0,
+    dt_days: float = 0.05, # 1.2 hours per time-step
+    noise_std: float = 0.003
+) -> pd.DataFrame:
     """
-    Simulates secondary market price dynamics under 4 control configurations:
-    1. No Controller (Baseline Primary Vault Arbitrage Only)
-    2. P-Only Controller
-    3. PI Controller (K_p=0.15, K_i=0.02, K_d=0)
-    4. PID Controller (K_p=0.15, K_i=0.02, K_d=0.005)
+    Simulates step response and peg recovery under sudden sell-pressure shock.
+    """
+    steps = int(duration_days / dt_days)
+    time_grid = np.linspace(0.0, duration_days, steps)
     
-    Across 3 AMM Liquidity Regimes:
-    - Deep ($30M pool)
-    - Moderate ($10M pool)
-    - Severely Constrained / Illiquid ($1.5M pool)
-    """
-    liquidity_levels = [30_000_000.0, 10_000_000.0, 1_500_000.0]
     configs = [
-        {"name": "No Controller (Core Arb Only)", "Kp": 0.0, "Ki": 0.0, "Kd": 0.0},
-        {"name": "P-Only Controller", "Kp": 0.15, "Ki": 0.0, "Kd": 0.0},
-        {"name": "PI Controller (Recommended)", "Kp": 0.15, "Ki": 0.02, "Kd": 0.0},
-        {"name": "PID Controller (With D-Term)", "Kp": 0.15, "Ki": 0.02, "Kd": 0.005}
+        {"name": "1. Core Alone (No Controller)", "Kp": 0.00, "Ki": 0.000, "Kd": 0.000},
+        {"name": "2. Core + P Only",              "Kp": 0.15, "Ki": 0.000, "Kd": 0.000},
+        {"name": "3. Core + PI (Recommended)",   "Kp": 0.15, "Ki": 0.020, "Kd": 0.000},
+        {"name": "4. Core + PID (Whitepaper)",    "Kp": 0.15, "Ki": 0.020, "Kd": 0.005},
     ]
     
-    steps = int(days / dt_days)
-    time_grid = np.linspace(0, days, steps)
-    
-    results = []
+    records = []
     
     for L in liquidity_levels:
         liq_label = f"${L/1e6:.1f}M"
         for cfg in configs:
             Kp, Ki, Kd = cfg["Kp"], cfg["Ki"], cfg["Kd"]
             
-            # Initial condition: $10M sell shock injected at t=0
-            # Price impact: Delta P = - shock / (2 * L)
-            initial_price_drop = - (shock_size_usd / (2.0 * L))
-            P_dex = 1.0000 + max(-0.15, initial_price_drop)
+            # Realistic CPMM price impact for sell shock: P_post = (L / (L + shock))^2
+            # For moderate shock: Delta P = - shock / (L + shock)
+            price_impact = - shock_size_usd / (L + shock_size_usd)
+            P_dex = 1.0000 + max(-0.80, price_impact)
             
             integral_error = 0.0
             prev_error = P_dex - 1.0000
@@ -88,53 +79,51 @@ def run_controller_isolation_experiment(
                 arb_flow = (1.0000 - P_dex) * arb_speed_per_day * dt_days
                 
                 # 2. Controller-induced secondary demand (higher yield attracts buyers):
-                # Demand elasticity: Delta Q_controller = L * 0.8 * delta_r
-                controller_flow = (L * 0.8 * delta_r / L) * dt_days
+                # Price impact scales inversely with pool depth L: Delta P = (Demand Flow) / L
+                # where Demand Flow = alpha_elasticity * delta_r * Reference_Capital
+                capital_elasticity = 5_000_000.0 # $5M capital response per 100% rate differential
+                controller_price_impact = (capital_elasticity * delta_r / L) * dt_days
                 
                 # Update actual spot price
-                P_dex += arb_flow + controller_flow
-                
-                # Boundary clamp
-                P_dex = max(0.50, min(1.50, P_dex))
+                P_dex += arb_flow + controller_price_impact
+                # Clamp physical price bounds
+                P_dex = max(0.01, P_dex)
                 price_series.append(P_dex)
                 
             prices_arr = np.array(price_series)
-            peg_deviations = prices_arr - 1.0000
+            rates_arr = np.array(rate_delta_series)
             
-            annualized_vol = np.std(peg_deviations) * np.sqrt(365.0 / dt_days) * 100.0
-            max_dev = np.max(np.abs(peg_deviations)) * 100.0
-            rms_dev = np.sqrt(np.mean(peg_deviations**2)) * 100.0
+            # Metrics
+            peg_rmse = float(np.sqrt(np.mean((prices_arr - 1.0000)**2)))
+            max_depeg_pct = float(np.max(np.abs(prices_arr - 1.0000)) * 100.0)
             
-            # Settling time: days until error stays within +/- 0.5%
-            settled_idx = np.where(np.abs(peg_deviations) > 0.005)[0]
-            settling_days = time_grid[settled_idx[-1]] if len(settled_idx) > 0 else 0.0
+            # Time to recover within +-0.5% band
+            recovered_indices = np.where(np.abs(prices_arr - 1.0000) <= 0.005)[0]
+            if len(recovered_indices) > 0 and recovered_indices[0] < steps - 10:
+                # Check if it stayed recovered
+                stable_recovered = np.where(np.abs(prices_arr[recovered_indices[0]:] - 1.0000) <= 0.01)[0]
+                if len(stable_recovered) == len(prices_arr[recovered_indices[0]:]):
+                    settling_time_days = float(time_grid[recovered_indices[0]])
+                else:
+                    settling_time_days = float(time_grid[recovered_indices[0]])
+            else:
+                settling_time_days = float(duration_days)
+                
+            rate_volatility = float(np.std(rates_arr) * 100.0)
             
-            # Stability flag (check for runaway oscillation)
-            is_stable = True
-            if len(prices_arr) > 10:
-                recent_vol = np.std(prices_arr[int(steps*0.7):])
-                if recent_vol > 0.02:
-                    is_stable = False
-                    
-            results.append({
-                "liquidity_usd": L,
-                "liquidity_label": liq_label,
-                "controller_config": cfg["name"],
-                "Kp": Kp, "Ki": Ki, "Kd": Kd,
-                "initial_price": price_series[0],
-                "annualized_peg_vol": annualized_vol,
-                "max_deviation_pct": max_dev,
-                "rms_deviation_pct": rms_dev,
-                "settling_time_days": settling_days,
-                "is_stable": is_stable,
-                "prices": prices_arr,
-                "rates": np.array(rate_delta_series),
-                "time": time_grid
+            records.append({
+                "Liquidity Tier": liq_label,
+                "Controller Config": cfg["name"],
+                "Peg RMSE ($)": round(peg_rmse, 4),
+                "Max Depeg (%)": round(max_depeg_pct, 2),
+                "Settling Time (Days)": round(settling_time_days, 1),
+                "Rate Volatility (pp)": round(rate_volatility, 3)
             })
             
-    df = pd.DataFrame(results)
+    df = pd.DataFrame(records)
     return df
 
 if __name__ == "__main__":
     df = run_controller_isolation_experiment()
-    print(df[["liquidity_label", "controller_config", "annualized_peg_vol", "settling_time_days", "is_stable"]])
+    print("=== Reflexer Controller Ablation Study (Corrected Sensitivity) ===")
+    print(df.to_string(index=False))

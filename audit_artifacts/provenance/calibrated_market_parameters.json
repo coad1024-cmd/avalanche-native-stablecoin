@@ -1,0 +1,60 @@
+{
+  "dataset_metadata": {
+    "observations_days": 1826,
+    "timeframe": "5-Year Telemetry (1,826 Daily Obs)",
+    "asset_pair": "AVAX/USD & sAVAX/AVAX"
+  },
+  "kou_double_exponential": {
+    "point_estimates": {
+      "drift_mu": -0.5220435808005042,
+      "diffusion_sigma": 0.8912752382139166,
+      "jump_intensity_lambda": 2.9953668651842342,
+      "up_jump_prob_p": 0.3338202889361492,
+      "eta1_up_tail": 3.182024671382463,
+      "eta2_down_tail": 2.331291052628602,
+      "mean_up_jump_pct": 31.426531949720548,
+      "mean_down_jump_pct": -42.89468699639495
+    },
+    "bootstrap_95_credible_intervals": {
+      "diffusion_sigma": [
+        0.8613287693303696,
+        0.9199706968552567
+      ],
+      "jump_intensity_lambda": [
+        1.584121816263147,
+        5.355407175270112
+      ],
+      "up_jump_prob_p": [
+        0.05,
+        0.6380328271938348
+      ],
+      "eta1_up_tail": [
+        1.7962120164606943,
+        13.194022643823995
+      ],
+      "eta2_down_tail": [
+        1.355078582649529,
+        6.509424157436863
+      ]
+    }
+  },
+  "merton_log_normal": {
+    "point_estimates": {
+      "drift_mu": -0.5318070605414608,
+      "diffusion_sigma": 0.8939710277435885,
+      "jump_intensity_lambda": 1.9989047097480832,
+      "jump_mean_mu_j": -0.26596115400470005,
+      "jump_vol_sigma_j": 0.5867501780475188
+    }
+  },
+  "savax_staking_yield": {
+    "mean_staking_apr": 0.0584541763294492,
+    "std_staking_apr": 0.006419229422282146,
+    "min_staking_apr": 0.041749187088670904,
+    "max_staking_apr": 0.07513466146842004,
+    "ci_95_staking_apr": [
+      0.04708062014480488,
+      0.06981209382286731
+    ]
+  }
+}
