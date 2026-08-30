@@ -134,13 +134,6 @@ For the baseline 1:1 split ($\alpha = 1.0$) at par ($S = 1.0, V_A = 1.0, V_B = 1
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.88\textwidth]{figures/fig10_pide_pricing_surface.png}
-\caption{Numerical solution of the continuous-time Partial Integro-Differential Equation (PIDE) under Kou jump-diffusion. (Left) 3D Net Asset Value valuation surface $V(S, t)$ across normalized collateral index $S \in [0.25, 2.00]$ and epoch maturity $t \in [0, 1.0]$. (Right) Iso-value contour trajectories showing autonomous boundary attraction toward dynamic reset thresholds $H_u$ and $H_d$.}
-\label{fig:pide_surface}
-\end{figure}
-
-\begin{figure}[H]
-\centering
 \includegraphics[width=0.88\textwidth]{figures/fig5_leverage_and_pide_surface.png}
 \caption{Left: Numerical 3D solution surface of the valuation PIDE $W_A(v, S)$ on Banach space $\mathcal{D}$. Right: Class B bounded effective leverage curve $\Lambda_B(S) \in [1.5\times, 5.0\times]$ bounded strictly between dynamic reset barriers $H_d = \$0.25$ and $H_u = \$2.00$.}
 \label{fig:pide_leverage}
@@ -323,6 +316,13 @@ where $\gamma(t, S) \le \max(1, H_u) e^{-r \Delta t} < 1$. Consequently, by the 
 \end{equation}
 \end{theorem}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/fig10_pide_pricing_surface.png}
+\caption{Numerical solution of the continuous-time Partial Integro-Differential Equation (PIDE) under Kou jump-diffusion. Left: 3D Net Asset Value valuation surface $W_A(v, S)$ across normalized collateral index $S \in [0.25, 2.00]$ and epoch maturity $v \in [0, 1.0]$. Right: Iso-value contour trajectories showing autonomous boundary attraction toward dynamic reset thresholds $H_u = \$2.00$ and $H_d = \$0.25$.}
+\label{fig:pide_surface}
+\end{figure}
+
 \section{Generalized Dynamical System (GDS) Simulation \& Empirical Verification}
 
 \subsection{Formal Dynamical Systems Specification}
@@ -332,9 +332,9 @@ Following the foundational cryptoeconomic modeling framework of Generalized Dyna
 \end{equation}
 where:
 \begin{itemize}
-    \item \textbf{State Space ($\mathcal{X} \subset \mathbb{R}^{13}$):} $x_t = (P_t, P_0, v_t, \beta_t, V_A(t), V_B(t), V_{A'}(t), V_{B'}(t), \text{Pool}_t, \dots)$ tracks the instantaneous asset valuations, cumulative scaling factors, and reserve balances.
-    \item \textbf{Environmental Price Driver ($u_t \in \mathcal{U}$):} Exogenous spot price innovation $P_t$ governed by the Kou double-exponential jump-diffusion process.
-    \item \textbf{Parameter Vector ($\Theta \subset \mathbb{R}^8$):} $\theta = (R, R', H_u, H_d, q, \Phi_{\text{burn}}, \Phi_{\text{val}}, \Phi_{\text{eco}})$ formalizes the governance and coupon parameters.
+    \item \textbf{State Space ($\mathcal{X} \subset \mathbb{R}^{16}$):} $x_t = (P_t, P_0, v_t, \beta_t, V_A(t), V_B(t), V_{A'}(t), V_{B'}(t), \Lambda_B(t), P_{\text{DEX}}(t), C_{\text{pool}}(t), B_{\text{cum}}(t), R_{\text{val}}(t), G_{\text{eco}}(t), \dots)$ tracks the instantaneous asset valuations, cumulative scaling factors, AMM prices, and reserve balances.
+    \item \textbf{Environmental Stochastic Drivers ($w_t \in \mathcal{W} \subset \mathbb{R}^7$):} Exogenous spot price innovations $P_t$ governed by the Kou double-exponential jump-diffusion process with liquid staking yield cash flows $q$.
+    \item \textbf{Governance Parameter Vector ($\Theta \subset \mathbb{R}^{23}$):} Formalizes the complete 20-dimensional governance levers across all 5 protocol subsystems.
     \item \textbf{Conservation Invariant Function ($\mathcal{I}: \mathcal{X} \to \mathbb{R}$):} The system enforces strict balance sheet parity:
     \begin{equation}
         \mathcal{I}(x_t) = |V_A(t) + V_B(t) - 2 S_t| \equiv 0 \quad \forall t \ge 0.
