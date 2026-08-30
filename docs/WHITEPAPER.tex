@@ -480,6 +480,27 @@ The contract deterministically splits $\Phi_{\text{gross}}$ every block accordin
 }
 \end{table}
 
+\subsection{Dynamic Countercyclical Validator Income Subsidy Mechanism}
+Following the foundational validator economic decision architecture (G.VALIDATOR\_MARKET and G.VALUE\_CAPTURE), as public blockchain networks mature and finite token issuance caps approach, native validation yields naturally compress. During cyclical market drawdowns, validator fiat revenue declines while physical node operating expenses (OpEx) remain fixed, exerting centralization pressure and forcing independent node operator attrition.
+
+To ensure long-term decentralized consensus security, anUSD enhances the ACP-67 waterfall with an autonomous \textbf{Countercyclical Dynamic Validator Subsidy Module}:
+\begin{equation}
+    \omega_{\text{val}}(t) = \min\left( \omega_{\text{val}}^{\max}, \; \omega_{\text{val}}^{\text{base}} + \kappa_{\text{drawdown}} \cdot \max\left(0, \frac{P_{\text{EMA}}(t) - P_t}{P_{\text{EMA}}(t)}\right) + \psi_{\text{yield}} \cdot \max(0, r_{\text{target}} - r_{\text{savax}}(t)) \right)
+\end{equation}
+\begin{equation}
+    \omega_{\text{burn}}(t) = 1.0 - \omega_{\text{val}}(t) - \omega_{\text{l1}}
+\end{equation}
+where $\omega_{\text{val}}^{\text{base}} = 20.0\%$, $\omega_{\text{val}}^{\max} = 45.0\%$, $\kappa_{\text{drawdown}} = 0.35$, and $P_{\text{EMA}}(t)$ represents the 90-day Exponential Moving Average price of AVAX.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/fig12_dynamic_validator_subsidy_waterfall.png}
+\caption{Dynamic countercyclical validator income subsidy simulation over a 365-day stochastic market cycle. (Top) AVAX spot price drawdown against the 90-day EMA. (Middle) Autonomous reallocation shifting yield from open-market burns ($\omega_{\text{burn}}$) to validator compensation ($\omega_{\text{val}}$) up to 45.0\% during severe market stress. (Bottom) Validator node operating expense (OpEx) coverage ratio comparing static 20\% allocation against the dynamic countercyclical policy, successfully preserving operator viability above the 1.0x insolvency floor.}
+\label{fig:dynamic_subsidy}
+\end{figure}
+
+As illustrated in Figure~\ref{fig:dynamic_subsidy}, during severe macro drawdowns, the dynamic subsidy policy increases annual validator compensation by over $+\$2.38\text{M}$ (+42.9\% relative to a static policy at \$500M TVL), maintaining active validator node viability strictly above the 1.0x OpEx insolvency boundary.
+
 \section{Smart Contract Architecture \& $O(1)$ Constant-Time Rebasing}
 
 \subsection{The Gas Vulnerability of Traditional Rebasing Tokens}

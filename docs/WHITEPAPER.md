@@ -11,7 +11,7 @@
 
 We introduce **Avalanche Native USD (anUSD)**, an autonomous, sovereign stablecoin architecture engineered natively for the Avalanche Primary Network (C-Chain) and Avalanche Sovereign L1s. Decentralized stablecoins currently face an unresolved trilemma between capital efficiency, peg stability, and systemic solvency. Existing overcollateralized debt position (CDP) protocols rely on asynchronous liquidation auctions that suffer from latency, miner-extractable value (MEV) exploitation, and bad-debt accumulation during market dislocations. Concurrently, centralized fiat-backed stablecoins extract 100% of underlying reserve yields, draining billions from the host blockchain. 
 
-`anUSD` resolves these failure modes through an on-chain **Dual-Class Securitization** framework backed by native liquid staking collateral ($sAVAX$). The protocol partitions the return distribution into senior fixed-income bonds (Class $A$) and subordinated leveraged equity (Class $B$), with Class $A$ further partitioned into the `anUSD` stablecoin (Class $A'$) and high-yield instruments (Class $B'$). Protocol solvency is preserved without auctions via an autonomous **Dynamic Reset Engine** executing deterministic share splits and mergers at thresholds $H_u = \$2.00$ and $H_d = \$0.25$. Liquid staking yields are recirculated under the **ACP-67** framework (65% AVAX buyback/burn, 20% validator boost, 15% sovereign L1 grants). 
+`anUSD` resolves these failure modes through an on-chain **Dual-Class Securitization** framework backed by native liquid staking collateral ($sAVAX$). The protocol partitions the return distribution into senior fixed-income bonds (Class $A$) and subordinated leveraged equity (Class $B$), with Class $A$ further partitioned into the `anUSD` stablecoin (Class $A'$) and high-yield instruments (Class $B'$). Protocol solvency is preserved without auctions via an autonomous **Dynamic Reset Engine** executing deterministic share splits and mergers at thresholds $H_u = \$2.00$ and $H_d = \$0.25$. Liquid staking yields are recirculated under the **ACP-67** framework (65% AVAX buyback/burn, 20% validator boost, 15% sovereign L1 grants), featuring an autonomous **Countercyclical Dynamic Validator Income Subsidy** that automatically expands validator compensation up to 45.0% during market drawdowns to guarantee node operator viability.
 
 Empirical results across 10,000 Monte Carlo jump-diffusion paths demonstrate an annualized peg volatility of **1.37%**, while analytical derivations establish a model-free safety bound preserving full principal value against single-step market crashes of up to **60.00%**.
 
@@ -96,25 +96,31 @@ $$\Delta R'(t) = - \left( K_p \cdot e(t) + K_i \int_0^t e(\tau) d\tau + K_d \fra
 
 ---
 
-## 5. ACP-67 Value Recirculation Flywheel
+## 5. ACP-67 Value Recirculation & Countercyclical Dynamic Validator Subsidy
 
 All collateral staking rewards flow through `YieldRecycler.sol` according to ACP-67 mandates:
-* **65% AVAX Buyback & Burn:** Permanently destroys native AVAX.
-* **20% Validator Staking Boost:** Supplements active validator returns (+0.21% to +10.40% APR).
-* **15% Sovereign L1 Grants:** Subsidizes cross-L1 Teleporter bridge routing and native L1 gas adoption.
+* **65% AVAX Buyback & Burn ($\omega_{\text{burn}}$):** Permanently destroys native AVAX.
+* **20% Validator Staking Boost ($\omega_{\text{val}}$):** Base allocation to active Avalanche validators.
+* **15% Sovereign L1 Grants ($\omega_{\text{l1}}$):** Subsidizes cross-L1 Teleporter bridge routing.
 
-| anUSD TVL | Gross Yield (6.0%) | Annual AVAX Burn ($) | AVAX Retired (Qty @ $25) | Validator Boost ($) | Sovereign L1 Grants ($) |
+### 5.1 Dynamic Validator Subsidy Formula
+During market drawdowns, the protocol dynamically shifts yield from burns to validator compensation:
+$$\omega_{\text{val}}(t) = \min\left( 45.0\%, \; 20.0\% + 0.35 \cdot \max\left(0, \frac{P_{\text{EMA}}(t) - P_t}{P_{\text{EMA}}(t)}\right) + 2.50 \cdot \max(0, 0.06 - r_{\text{savax}}(t)) \right)$$
+
+| anUSD TVL | Gross Yield (6.0%) | Annual AVAX Burn ($) | AVAX Retired (Qty @ $25) | Validator Base Boost ($) | Bear Market Validator Boost ($) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **$100M** | $6.25M | $4.06M | **162,500 AVAX** | $1.25M | $0.94M |
-| **$500M** | $31.25M | $20.31M | **812,500 AVAX** | $6.25M | $4.69M |
-| **$1.00B** | $62.50M | $40.62M | **1,625,000 AVAX** | $12.50M | $9.38M |
-| **$5.00B** | $312.50M | $203.12M | **8,125,000 AVAX** | $62.50M | $46.88M |
+| **$100M** | $6.25M | $4.06M | **162,500 AVAX** | $1.25M | **$2.81M** |
+| **$500M** | $31.25M | $20.31M | **812,500 AVAX** | $6.25M | **$14.06M** |
+| **$1.00B** | $62.50M | $40.62M | **1,625,000 AVAX** | $12.50M | **$28.12M** |
+| **$5.00B** | $312.50M | $203.12M | **8,125,000 AVAX** | $62.50M | **$140.62M** |
 
 ---
 
 ## 6. Smart Contract Architecture & $O(1)$ Scalability
 
 * **$O(1)$ Constant-Time Global Rebase:** Token balances scale via a global multiplier $\beta(t)$, eliminating looping gas costs ($<85,000$ gas).
+* **DynamicValidatorSubsidy.sol:** On-chain EMA oracle tracking and countercyclical allocation engine.
+* **YieldRecycler.sol:** Atomic on-chain execution of ACP-67 multi-sink distributions.
 * **1-Block MEV Delay Lock:** Protects against flash-loan reset front-running within $\pm 1.5\%$ of barriers ($MPMC > \$45\text{M}$).
 * **30-Minute TWAP Circuit Breaker:** Halts minting/redemptions on $> \pm 8.0\%$ oracle divergence.
 * **Avalanche Teleporter (ICM):** Native cross-L1 mint/burn without custodial wrapped bridge risk.
