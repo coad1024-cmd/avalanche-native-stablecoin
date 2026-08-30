@@ -12,7 +12,7 @@ contract SolvencyInvariantTest {
     ResetController controller;
 
     function setUp() public {
-        vault = new CustodianVault(25e18); // P_0 = $25.00
+        vault = new CustodianVault(address(0), 25e18, address(0)); // P_0 = $25.00
 
         tokenA = new TrancheToken("Class A Senior Bond", "clA", ITrancheToken.TrancheType.CLASS_A, address(vault));
         tokenB = new TrancheToken("Class B Leveraged Equity", "clB", ITrancheToken.TrancheType.CLASS_B, address(vault));
@@ -23,7 +23,8 @@ contract SolvencyInvariantTest {
             address(tokenB),
             0.073e18, // 7.3% coupon
             2.0e18,   // Hu = 2.0
-            0.25e18   // Hd = 0.25
+            0.25e18,  // Hd = 0.25
+            address(0)
         );
 
         tokenA.setResetController(address(controller));
@@ -61,7 +62,7 @@ contract SolvencyInvariantTest {
 
         controller.executeReset();
 
-        // Multiplier should have scaled down (merger)
+        // Multiplier should have scaled down
         require(tokenA.scalarMultiplier() < 1e18, "Scalar A should decrease post downward reset");
         require(tokenB.scalarMultiplier() < 1e18, "Scalar B should decrease post downward reset");
     }

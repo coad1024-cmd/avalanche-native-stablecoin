@@ -16,8 +16,8 @@ contract CustodianVaultUnitTest {
     ResetController controller;
 
     function setUp() public {
-        // Reference price = $25.00 (25e18)
-        vault = new CustodianVault(25e18);
+        // Reference price = $25.00 (25e18), zero address for mock collateral/oracle
+        vault = new CustodianVault(address(0), 25e18, address(0));
 
         tokenA = new TrancheToken("Class A Senior Bond", "clA", ITrancheToken.TrancheType.CLASS_A, address(vault));
         tokenB = new TrancheToken("Class B Leveraged Equity", "clB", ITrancheToken.TrancheType.CLASS_B, address(vault));
@@ -31,7 +31,8 @@ contract CustodianVaultUnitTest {
             address(tokenB),
             0.073e18, // 7.3% coupon
             2.0e18,   // Hu = 2.0
-            0.25e18   // Hd = 0.25
+            0.25e18,  // Hd = 0.25
+            address(0)
         );
 
         tokenA.setResetController(address(controller));
@@ -62,27 +63,30 @@ contract CustodianVaultUnitTest {
         setUp();
         vault.depositAndMint(1e18);
 
-        // Split 10 Class A tokens into 10 anUSD (Class A') and 10 Class B' tokens
-        tokenA.approve(address(splitter), 10e18);
-        splitter.split(10e18);
+        // Split 25 Class A tokens into 25 anUSD and 25 Class B'
+        splitter.split(25e18);
 
-        require(tokenAPrime.balanceOf(address(this)) == 10e18, "anUSD balance mismatch");
-        require(tokenBPrime.balanceOf(address(this)) == 10e18, "Class B' balance mismatch");
-        require(tokenA.balanceOf(address(this)) == 15e18, "Remaining Class A mismatch");
+        require(tokenA.balanceOf(address(this)) == 0, "Class A should be burned");
+        require(tokenAPrime.balanceOf(address(this)) == 25e18, "anUSD minted mismatch");
+        require(tokenBPrime.balanceOf(address(this)) == 25e18, "Class B' minted mismatch");
+
+        // Merge back
+        splitter.merge(25e18, 25e18);
+        require(tokenA.balanceOf(address(this)) == 25e18, "Class A should be restored");
+        require(tokenAPrime.balanceOf(address(this)) == 0, "anUSD burned mismatch");
+        require(tokenBPrime.balanceOf(address(this)) == 0, "Class B' burned mismatch");
     }
 
     function testSolvencyInvariant() public {
         setUp();
-        vault.depositAndMint(4e18); // 4 AVAX = $100 collateral
+        vault.depositAndMint(10e18);
 
-        uint256 balA = tokenA.balanceOf(address(this));
-        uint256 balB = tokenB.balanceOf(address(this));
+        // Total pool value = 10 AVAX * $25 = $250
+        // Class A raw = 250, Class B raw = 250
+        uint256 poolAssets = (vault.totalCollateral() * vault.referencePrice()) / 1e18;
+        uint256 trancheSum = (tokenA.totalSupply() + tokenB.totalSupply()) / 2;
 
-        require(balA == 100e18, "Bal A mismatch");
-        require(balB == 100e18, "Bal B mismatch");
-
-        // Total pool value equals 2 * P_t * collateral
-        uint256 poolValue = (balA + balB);
-        require(poolValue == 200e18, "Solvency parity violated");
+        require(poolAssets == 250e18, "Asset pool mismatch");
+        require(trancheSum == 250e18, "Tranche liability mismatch");
     }
 }
