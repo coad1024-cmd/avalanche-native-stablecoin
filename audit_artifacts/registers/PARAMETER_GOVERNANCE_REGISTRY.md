@@ -3,7 +3,14 @@
 > **Document Identifier:** `BCRG-REGISTRY-2026-PARAMETER-GOVERNANCE-01`  
 > **Governing Plan:** `BCRG-PLAN-2026-REVISED-MECHANISM-RESEARCH-02` (Phase 13)  
 > **Classification Framework:** 8-Class Epistemic Parameter Taxonomy  
+> **Baseline Snapshot ID:** `SNAP-2026-08-30-01` (Git Commit: `d57b3e601ca87733ec4343dbb70c7514ab264939`)  
 > **Date:** August 30, 2026  
+
+> [!NOTE]
+> **Epistemic Status of Baseline Values:**  
+> - **Structural Invariants (`P01`–`P02`):** Mathematically fixed system constants.  
+> - **Empirical Calibrations (`P03`–`P08`):** Point estimates and 95% CIs calibrated directly from Avalanche C-Chain telemetry.  
+> - **Governance & Control Parameters (`P09`–`P20`):** Designated strictly as **"Current Candidate Baseline (Unvalidated Initial Proposal)"** for snapshot baseline tracking. They are **NOT** validated optima. The upcoming Research Design Discovery and Multi-Objective Search phase will rigorously evaluate whether these candidate values deserve to survive or must be superseded on the Pareto frontier.
 
 ---
 
@@ -15,7 +22,7 @@
 ====================================================================================================
 ```
 
-| ID | Parameter Name | Symbol | Epistemic Class | Baseline Value | Robust Governance Operating Corridor | Governance Authority & Timelock Rule |
+| ID | Parameter Name | Symbol | Epistemic Class | Baseline Value (Candidate / Calibrated) | Robust Governance Operating Corridor | Governance Authority & Timelock Rule |
 | :---: | :--- | :---: | :---: | :---: | :---: | :--- |
 | **`P01`** | **Tranche Issuance Ratio** | $\chi$ | **STRUCTURAL** | $1.000$ | Fixed $1.000$ (Exact 1:1 Parity) | **Hardcoded Invariant (Cannot be modified)** |
 | **`P02`** | **Par Normalization Index** | $V_0$ | **STRUCTURAL** | $\$1.000$ | Fixed $\$1.000$ | **Hardcoded Invariant (Cannot be modified)** |

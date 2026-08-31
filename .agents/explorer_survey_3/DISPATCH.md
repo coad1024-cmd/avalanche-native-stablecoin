@@ -1,26 +1,9 @@
-# DISPATCH — explorer_survey_3
+## 2026-08-31T04:13:35Z
 
-## 2026-08-30T11:13:00Z
-Initial dispatch for Open Source Tooling Audit.
-
-## 2026-08-30T11:46:18Z
-<USER_REQUEST>
-You are the Code Implementation Auditor for the anUSD First-Principles Source and Derivation Audit.
-Your working directory is: `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/explorer_survey_3`.
-You MUST read the authoritative user request at `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` before starting work.
-You MUST also read your dispatch instructions at `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/explorer_survey_3/DISPATCH.md`.
-
-Your mission:
-1. Search and index all codebase components:
-   - Solidity smart contracts in `contracts/` (or wherever located in repo)
-   - cadCAD and Python simulation code in `src/`, `sim/`, `models/`, `scripts/`
-   - Test suites (Foundry/Hardhat/pytest)
-2. Trace all 23 protocol parameters and core mechanisms to their exact variable names, constants, state variables, and functions in code.
-3. Compare implementation semantics against mathematical specifications:
-   - Discrete EVM fixed-point math vs continuous formulas
-   - Tranche minting, burning, splitting, and rebasing mechanisms
-   - Reset execution, oracle updates, and fee distribution
-4. Document all semantic divergences, lossy transformations, rounding vulnerabilities, and unstated implementation shortcuts.
-5. Output your detailed findings to `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/explorer_survey_3/survey_code_implementation.md` and write a comprehensive `handoff.md`. Send a message when complete.
-</USER_REQUEST>
-
+**Sender**: parent (ca6a5bc9-8f00-4424-9bd0-39b865c8f1f1)
+**Task**: Survey: Robustness, Experiments, Decision Framework & State Reconciliation (R8, R9, R10, R11)
+**Scope**:
+1. Deliverable 8 (R8): `ROBUSTNESS_DEFINITION.md` - Four formal robustness criteria (Max-Min Wald, Expected Bayesian Utility, CVaR 99%, Distributionally Robust Optimization with Wasserstein metric), 5 analytical failure boundaries partial Omega_fail, parameter fragility index bar{S}_T.
+2. Deliverable 9 (R9): `EXPERIMENTAL_HIERARCHY.md` - 7-Stage Adaptive Computational Hierarchy (Stages 1 through 7).
+3. Deliverable 10 (R10): `DECISION_FRAMEWORK.md` - Multi-objective Pareto optimization, non-dominated frontier discovery, hypervolume indicator, Marginal Rates of Transformation (MRT), MCDA preference aggregation (TOPSIS, Augmented Weighted Tchebycheff), and evaluation of legacy A0.
+4. Deliverable 11 (R11): `RESEARCH_STATE.yaml` updated and verified against frozen baseline `SNAP-2026-08-30-01`, master lineage visual flow diagram, and enforcement of Strict Stop Rule (specifying Phase 1 Analytical Screening as the ONE minimum next execution block).

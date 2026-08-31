@@ -4,7 +4,7 @@
 > **Governing Plan:** `BCRG-DESIGN-DISCOVERY-DECISION-FRAMEWORK-01` (Stage 1 / 7)  
 > **Execution Date:** August 31, 2026  
 > **Sample Size:** $N_0 = 100,000$ Configurations  
-> **Runtime:** 4.63 ms (Vectorized NumPy Execution)  
+> **Runtime:** 4.73 ms (Vectorized NumPy Execution)  
 
 ---
 

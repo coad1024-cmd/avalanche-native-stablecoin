@@ -1,34 +1,20 @@
-# DISPATCH — reviewer_2
+## 2026-08-31T04:16:37Z
 
-## Mission
-Conduct a comprehensive review of all 5 Registers and epistemic deconstructions in the Master Source and Derivation Audit Report at `/home/hash/Hub/Projects/avalanche-native-stablecoin/docs/reports/SOURCE_AND_DERIVATION_AUDIT.md`.
+You are Reviewer 2 (Domain Expert Reviewer & Adversarial Critic: Uncertainty, Robustness, Experimental Sequence & Decision Framework).
+Your working directory is: /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/reviewer_2
+Authoritative Original User Request: /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md
+Master Project Index: /home/hash/Hub/Projects/avalanche-native-stablecoin/PROJECT.md
 
-## Authoritative User Request
-Read `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` verbatim.
+Scope of Review:
+1. Deliverable 7 (R7): `audit_artifacts/design_discovery/ENVIRONMENTAL_UNCERTAINTY_SPEC.md` (2,140-day empirical telemetry grounding, Kou MLE parameters, 11-regime stochastic matrix).
+2. Deliverable 8 (R8): `audit_artifacts/design_discovery/ROBUSTNESS_DEFINITION.md` (4 formal robustness criteria: Max-Min Wald, Bayesian Utility, CVaR 99%, Wasserstein DRO; 5 failure boundaries partial Omega_fail; fragility index bar{S}_T).
+3. Deliverable 9 (R9): `audit_artifacts/design_discovery/EXPERIMENTAL_HIERARCHY.md` (7-Stage Adaptive Computational Sequence).
+4. Deliverable 10 (R10): `audit_artifacts/design_discovery/DECISION_FRAMEWORK.md` (6D Pareto optimization, hypervolume indicator, MRT, TOPSIS / PROMETHEE II MCDA, evaluation of A0 as an unvalidated hypothesis).
+5. Deliverable 11 (R11): `audit_artifacts/state/RESEARCH_STATE.yaml` (Reconciliation against SNAP-2026-08-30-01, master visual flow diagram, Strict Stop Rule enforcement, and Stage 1 execution manifest).
 
-## Working Directory
-`/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/reviewer_2`
-
-## Specific Review Scope:
-1. Review all 5 Registers:
-   - Machine-readable Provenance Graph (YAML & Markdown) covering all 23 protocol parameters and 6 core claims.
-   - Assumptions Register (Explicit & Unstated).
-   - Claims Register (6-class Epistemic Taxonomy).
-   - Contradictions & Open Issues Register (Numbered CONTRA-01 to CONTRA-12).
-   - Data Requirements Register (DAT-01 to DAT-07).
-2. Review epistemic deconstructions: Are the challenges to previous reports ("VERIFIED", "PROVED", 1.37% volatility, solvency invariant tautology, damping ratio discrepancy, MPMC facade, circular gate validations) thoroughly substantiated?
-3. Output your detailed review report to `.agents/reviewer_2/review_report.md` and write a 5-component `handoff.md` with an explicit verdict: `APPROVE` or `REQUEST_CHANGES`.
-
-## 2026-08-30T11:57:31Z
-You are Reviewer 2 for the anUSD First-Principles Source and Derivation Audit.
-Your working directory is: `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/reviewer_2`.
-You MUST read the authoritative user request at `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md` before starting work.
-You MUST also read your dispatch instructions at `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/reviewer_2/DISPATCH.md`.
-
-Review the Master Source and Derivation Audit Report at `/home/hash/Hub/Projects/avalanche-native-stablecoin/docs/reports/SOURCE_AND_DERIVATION_AUDIT.md`.
-Evaluate:
-1. All 5 Registers (Machine-Readable Provenance Graph, Assumptions Register, Claims Register, Contradictions & Open Issues Register, Data Requirements Register).
-2. Epistemic deconstruction of generated reports (1.37% volatility artifact, solvency tautology, damping ratio discrepancy, MPMC facade, circular gate validations).
-3. Actionable recommendations and Phase 0 stop rule compliance.
-Write your review report to `.agents/reviewer_2/review_report.md` and write a 5-component `handoff.md` with explicit verdict `APPROVE` or `REQUEST_CHANGES`. Send a message when finished.
-
+Tasks:
+- Read ORIGINAL_REQUEST.md and PROJECT.md.
+- Review all target deliverable documents in `audit_artifacts/design_discovery/`, `audit_artifacts/state/`, `audit_artifacts/execution/`, and the survey reports in `.agents/explorer_survey_2/` and `.agents/explorer_survey_3/`.
+- Challenge the empirical validity, statistical rigor, MCDA preference aggregation, and execution stop gates.
+- Write your detailed review to `.agents/reviewer_2/review_report.md` and your final structured handoff to `.agents/reviewer_2/handoff.md` with an explicit verdict (`APPROVE` or `REQUEST_CHANGES`).
+- Send a message to the orchestrator with your verdict and key findings.
