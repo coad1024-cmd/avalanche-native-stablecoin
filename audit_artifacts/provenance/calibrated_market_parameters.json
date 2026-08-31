@@ -1,60 +1,87 @@
 {
-  "dataset_metadata": {
-    "observations_days": 1826,
-    "timeframe": "5-Year Telemetry (1,826 Daily Obs)",
-    "asset_pair": "AVAX/USD & sAVAX/AVAX"
+  "dataset_provenance": {
+    "observations_days": 2140,
+    "date_range": [
+      "2020-10-22 00:00:00+00:00",
+      "2026-08-31 00:00:00+00:00"
+    ],
+    "asset_pair": "AVAX/USD (Binance & CryptoCompare Aggregated Daily)",
+    "raw_data_files": {
+      "DAT-01_avax_usd_5yr_daily.csv": "83abd83158c6a9a9f13b12e359bd97afc6acf827849f9d0c6f1be6918a6e54e7",
+      "DAT-02_savax_staking_apr_history.csv": "47727cc6e7a6bc48fbaedbcb19d0eb09414c9d0276c52892997a0148fff307c7",
+      "DAT-03_traderjoe_liquidity_depth_profiles.csv": "e88712a32d8e8e1c30a9a35b9d8c9d5dcb7c114b3943f367ab4e71449f5cfdd8",
+      "DAT-07_black_swan_ticks.csv": "3ee1e8a991e5e6689376f0cb440b219a2f63407f5f8a2768faf2958431f4328d"
+    }
   },
   "kou_double_exponential": {
     "point_estimates": {
-      "drift_mu": -0.5220435808005042,
-      "diffusion_sigma": 0.8912752382139166,
-      "jump_intensity_lambda": 2.9953668651842342,
-      "up_jump_prob_p": 0.3338202889361492,
-      "eta1_up_tail": 3.182024671382463,
-      "eta2_down_tail": 2.331291052628602,
-      "mean_up_jump_pct": 31.426531949720548,
-      "mean_down_jump_pct": -42.89468699639495
+      "drift_mu": -0.3401678860346582,
+      "diffusion_sigma": 0.8914680580113712,
+      "jump_intensity_lambda": 15.0,
+      "up_jump_prob_p": 0.5954848828997419,
+      "eta1_up_tail": 7.671370597383784,
+      "eta2_down_tail": 7.801069780903634,
+      "mean_up_jump_pct": 13.035480261389488,
+      "mean_down_jump_pct": -12.81875471038493,
+      "log_likelihood": 3217.3584430069413,
+      "aic": -6422.716886013883,
+      "bic": -6388.705519365787
     },
     "bootstrap_95_credible_intervals": {
       "diffusion_sigma": [
-        0.8613287693303696,
-        0.9199706968552567
+        0.848174646138382,
+        0.9328531401572521
       ],
       "jump_intensity_lambda": [
-        1.584121816263147,
-        5.355407175270112
+        9.632418224299066,
+        15.0
       ],
       "up_jump_prob_p": [
-        0.05,
-        0.6380328271938348
+        0.45301607354348744,
+        0.743508191806156
       ],
       "eta1_up_tail": [
-        1.7962120164606943,
-        13.194022643823995
+        4.724750203914653,
+        9.145469693575867
       ],
       "eta2_down_tail": [
-        1.355078582649529,
-        6.509424157436863
+        4.992307617381772,
+        9.600638017778317
       ]
+    },
+    "goodness_of_fit": {
+      "ks_statistic": 0.07289273813702257,
+      "ks_pvalue": 2.470993900058289e-10,
+      "log_likelihood": 3217.3584430069413,
+      "aic": -6422.716886013883,
+      "bic": -6388.705519365787
     }
   },
   "merton_log_normal": {
     "point_estimates": {
-      "drift_mu": -0.5318070605414608,
-      "diffusion_sigma": 0.8939710277435885,
-      "jump_intensity_lambda": 1.9989047097480832,
-      "jump_mean_mu_j": -0.26596115400470005,
-      "jump_vol_sigma_j": 0.5867501780475188
+      "drift_mu": -0.14218549560797686,
+      "diffusion_sigma": 0.8883194564202208,
+      "jump_intensity_lambda": 10.404205607476635,
+      "jump_mean_mu_j": 0.02287721441306095,
+      "jump_vol_sigma_j": 0.21288279852773936,
+      "log_likelihood": 3213.604302534598,
+      "aic": -6417.208605069196,
+      "bic": -6388.865799529117
+    },
+    "goodness_of_fit": {
+      "log_likelihood": 3213.604302534598,
+      "aic": -6417.208605069196,
+      "bic": -6388.865799529117
     }
   },
   "savax_staking_yield": {
-    "mean_staking_apr": 0.0584541763294492,
-    "std_staking_apr": 0.006419229422282146,
-    "min_staking_apr": 0.041749187088670904,
-    "max_staking_apr": 0.07513466146842004,
+    "mean_staking_apr": 0.0640186022477366,
+    "std_staking_apr": 0.009527930201753488,
+    "min_staking_apr": 0.0494933068050252,
+    "max_staking_apr": 0.0961789572241179,
     "ci_95_staking_apr": [
-      0.04708062014480488,
-      0.06981209382286731
+      0.05308271427032486,
+      0.09103796719342248
     ]
   }
 }

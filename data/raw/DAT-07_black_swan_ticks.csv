@@ -1,0 +1,5 @@
+event_name,start_date,end_date,peak_price,trough_price,max_drawdown_pct,duration_hours,jump_intensity_observed
+May 2021 Liquidation Cascade,2021-05-18,2021-05-23,39.8,14.85,-62.69,96,8.5
+June 2022 3AC Deleveraging,2022-06-08,2022-06-18,26.15,13.75,-47.42,240,6.2
+Nov 2022 FTX Insolvency,2022-11-06,2022-11-12,19.8,11.45,-42.17,144,7.8
+March 2023 USDC Depeg,2023-03-09,2023-03-14,16.4,14.1,-14.02,120,4.1
