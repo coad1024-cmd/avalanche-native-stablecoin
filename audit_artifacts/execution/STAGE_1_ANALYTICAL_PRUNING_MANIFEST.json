@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "stage": "Stage 1: Analytical Screening & Feasible Space Pruning",
+    "execution_timestamp_utc": "2026-08-31T02:56:25.169267+00:00",
+    "sample_size_initial": 100000,
+    "survivors_total": 9899,
+    "overall_pruning_rate_pct": 90.101,
+    "random_seed": 2026,
+    "empirical_staking_apr_q_bar": 0.064
+  },
+  "filter_attrition": [
+    {
+      "filter_name": "F1_Simplex_Conservation",
+      "individual_pass_count": 100000,
+      "individual_pass_pct": 100.0,
+      "cumulative_survivor_count": 100000,
+      "cumulative_survivor_pct": 100.0
+    },
+    {
+      "filter_name": "F2_Yield_Feasibility",
+      "individual_pass_count": 29728,
+      "individual_pass_pct": 29.727999999999998,
+      "cumulative_survivor_count": 29728,
+      "cumulative_survivor_pct": 29.727999999999998
+    },
+    {
+      "filter_name": "F3_Theorem_1_Solvency",
+      "individual_pass_count": 45568,
+      "individual_pass_pct": 45.568,
+      "cumulative_survivor_count": 13528,
+      "cumulative_survivor_pct": 13.528
+    },
+    {
+      "filter_name": "F4_Hurwitz_Overdamping",
+      "individual_pass_count": 100000,
+      "individual_pass_pct": 100.0,
+      "cumulative_survivor_count": 13528,
+      "cumulative_survivor_pct": 13.528
+    },
+    {
+      "filter_name": "F5_Barrier_Ordering",
+      "individual_pass_count": 44154,
+      "individual_pass_pct": 44.153999999999996,
+      "cumulative_survivor_count": 9899,
+      "cumulative_survivor_pct": 9.899
+    }
+  ],
+  "architecture_breakdown": {
+    "A0_Dual_Tranche_Reset": {
+      "initial_samples": 20109,
+      "survivors": 1856,
+      "survival_rate_pct": 9.229698145109156
+    },
+    "A1_Continuous_Amortization": {
+      "initial_samples": 19893,
+      "survivors": 2635,
+      "survival_rate_pct": 13.245865379781833
+    },
+    "A2_Solvency_Buffer": {
+      "initial_samples": 20113,
+      "survivors": 1769,
+      "survival_rate_pct": 8.795306518172326
+    },
+    "A3_Floating_Junior": {
+      "initial_samples": 20027,
+      "survivors": 1788,
+      "survival_rate_pct": 8.927947271183902
+    },
+    "A4_Zero_Controller": {
+      "initial_samples": 19858,
+      "survivors": 1851,
+      "survival_rate_pct": 9.321180380702991
+    }
+  },
+  "bounded_feasible_manifold_theta": {
+    "R": [
+      0.01010852452884195,
+      0.15383724758474188
+    ],
+    "R_prime": [
+      0.005012290865511759,
+      0.06399370314270879
+    ],
+    "H_d": [
+      0.1500090841450284,
+      0.3999800986494634
+    ],
+    "H_u": [
+      1.1014591250707157,
+      3.4972279362412144
+    ],
+    "omega_burn": [
+      3.399662014318779e-06,
+      0.9589206617567853
+    ],
+    "omega_val": [
+      5.26256229955052e-07,
+      0.9476871503868236
+    ],
+    "omega_res": [
+      8.190400606858328e-06,
+      0.9777913374754502
+    ],
+    "omega_l1": [
+      6.213427456575027e-05,
+      0.9553848872556888
+    ],
+    "K_p": [
+      0.010000442373279158,
+      0.5999035068168848
+    ],
+    "K_i": [
+      0.001001666202421807,
+      0.0999719001607282
+    ]
+  }
+}
