@@ -15,7 +15,7 @@ This report documents the **empirical calibration of continuous-time stochastic 
 
 ### Key Statistical Results
 1. **Continuous Diffusion Volatility ($\sigma$):** $\mathbf{89.15\%}$ ($95\%$ non-parametric bootstrap CI: $[84.82\%, 93.29\%]$).
-2. **Jump Process Intensity ($\lambda$):** $\mathbf{15.00\text{ jumps / year}}$ ($95\%$ bootstrap CI: $[9.63, 15.00]$).
+2. **Jump Process Intensity ($\lambda$):** $\mathbf{15.00\text{ jumps / year}}$ (*Bound-Limited / Provisional*; $95\%$ bootstrap CI: $[9.63, 15.00]$).
 3. **Double-Exponential Asymmetric Jump Tails:**
    * Upward Jump Probability: $p = \mathbf{59.55\%}$
    * Mean Upward Jump Size: $\mathbf{+13.04\%}$ ($\eta_1 = 7.671$)
@@ -42,22 +42,15 @@ All raw data feeds are ingested into `data/raw/` with verified SHA-256 cryptogra
 
 $$\frac{dS_t}{S_{t^-}} = \mu \, dt + \sigma \, dW_t + d\left(\sum_{i=1}^{N_t} (e^{Y_i} - 1)\right), \quad Y_i \sim p \eta_1 e^{-\eta_1 y} \mathbf{1}_{y \ge 0} + (1-p) \eta_2 e^{\eta_2 y} \mathbf{1}_{y < 0}$$
 
-| Parameter | Symbol | MLE Point Estimate | 95% Bootstrap Credible Interval | Economic & Mechanism Interpretation |
+| Parameter | Symbol | MLE Point Estimate | 95% Bootstrap Confidence Interval | Classification & Mechanism Interpretation |
 | :--- | :---: | :---: | :---: | :--- |
-| **Diffusion Volatility** | $\sigma$ | **$89.15\%$** | $[84.82\%, 93.29\%]$ | Baseline continuous Brownian Wiener motion volatility |
-| **Jump Intensity** | $\lambda$ | **$15.00\text{ / yr}$** | $[9.63, 15.00]$ | Average discrete Poisson jump arrival rate |
-| **Up-Jump Probability** | $p$ | **$59.55\%$** | $[45.30\%, 74.35\%]$ | Probability that a discrete jump is positive |
+| **Diffusion Volatility** | $\sigma$ | **$89.15\%$** | $[84.82\%, 93.29\%]$ | Unrestricted Empirical Estimate |
+| **Jump Intensity** | $\lambda$ | **$15.00\text{ / yr}$** | $[9.63, 15.00]$ | **Bound-Limited / Provisional** (optimizer upper bound $[0.1, 15.0]$) |
+| **Up-Jump Probability** | $p$ | **$59.55\%$** | $[45.30\%, 74.35\%]$ | Unrestricted Empirical Estimate |
 | **Upward Jump Decay** | $\eta_1$ | **$7.671$** | $[4.725, 9.145]$ | Expected upward jump amplitude $= +13.04\%$ |
 | **Downward Jump Decay** | $\eta_2$ | **$7.801$** | $[4.992, 9.601]$ | Expected downward jump amplitude $= -12.82\%$ |
-| **Continuous Drift** | $\mu$ | **$-34.02\%$** | $[-45.10\%, -21.40\%]$ | Risk-neutral drift compensator under historical measure |
+| **Continuous Drift** | $\mu$ | **$-34.02\%$** | $[-45.10\%, -21.40\%]$ | Historical drift under empirical measure |
 | **Staking APR Mean** | $\bar{q}$ | **$6.40\%$** | $[5.31\%, 9.10\%]$ | Baseline annual staking reward yield for sAVAX |
 
----
-
-## 4. Impact on Downstream Research Phases
-
-1. **Phase 4 (PIDE Solver):** Ingesting real $\lambda = 15.00$ and $\eta_2 = 7.801$ updates the Banach contraction modulus to:
-   $$\rho = \frac{1/\tau_{\text{reset}}}{r + \lambda_j + 1/\tau_{\text{reset}}} = \frac{1.0}{0.05 + 15.00 + 1.0} = \mathbf{0.0623} \ll 1.0$$
-   proving strict contractive convergence is preserved.
-2. **Phase 5 (GSA Sobol Decomposition):** Replacing synthetic noise with empirical distributions enables true variance decomposition.
-3. **Phase 6 & 10 (Architecture Search & Pareto Optimization):** Grounds the objective functions across empirical market dynamics.
+> [!NOTE]
+> **Epistemic Classification for $\lambda$:** Because the point estimate $\lambda = 15.00$ equals the MLE parameter search upper bound ($[0.1, 15.0]$), it is formally designated as `BOUND-LIMITED / PROVISIONAL`. Downstream Stage 2 screening retains this admitted upper value as a conservative stress bound on jump frequency.

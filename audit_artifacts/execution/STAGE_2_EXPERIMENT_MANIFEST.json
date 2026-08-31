@@ -1,0 +1,110 @@
+{
+  "experiment_id": "EXP-STAGE-02-ARCHITECTURE-POLICY-SCREENING-01",
+  "snapshot_id": "SNAP-2026-08-31-02",
+  "research_plan_version": "BCRG-DESIGN-DISCOVERY-LADDER-01-STAGE-02",
+  "model_version": "Kou-SDE-CPMM-v2.1",
+  "code_commit": "b85c5f0756cbad1a500a53bdbbd394f81503bf3f",
+  "data_version": "AVAX-USDT-2020-2026-DAT-01-to-07",
+  "parameter_set_version": "PARAM-SET-KOU-EMPIRICAL-2026.08",
+  "timestamp_utc": "2026-08-31T06:30:26.413707+00:00",
+  "input_population_dataset": "STAGE_1_CORRECTED_SURVIVORS.parquet",
+  "input_population_dataset_sha256": "3d9ebe70ef522223edf0d115e9c0505b78ef9ceea57e5c40e22892a22bd13319",
+  "input_population_size": 64052,
+  "evaluated_configurations": 1600,
+  "candidate_allocation_methodology": "Option A (2D Stratified Cell Allocation: 40 configurations per [arch, policy] cell = 200 / architecture = 1,600 total)",
+  "architectures_evaluated": [
+    "A0_Dual_Tranche_Reset",
+    "A1_Continuous_Amortization",
+    "A2_Solvency_Buffer",
+    "A3_Floating_Junior",
+    "A4_Zero_Controller",
+    "A5_1_Convertible_Debt",
+    "A5_2_Protocol_Owned_AMM",
+    "A5_3_Multi_LST_Basket"
+  ],
+  "policies_evaluated": [
+    "POL-01_Static_Split",
+    "POL-02_Countercyclical_Feedback",
+    "POL-03_Reserve_Priority",
+    "POL-04_Burn_Maximizer",
+    "POL-05_State_Softmax"
+  ],
+  "stochastic_environment": {
+    "engine": "Kou (2002) Asymmetric Double-Exponential Jump-Diffusion",
+    "sigma": 0.8915,
+    "lambda_j": 15.0,
+    "lambda_status": "BOUND-LIMITED / PROVISIONAL",
+    "p_up": 0.5955,
+    "eta1": 7.671,
+    "eta2": 7.801,
+    "mu": -0.3402,
+    "q_bar": 0.064,
+    "dt": 0.0027397260273972603,
+    "crn_seed": 2026
+  },
+  "simulation_parameters": {
+    "mc_paths_per_candidate": 500,
+    "time_horizon_days": 365,
+    "random_seed": 2026,
+    "runtime_seconds": 1303.11,
+    "speed_configs_per_sec": 1.23,
+    "worker_processes": 8
+  },
+  "screening_gates": {
+    "max_peg_rmse": 0.05,
+    "max_annual_resets": 5.0,
+    "min_validator_cr": 0.8,
+    "min_solvency_survival": 0.99
+  },
+  "screening_results_summary": {
+    "retained_architectures": [
+      "A2_Solvency_Buffer",
+      "A5_3_Multi_LST_Basket",
+      "A5_2_Protocol_Owned_AMM"
+    ],
+    "dominated_architectures": [
+      "A0_Dual_Tranche_Reset",
+      "A1_Continuous_Amortization",
+      "A3_Floating_Junior",
+      "A4_Zero_Controller",
+      "A5_1_Convertible_Debt"
+    ],
+    "retained_policies": [
+      "POL-02_Countercyclical_Feedback",
+      "POL-03_Reserve_Priority",
+      "POL-05_State_Softmax"
+    ],
+    "inconclusive_policies": [
+      "POL-01_Static_Split"
+    ],
+    "dominated_policies": [
+      "POL-04_Burn_Maximizer"
+    ]
+  },
+  "deliverables": [
+    {
+      "file": "audit_artifacts/execution/STAGE_2_RESULTS.parquet",
+      "sha256": "653890da46dc822e87fda27b7a5e750b68bb54a027dd4864c1addf757211d24f"
+    },
+    {
+      "file": "audit_artifacts/execution/STAGE_2_EXPERIMENT_MANIFEST.json",
+      "description": "This manifest"
+    },
+    {
+      "file": "audit_artifacts/reports/STAGE_2_ARCHITECTURE_SCREENING.md",
+      "description": "Stage 2 Architecture Screening Report"
+    },
+    {
+      "file": "audit_artifacts/reports/ARCHITECTURE_COMPARISON.md",
+      "description": "Comparative Architecture Down-Selection Report"
+    },
+    {
+      "file": "audit_artifacts/reports/REDISTRIBUTION_POLICY_SCREENING.md",
+      "description": "Endogenous Redistribution Policy Screening Report"
+    },
+    {
+      "file": "audit_artifacts/reports/SCREENING_STATISTICS.md",
+      "description": "Statistical Diagnostics & Distribution Report"
+    }
+  ]
+}

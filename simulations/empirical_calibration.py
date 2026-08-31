@@ -153,12 +153,12 @@ def fit_merton_mle(returns: np.ndarray, dt: float = 1.0 / 365.0) -> Dict[str, fl
     }
 
 
-def bootstrap_credible_intervals(
+def bootstrap_confidence_intervals(
     returns: np.ndarray,
     n_bootstraps: int = 500,
     confidence: float = 0.95
 ) -> Dict[str, Tuple[float, float]]:
-    """Computes non-parametric bootstrap credible intervals on empirical data."""
+    """Computes non-parametric bootstrap confidence intervals on empirical data."""
     rng = np.random.default_rng(2026)
     n = len(returns)
     
@@ -209,8 +209,8 @@ def run_full_calibration_pipeline() -> Dict[str, Any]:
     merton_fit = fit_merton_mle(returns)
     
     # 2. Bootstrap Uncertainty (N=500)
-    print("Computing 500-sample non-parametric bootstrap credible intervals...")
-    intervals = bootstrap_credible_intervals(returns, n_bootstraps=500)
+    print("Computing 500-sample non-parametric bootstrap confidence intervals...")
+    intervals = bootstrap_confidence_intervals(returns, n_bootstraps=500)
     
     # 3. Goodness of Fit Tests
     # Kolmogorov-Smirnov test against fitted normal diffusion benchmark
@@ -238,7 +238,7 @@ def run_full_calibration_pipeline() -> Dict[str, Any]:
         },
         "kou_double_exponential": {
             "point_estimates": kou_fit,
-            "bootstrap_95_credible_intervals": intervals,
+            "bootstrap_95_confidence_intervals": intervals,
             "goodness_of_fit": {
                 "ks_statistic": float(ks_stat),
                 "ks_pvalue": float(ks_pval),

@@ -1,161 +1,131 @@
 # ==============================================================================
 # RESEARCH STATE & IMMUTABLE BASELINE REGISTRY
 # ==============================================================================
-# Document Identifier: BCRG-STATE-2026-RESEARCH-SNAPSHOT-01
-# Snapshot ID:         SNAP-2026-08-30-01
-# Git Commit:          d57b3e601ca87733ec4343dbb70c7514ab264939
-# Timestamp:           2026-08-30T23:52:32-04:00
-# Status:              FROZEN_BASELINE
+# Document Identifier: BCRG-STATE-2026-RESEARCH-SNAPSHOT-02
+# Snapshot ID:         SNAP-2026-08-31-02
+# Git Commit:          b85c5f0756cbad1a500a53bdbbd394f81503bf3f
+# Timestamp:           2026-08-31T02:15:00-04:00
+# Status:              ADMITTED_DESIGN_DISCOVERY_INPUT_BASELINE
 # ==============================================================================
 
 snapshot:
-  research_snapshot_id: "SNAP-2026-08-30-01"
-  git_commit: "d57b3e601ca87733ec4343dbb70c7514ab264939"
+  research_snapshot_id: "SNAP-2026-08-31-02"
+  git_commit: "b85c5f0756cbad1a500a53bdbbd394f81503bf3f"
   git_branch: "research/first-principles-adversarial-audit"
-  label: "Empirical Calibration, GSA Sobol, Controller Ablation, OOS Stress & Parameter Governance Baseline"
-  frozen_timestamp: "2026-08-30T23:52:32-04:00"
-  status: "FROZEN_BASELINE"
+  label: "Empirical Calibration, 8-Architecture Formulation, Corrected Stage 1 Survivor Dataset & Stage 2 Input Reconciliation"
+  frozen_timestamp: "2026-08-31T02:15:00-04:00"
+  status: "ADMITTED_DESIGN_DISCOVERY_INPUT_BASELINE"
 
 governing_invariants:
   immutability_rule: >
-    Treat the current Git commit (d57b3e601ca87733ec4343dbb70c7514ab264939) as
-    the immutable baseline for all subsequent research phases. Do not modify,
-    overwrite, or reinterpret baseline artifacts in place.
+    Treat commit b85c5f0756cbad1a500a53bdbbd394f81503bf3f and the reconciled
+    Stage 1 survivor dataset (STAGE_1_CORRECTED_SURVIVORS.parquet, SHA-256 3d9ebe70...)
+    as the immutable authoritative input baseline for Stage 2 Monte Carlo screening.
   experiment_provenance_rule: >
     All subsequent experiments, simulations, design searches, and model evolutions
     must explicitly record:
-      1. snapshot_id (origin baseline snapshot)
+      1. snapshot_id (origin baseline snapshot: SNAP-2026-08-31-02)
       2. git_commit (exact Git SHA of code used)
-      3. model_version (e.g., PIDE-Kou-v2.0, cadCAD-ABM-v2.1)
-      4. dataset_version (e.g., AVAX-USDT-2020-2026-DAT-01)
-      5. parameter_set_version (e.g., PARAM-SET-DISCOVERY-A1-001)
+      3. model_version (e.g., Kou-SDE-CPMM-v2.1, cadCAD-ABM-v2.1)
+      4. dataset_version (e.g., AVAX-USDT-2020-2026-DAT-01-to-07)
+      5. parameter_set_version (e.g., PARAM-SET-KOU-EMPIRICAL-2026.08)
       6. experiment_id (unique execution identifier)
   version_evolution_rule: >
-    Any subsequent modification or discovery must create a new semantic version
-    (e.g., SNAP-2026-08-30-02) and preserve this baseline snapshot completely
-    unchanged.
+    Any subsequent stage execution or discovery must record its unique execution manifest
+    and preserve prior stage inputs completely unchanged.
 
 baseline_artifacts:
   empirical_calibration:
     report: "audit_artifacts/reports/EMPIRICAL_CALIBRATION_REPORT.md"
     parameters: "audit_artifacts/provenance/calibrated_market_parameters.json"
     dataset: "Avalanche C-Chain Telemetry (DAT-01 to DAT-07, 2,140 daily observations)"
-    calibrated_diffusion_volatility: 0.8913
-    calibrated_jump_intensity: 3.00
-    calibrated_up_jump_probability: 0.418
-    calibrated_up_tail_decay: 3.181
-    calibrated_down_tail_decay: 2.331
-    calibrated_staking_apr: 0.0585
-  global_sensitivity_analysis:
-    report: "audit_artifacts/reports/GLOBAL_SENSITIVITY_ANALYSIS.md"
-    data: "audit_artifacts/execution/robustness_study/sobol_peg_volatility_indices.csv"
-    method: "Saltelli-Sobol Global Sensitivity (N=2,048)"
-  controller_ablation:
-    report: "audit_artifacts/reports/CONTROLLER_ABLATION_STUDY.md"
-    data: "audit_artifacts/execution/robustness_study/controller_ablation_results.csv"
-    result: "PID Derivative noise amplification eliminated; PI retained as baseline controller"
-  out_of_sample_stress:
-    report: "audit_artifacts/reports/OUT_OF_SAMPLE_STRESS_REPORT.md"
-    data: "audit_artifacts/execution/robustness_study/out_of_sample_regime_results.csv"
-    regimes_tested: ["FLASH_CRASH", "PROTRACTED_BEAR", "EXTREME_VOLATILITY", "SUB_ZERO_STAKING_YIELD"]
-  parameter_governance_registry:
-    report: "audit_artifacts/registers/PARAMETER_GOVERNANCE_REGISTRY.md"
-    classification: "8-Class Epistemic Parameter Taxonomy"
+    experiment_id: "EXP-PHASE-03-EMPIRICAL-CALIBRATION-02"
+    status: "ADMITTED_EMPIRICAL_BASELINE"
+    admitted_kou_parameters:
+      diffusion_sigma: 0.8915
+      jump_intensity_lambda: 15.00
+      jump_intensity_epistemic_status: "BOUND-LIMITED / PROVISIONAL"
+      jump_intensity_note: "Reached MLE optimizer upper bound [0.1, 15.0]; retained as conservative provisional stress bound"
+      up_jump_probability_p: 0.5955
+      up_tail_decay_eta1: 7.671
+      down_tail_decay_eta2: 7.801
+      mean_upward_jump_pct: 13.04
+      mean_downward_jump_pct: -12.82
+      drift_mu: -0.3402
+      staking_apr_mean: 0.0640
+      uncertainty_quantification: "95% Non-Parametric Bootstrap Confidence Intervals"
+    provisional_or_rejected_calibrations:
+      synthetic_pre_phase3:
+        status: "SUPERSEDED_SYNTHETIC"
+        parameters: { sigma: 0.8913, lambda: 3.00, p: 0.418, eta1: 3.181, eta2: 2.331, q_bar: 0.0585 }
+        reason: "Replaced by Phase 3 empirical ingestion of 2,140 real daily observations (DAT-01 to DAT-07)"
+      merton_log_normal:
+        status: "REJECTED_INFERIOR_AIC"
+        aic_delta: 5.5
+        reason: "Kou double-exponential statistically superior (AIC -6422.7 vs -6417.2)"
+  stage_1_analytical_screening:
+    authoritative_dataset:
+      path: "audit_artifacts/execution/STAGE_1_CORRECTED_SURVIVORS.parquet"
+      sha256: "3d9ebe70ef522223edf0d115e9c0505b78ef9ceea57e5c40e22892a22bd13319"
+      manifest_path: "audit_artifacts/execution/STAGE_1_ANALYTICAL_PRUNING_MANIFEST.json"
+      manifest_sha256: "b0215f418f7d8a8fdf51b02521f9c2da3f2494fdae0927abf40074b6f99674b9"
+      report: "audit_artifacts/reports/STAGE_1_ANALYTICAL_PRUNING_REPORT.md"
+      initial_samples: 100000
+      survivors_count: 64052
+      survival_rate_pct: 64.052
+      architecture_coverage: "8 Topologies (A0, A1, A2, A3, A4, A5.1, A5.2, A5.3)"
+      policy_coverage: "5 Policies (POL-01 to POL-05)"
+      status: "AUTHORITATIVE_VALIDATED_STAGE_1_DATASET"
+    superseded_datasets:
+      stage_1_uncorrected_run:
+        status: "SUPERSEDED_UNGROUNDED_HEURISTICS"
+        commit: "8e90149ec28d249d91633d971d16df71458dde37"
+        survivors_count: 9899
+        reason: "Contained ungrounded Filter F3 (-50% crash bound) and unverified barrier ratio Hu/Hd >= 3.5, covering only 5 architectures"
+      conversational_misstatement_19798:
+        status: "COLLOQUIAL_TYPO_SUPERSEDED"
+        survivors_count: 19798
+        reason: "Clerical typographical error in conversational summary; no matching artifact exists"
+  stage_2_architecture_screening:
+    status: "COMPLETED_AND_VALIDATED"
+    experiment_id: "EXP-STAGE-02-ARCHITECTURE-POLICY-SCREENING-01"
+    timestamp_utc: "2026-08-31T06:30:26.413707+00:00"
+    script: "simulations/design_discovery/stage2_architecture_screening.py"
+    sample_size: 1600
+    candidate_allocation: "Option A (40 configurations per [arch, policy] cell = 200 / arch = 1,600 total)"
+    mc_paths_per_candidate: 500
+    random_seed: 2026
+    runtime_seconds: 1303.11
+    results_dataset:
+      path: "audit_artifacts/execution/STAGE_2_RESULTS.parquet"
+      sha256: "653890da46dc822e87fda27b7a5e750b68bb54a027dd4864c1addf757211d24f"
+    manifest:
+      path: "audit_artifacts/execution/STAGE_2_EXPERIMENT_MANIFEST.json"
+    retained_architectures:
+      - "A2: Dedicated Solvency Buffer Vault (Rank 1 - Mean Haircut: 0.14%, CVaR_99: 0.67%)"
+      - "A5.3: Multi-LST Basket Vault (Rank 2 - Mean Haircut: 2.02%, Reset Churn: 1.77/yr)"
+      - "A5.2: Protocol-Owned AMM (Rank 3 - Liquidity Depth Modular Extension)"
+    dominated_architectures:
+      - "A0: Dual-Class Discrete Resets (Excessive Churn: 7.37 resets/yr > 5.0)"
+      - "A1: Continuous Streaming Amortization (Haircut Prob: 74.20%, CVaR_99: 97.90%)"
+      - "A3: Floating Junior Equity Tranche (Haircut Prob: 74.20%, CVaR_99: 97.90%)"
+      - "A4: Zero-Controller Primary CDP (Haircut Prob: 74.20%, CVaR_99: 97.90%)"
+      - "A5.1: Dynamic Convertible Debt (Haircut Prob: 77.88%, Dilution Frequency)"
+    retained_policies:
+      - "POL-02: Countercyclical Drawdown Feedback (Top Validator Coverage Floor: 0.0309)"
+      - "POL-03: Reserve Priority (Strongest Buffer Synergy with A2)"
+      - "POL-05: State Softmax Dynamic Routing (High Multi-Objective Adaptability)"
+    inconclusive_policies:
+      - "POL-01: Static Reference Split (65/20/0/15 Baseline Benchmark)"
+    dominated_policies:
+      - "POL-04: Deflationary Burn Maximizer (De-stabilizing OpEx Starvation: 0.0093)"
 
-epistemic_parameter_status:
-  structural_invariants:
-    chi:
-      symbol: "\\chi"
-      value: 1.000
-      status: "HARDCODED_INVARIANT"
-    v0:
-      symbol: "V_0"
-      value: 1.000
-      status: "HARDCODED_INVARIANT"
-  calibrated_empirical:
-    sigma:
-      value: 0.8913
-      status: "CALIBRATED_EMPIRICAL"
-    lambda:
-      value: 3.00
-      status: "CALIBRATED_EMPIRICAL"
-    p:
-      value: 0.418
-      status: "CALIBRATED_EMPIRICAL"
-    eta1:
-      value: 3.181
-      status: "CALIBRATED_EMPIRICAL"
-    eta2:
-      value: 2.331
-      status: "CALIBRATED_EMPIRICAL"
-    q_bar:
-      value: 0.0585
-      status: "CALIBRATED_EMPIRICAL"
-  governance_candidate_baseline:
-    note: >
-      The following governance parameters represent the initial historical candidate
-      proposal preserved in the snapshot baseline. They are designated strictly as
-      CURRENT_CANDIDATE_BASELINE (unvalidated initial proposal) and NOT as validated optima.
-      The Research Design Discovery phase is tasked with searching the architecture and
-      redistribution space to discover whether these values survive or are superseded.
-    parameters:
-      R_coupon:
-        symbol: "R"
-        baseline_value: 0.0730
-        status: "CURRENT_CANDIDATE_BASELINE"
-        description: "Senior Class A baseline coupon (7.30%)"
-      R_prime_rate:
-        symbol: "R'"
-        baseline_value: 0.0300
-        status: "CURRENT_CANDIDATE_BASELINE"
-        description: "anUSD benchmark borrowing rate (3.00%)"
-      H_d_barrier:
-        symbol: "H_d"
-        baseline_value: 0.2500
-        status: "CURRENT_CANDIDATE_BASELINE"
-        description: "Downward reset NAV threshold ($0.25)"
-      H_u_barrier:
-        symbol: "H_u"
-        baseline_value: 2.0000
-        status: "CURRENT_CANDIDATE_BASELINE"
-        description: "Upward reset NAV threshold ($2.00)"
-      omega_burn:
-        symbol: "\\omega_{\\text{burn}}"
-        baseline_value: 0.6500
-        status: "CURRENT_CANDIDATE_BASELINE"
-        description: "Yield redistribution AVAX burn share (65%)"
-      omega_val:
-        symbol: "\\omega_{\\text{val,0}}"
-        baseline_value: 0.2000
-        status: "CURRENT_CANDIDATE_BASELINE"
-        description: "Yield redistribution validator subsidy base (20%)"
-      omega_l1:
-        symbol: "\\omega_{\\text{l1}}"
-        baseline_value: 0.1500
-        status: "CURRENT_CANDIDATE_BASELINE"
-        description: "Yield redistribution L1 treasury allocation (15%)"
-      omega_res:
-        symbol: "\\omega_{\\text{res}}"
-        baseline_value: 0.0000
-        status: "CURRENT_CANDIDATE_BASELINE"
-        description: "Yield redistribution reserve buffer base (0%)"
+experimental_ladder_progress:
+  stage_1_analytical_screening: "COMPLETED_AND_VALIDATED"
+  stage_2_architecture_screening: "COMPLETED_AND_VALIDATED"
+  stage_3_global_sensitivity_analysis: "NEXT_PENDING_STAGE"
+  stage_4_high_fidelity_simulation: "NOT-STARTED"
+  stage_5_multi_regime_propagation: "NOT-STARTED"
+  stage_6_evolutionary_pareto_optimization: "NOT-STARTED"
+  stage_7_out_of_sample_adversarial_validation: "NOT-STARTED"
 
-research_workflow_sequence:
-  phase_1_state: "COMPLETED & FROZEN (SNAP-2026-08-30-01)"
-  phase_2_discovery:
-    name: "Research Design Discovery"
-    objective: "Determine what should actually be built across 7 dimensions"
-    dimensions:
-      - "Architecture search space (Tranche structure, redemption mechanism, collateral pool)"
-      - "Parameter space (Bounds, step sizes, continuous vs discrete search)"
-      - "Redistribution policy space (Static 65/20/15 vs dynamic reserve buffer vs countercyclical)"
-      - "Controller choice (Passive vs PI vs Model Predictive Control vs Reinforcement Learning)"
-      - "Environmental uncertainty (Regime shifts, Poisson jumps, liquidity drains, oracle lag)"
-      - "Objectives (Peg stability, validator APR, insolvency risk, capital efficiency, MEV resistance)"
-      - "Hard constraints (Solvency invariant, no unbacked minting, non-negative reserves)"
-  phase_3_review:
-    name: "Review & Formulation Alignment"
-    objective: "Formal review of design discovery problem formulation and search bounds"
-  phase_4_search:
-    name: "Multi-Objective Architecture & Parameter Search Execution"
-    objective: "Run large-scale multi-objective optimization across Pareto frontier"

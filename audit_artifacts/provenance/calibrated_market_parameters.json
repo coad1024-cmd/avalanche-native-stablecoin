@@ -18,6 +18,7 @@
       "drift_mu": -0.3401678860346582,
       "diffusion_sigma": 0.8914680580113712,
       "jump_intensity_lambda": 15.0,
+      "jump_intensity_status": "BOUND-LIMITED / PROVISIONAL",
       "up_jump_prob_p": 0.5954848828997419,
       "eta1_up_tail": 7.671370597383784,
       "eta2_down_tail": 7.801069780903634,
@@ -27,7 +28,7 @@
       "aic": -6422.716886013883,
       "bic": -6388.705519365787
     },
-    "bootstrap_95_credible_intervals": {
+    "bootstrap_95_confidence_intervals": {
       "diffusion_sigma": [
         0.848174646138382,
         0.9328531401572521
