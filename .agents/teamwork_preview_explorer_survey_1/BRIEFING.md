@@ -1,7 +1,7 @@
-# BRIEFING — 2026-08-30T22:44:30Z
+# BRIEFING — 2026-08-31T07:15:45Z
 
 ## Mission
-Conduct a deep survey of all calibrated market parameters, empirical distributions, multi-regime dynamics (Kou SDE), liquidity depth, validator economics, and formalize the environmental uncertainty spaces for R5/R6 problem formulation.
+Survey and map all theoretical specifications, experimental ladder definitions, screening gates, KPI definitions, objective directions, candidate sets, claimed rankings, Pareto dominance claims, and Stage 1 inputs for the adversarial validation audit of Stage 2 Architecture & Redistribution Policy Screening.
 
 ## 🔒 My Identity
 - Archetype: explorer
@@ -9,34 +9,42 @@ Conduct a deep survey of all calibrated market parameters, empirical distributio
 - Working directory: /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_explorer_survey_1
 - Original parent: f39dde6c-84ef-4071-9c17-384912d614b6
 - Milestone: Discovery & Problem Formulation Survey (Phase 1 / Survey 1)
+- New Roles (2026-08-31): Survey Explorer 1, Specification & Manifest Mapping Specialist, Adversarial Validation Auditor
+- Current Parent: eeb3e555-14df-4048-8fe7-f84199bcfa38
+- Active Milestone: Stage 2 Adversarial Validation Audit (Requirements R1-R6 Survey)
 
 ## 🔒 Key Constraints
 - Read-only investigation — do NOT implement or modify production code.
 - Write only to our own agent folder `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_explorer_survey_1/`.
 - Provide exact numerical parameters, empirical confidence/credible intervals, formal mathematical definitions, and complete provenance citations.
+- DO NOT run Stage 3 GSA.
+- DO NOT run NSGA-II or multi-objective parameter optimization.
+- DO NOT redesign protocol mechanisms or alter canonical economic model equations.
+- DO NOT silently modify historical Stage 2 outputs (`STAGE_2_RESULTS.parquet`, `STAGE_2_EXPERIMENT_MANIFEST.json`).
+- SOURCE-CRITICALITY RULE: Treat all prior reports, claims registers, manifests, and classifications as audit targets rather than established truth.
+- STOP RULE: Terminate immediately upon generating the validation report, logging provenance, and updating research state.
 
 ## Current Parent
-- Conversation ID: f39dde6c-84ef-4071-9c17-384912d614b6
-- Updated: 2026-08-30T22:44:30Z
+- Conversation ID: eeb3e555-14df-4048-8fe7-f84199bcfa38
+- Updated: 2026-08-31T07:15:45Z
 
 ## Investigation State
-- **Explored paths**: `audit_artifacts/provenance/calibrated_market_parameters.json`, `data/raw/` (DAT-01, DAT-02, DAT-03, DAT-07), `simulations/empirical_calibration.py`, `simulations/robustness_study/market_regimes.py`, `simulations/robustness_study/parameter_registry.py`, `simulations/robustness_study/adversarial_stress_testing.py`, `simulations/robustness_study/controller_isolation.py`, `simulations/canonical_accounting.py`, `simulations/cadcad_core/params.py`, `audit_artifacts/reports/EMPIRICAL_CALIBRATION_REPORT.md`, `audit_artifacts/reports/RESEARCH_PROGRAM_RECONCILIATION.md`, `audit_artifacts/reports/ADVERSARIAL_PARAMETER_IDENTIFICATION_AND_ROBUSTNESS_STUDY.md`, `audit_artifacts/reports/OUT_OF_SAMPLE_STRESS_REPORT.md`.
+- **Explored paths**: `audit_artifacts/design_discovery/EXPERIMENTAL_LADDER.md`, `audit_artifacts/design_discovery/DECISION_FRAMEWORK.md`, `audit_artifacts/design_discovery/OBJECTIVES_AND_CONSTRAINTS.md`, `audit_artifacts/execution/STAGE_1_ANALYTICAL_PRUNING_MANIFEST.json`, `audit_artifacts/execution/STAGE_1_CORRECTED_SURVIVORS.parquet`, `audit_artifacts/execution/STAGE_2_EXPERIMENT_MANIFEST.json`, `audit_artifacts/execution/STAGE_2_RESULTS.parquet`, `audit_artifacts/reports/STAGE_2_ARCHITECTURE_SCREENING.md`, `audit_artifacts/reports/ARCHITECTURE_COMPARISON.md`, `audit_artifacts/reports/REDISTRIBUTION_POLICY_SCREENING.md`, `audit_artifacts/reports/SCREENING_STATISTICS.md`, `simulations/design_discovery/stage1_analytical_screening.py`, `simulations/design_discovery/stage2_architecture_screening.py`.
 - **Key findings**:
-  - Calibrated Kou double exponential SDE: $\sigma = 89.15\%$, $\lambda = 15.00$, $p = 59.55\%$, $\eta_1 = 7.671$, $\eta_2 = 7.801$, $\mu = -34.02\%$, $\bar{q}_{\text{savax}} = 6.40\%$.
-  - 11 multi-regime parameterizations extracted and formalized.
-  - AMM plant transfer function and slippage profiles extracted ($K_{\text{amm}} \approx 1/L$).
-  - Validator economics and countercyclical subsidy dynamics mapped ($N=1450$ nodes, $\$350/\text{mo}$ OpEx, $\kappa_{\text{dd}} = 0.35$).
-  - Theorem 1 single-step crash zero-haircut bounds verified: $-60.00\%$ from barrier $H_d=0.25$, $-75.00\%$ from par $S=1.00$.
-  - Formalized $\mathcal{U}_{\text{emp}}$, $\mathcal{U}_{\text{stress}}$, and $\mathcal{U}_{\text{gov}}$ uncertainty tensors for R5/R6.
-- **Unexplored areas**: None for empirical calibration survey scope. Ready for handoff.
+  - Fully mapped all 8 structural architectures ($A_0–A_{5.3}$), 5 redistribution policies ($\text{POL-01}–\text{POL-05}$), 40 configurations per cell ($1,600$ total), 4 screening gates, and 8 optimization objectives.
+  - Reconciled mathematical Pareto dominance vs Screening Gate failures: $A_0$ was rejected for failing Gate 2 ($f_{\text{reset}} = 7.37 > 5.0/\text{yr}$), not strict Pareto dominance across all 6 unconstrained objectives.
+  - Reconciled POL-04: is a non-dominated Pareto frontier extreme point (maximal AVAX burn $1.155\text{M}$) rejected due to Tier 3 validator OpEx safety constraints.
+  - Verified genuine Common Random Numbers (CRN) stream isolation ($N=500$ Kou SDE jump paths, seed $2026$).
+  - Identified root cause for identical metrics across $A_1, A_3, A_4$ ($74.20\%$ haircut prob on $\min_t S_t < 0.50$ paths).
+- **Unexplored areas**: None for Survey Explorer 1 scope. Hard handoff report and survey specs report delivered.
 
 ## Key Decisions Made
-- Selected Kou (2002) double-exponential jump-diffusion over Merton due to empirical $\Delta\text{AIC} = -5.51$ advantage and analytical PIDE closed-form tractability.
-- Recommended pure PI controller ($K_d \equiv 0.000$) to eliminate discrete oracle quantization noise.
-- Documented model-free $-60.00\%$ crash boundary from reset barrier $H_d = 0.25$.
+- Completed full 1,600-cell inventory mapping and verified dataset balance.
+- Published publication-grade inventory to `survey_specs.md` and self-contained 5-component `handoff.md`.
 
 ## Artifact Index
 - `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_explorer_survey_1/DISPATCH.md` — Incoming dispatch log
 - `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_explorer_survey_1/BRIEFING.md` — Agent state and memory
 - `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_explorer_survey_1/progress.md` — Liveness heartbeat and progress tracking
-- `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_explorer_survey_1/handoff.md` — Comprehensive 5-component empirical survey and uncertainty handoff report
+- `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_explorer_survey_1/survey_specs.md` — Comprehensive structured specification & manifest inventory report
+- `/home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_explorer_survey_1/handoff.md` — 5-component handoff report

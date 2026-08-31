@@ -1,32 +1,23 @@
-# Progress Log
+# Progress Tracking — Stage 2 Adversarial Validation Audit
 
 ## Current Status
-Last visited: 2026-08-31T04:21:30Z
-- [x] Initialized Project Orchestrator state (DISPATCH.md, BRIEFING.md, progress.md)
-- [x] Schedule heartbeat cron (task-22)
-- [x] Dispatched 3 Survey Explorers in parallel (all 3 complete and verified)
-- [x] Updated master PROJECT.md with 11-Deliverable Feature Inventory and Milestones
-- [x] Dispatched 2 Reviewers, 2 Challengers, and 1 Forensic Auditor
-- [x] Received Reviewer 1 report (APPROVE verdict on R1-R6)
-- [x] Received Reviewer 2 report (APPROVE verdict on R7-R11)
-- [x] Received Challenger 1 report (APPROVE verdict on Theorems 1-2, Routh-Hurwitz, Lyapunov, Kd=0, 15/15 Foundry tests)
-- [x] Received Challenger 2 report (APPROVE verdict on Kou MLE AIC, Stage 1 screening, MCDA ranking)
-- [x] Received Forensic Auditor report (CLEAN verdict, 8/8 checks passed, zero fabrication, machine precision balance sheet closure)
-- [x] Evaluated Gate Status in GATE_STATUS.md (Gate Result: PASS)
-- [x] Updated PROJECT.md marking Milestones M1-M5 as DONE
-- [x] Written comprehensive Master Orchestrator Handoff Report (handoff.md)
-- [x] Final multi-disciplinary synthesis and human reporting
+Last visited: 2026-08-31T08:20:00Z
+Current Phase: Phase 2 (Replacement Worker for Milestone M2)
 
 ## Iteration Status
-Current iteration: 1 / 32
+Current iteration: 3 / 32
+
+## Checklist
+- [x] Initialized orchestration environment, BRIEFING.md, DISPATCH.md, progress.md
+- [x] Phase 0: Survey full scope, canonical specifications, datasets, and scripts
+- [x] Phase 1: Milestone 1 - Reconstruct Experiment Specification & Reconcile Discrepancies (R1) — [PASSED & APPROVED]
+- [ ] Phase 2: Milestone 2 - Verify 1,600-Configuration Dataset Integrity & Genuine CRN Implementation (R2) — [IN-PROGRESS by worker_m2_gen2]
+- [x] Phase 3: Milestone 3 - End-to-End KPI Calculation & Objective Direction Audit (R3) — [PASSED & DELIVERED]
+- [x] Phase 4: Milestone 4 - Audit Architecture (A0–A5.3) & Policy (POL-01–POL-05) Classifications (R4) — [PASSED & DELIVERED]
+- [x] Phase 5: Milestone 5 - Sampling Error, Stage-1 Selection Bias, & Lambda Provisionality (R5) — [PASSED & DELIVERED]
+- [ ] Phase 6: Milestone 6 - Deliver Formal Adversarial Validation Report & Update Provenance (R6) — [PLANNED]
 
 ## Retrospective Notes
-- **What Worked:**
-  - Parallel specialist survey and independent dual-track review + code-executing challenge testing ensured complete coverage across all 11 deliverables and 9 specialist domains without bottlenecks.
-  - Strict separation of immutable hard constraints (double-entry stock-flow closure, token conservation) from optimization objectives and stakeholder preferences eliminated legacy dogmatic traps.
-  - Programmatic verification via Foundry and Python test harnesses ensured zero reliance on unverified assertions.
-  - Centered Jansen (1999) Sobol estimator resolved historical covariance cancellation issues, and frequency-domain noise PSD divergence definitively eliminated derivative chatter ($K_d \equiv 0$).
-- **Lessons Learned:**
-  - Downward reset barrier $H_d = \$0.25$ endogenously defines the $-60.0\%$ flash crash tolerance (Theorem 1), which can be extended to $-88.75\%$ by introducing a dedicated solvency reserve buffer vault (Architecture A2, Theorem 2).
-  - Countercyclical yield redistribution (POL-02 / POL-05) is strictly necessary to prevent validator bankruptcy ($\text{CR}_{\text{OpEx}} < 1.0\times$) during sustained bear markets.
-  - Phase 1 Analytical Screening prunes $90.101\%$ of the parameter search space in under $5\text{ ms}$, preserving strict compliance with the Strict Stop Rule while delivering a bounded manifold ($N_{\text{survivors}} = 9,899$) for Stage 2 Architecture Screening.
+- Milestone 1 successfully completed with full 3-way reconciliation, 6/6 unit tests passing, and unanimous approval across 2 Reviewers, 2 Challengers, and Forensic Auditor (CLEAN).
+- Milestones M3 (KPI Math, 10/10 tests), M4 (Dominance & Policies, 11/11 tests), and M5 (Statistical Sampling Error & Selection Bias, 6/6 tests) completed and verified.
+- HANG: worker_m2_repl unresponsive after 30 min, replaced with worker_m2_gen2.

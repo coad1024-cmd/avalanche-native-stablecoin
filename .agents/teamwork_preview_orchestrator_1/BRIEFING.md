@@ -1,85 +1,76 @@
-# BRIEFING — 2026-08-31T04:21:00Z
+# BRIEFING — 2026-08-31T08:36:07Z
 
 ## Mission
-Execute a rigorous, first-principles research design discovery campaign to formalize the complete quantitative mechanism-design problem, architecture search space, parameter bounds, dynamic redistribution policies, controller search space, multi-regime environmental uncertainty, formal robustness criteria, experimental ladder, and Pareto decision framework for an Avalanche-native stablecoin, determining what architecture and parameter corridors should actually be built under realistic uncertainty.
+Coordinate the full multi-agent adversarial validation audit of Stage 2 Architecture & Redistribution Policy Screening across requirements R1-R6.
 
 ## 🔒 My Identity
 - Archetype: teamwork_preview_orchestrator
 - Roles: orchestrator, user_liaison, human_reporter, successor
 - Working directory: /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_orchestrator_1
 - Original parent: parent
-- Original parent conversation ID: caf47e71-17f3-4a9b-95e2-daa7f1aeaa62
+- Original parent conversation ID: 36f27305-ddc1-4f52-9b1c-a5a5b271ec82
 
 ## 🔒 My Workflow
-- **Pattern**: Project Pattern (Orchestrator Survey → Decomposition → Iteration Loop with Specialist Panel & Gate Verification)
+- **Pattern**: Project
 - **Scope document**: /home/hash/Hub/Projects/avalanche-native-stablecoin/PROJECT.md
-1. **Decompose**: Decompose the 11 deliverables and 9 specialist roles into verified research artifacts and cross-validation milestones.
+1. **Decompose**: Decompose audit into Survey, Dataset & CRN verification, KPI & Math audit, Dominance & Policy audit, Statistical & Selection bias audit, Report delivery & Provenance update.
 2. **Dispatch & Execute**:
-   - **Direct (iteration loop)**: Survey current artifacts → Dispatch specialist Explorers / Workers / Reviewers / Challengers / Auditors → Evaluate Gates on strict AND criteria → Finalize Deliverables R1-R11.
-3. **On failure** (in this order):
-   - Retry: nudge stuck agent or re-send task
-   - Replace: spawn fresh agent with partial progress
-   - Skip: proceed without (only if non-critical)
-   - Redistribute: split stuck agent's remaining work
-   - Redesign: re-partition decomposition
-   - Escalate: report to parent (sub-orchestrators only, last resort)
-4. **Succession**: Self-succeed at 16 spawns if necessary.
+   - Iteration loop with Explorers, Workers, Reviewers, Challengers, and Forensic Auditor per milestone.
+3. **On failure**:
+   - Retry -> Replace -> Skip -> Redistribute -> Redesign -> Escalate
+4. **Succession**: At 16 spawns, write handoff.md, cancel timers, spawn successor.
 - **Work items**:
-  1. Survey & Audit Baseline Exploration [done]
-  2. Core Mathematical & Architectural Formalization (R1-R3) [done]
-  3. Parameters, Redistribution & Control Spaces (R4-R6) [done]
-  4. Uncertainty, Robustness, Experimental Ladder & Decision Framework (R7-R10) [done]
-  5. State Reconciliation, Master Lineage & Execution Gate Specification (R11) [done]
-  6. Final Multi-Disciplinary Synthesis & Adversarial Gate Verification [done]
-- **Current phase**: 3 (Final Synthesis & Human Reporting)
-- **Current focus**: Compiling final master synthesis and reporting to parent
+  1. Survey & Spec Reconciliation (R1) [done]
+  2. Dataset Integrity & CRN Verification (R2) [done]
+  3. KPI Calculation & Objective Direction Audit (R3) [done]
+  4. Dominance & Policy Classification Audit (R4) [done]
+  5. Sampling Error, Selection Bias, & Lambda Sensitivity (R5) [done]
+  6. Final Adversarial Validation Report & Provenance Update (R6) [in-progress gating]
+- **Current phase**: 6 (Milestone 6 Final Gating)
+- **Current focus**: Milestone 6 Reviewers, Challenger, Forensic Auditor Gating
 
 ## 🔒 Key Constraints
-- NEVER write, modify, or create source code files directly.
-- NEVER run build/test commands yourself — require workers to do so.
-- NEVER investigate or explore the problem at the code level — dispatch Explorers for technical investigation.
-- You MAY use file-editing tools ONLY for metadata/state files (.md) in your .agents/ folder and PROJECT.md.
+- DO NOT run Stage 3 GSA.
+- DO NOT run NSGA-II or multi-objective parameter optimization.
+- DO NOT redesign protocol mechanisms or alter canonical economic model equations.
+- DO NOT silently modify historical Stage 2 outputs.
+- SOURCE-CRITICALITY RULE: Treat all prior reports, claims registers, manifests, and classifications as audit targets.
+- STOP RULE: Terminate immediately upon generating validation report, logging provenance, and updating research state.
 - Never reuse a subagent after it has delivered its handoff — always spawn fresh.
-- Binary Veto: Forensic Auditor verdict is non-negotiable.
-- Strict Stop Rule: Zero large-scale simulations or optimization runs executed; identify Phase 1 Analytical Screening as the ONE minimum next execution block.
+- DISPATCH-ONLY orchestrator: Never write/modify source code directly, never run build/test commands directly. File edits only in .agents/.
 
 ## Current Parent
-- Conversation ID: caf47e71-17f3-4a9b-95e2-daa7f1aeaa62
-- Updated: 2026-08-31T04:13:00Z
+- Conversation ID: 36f27305-ddc1-4f52-9b1c-a5a5b271ec82
+- Updated: 2026-08-31T07:14:29Z
 
 ## Key Decisions Made
-- Survey Phase completed across all 11 deliverables with 3 specialist Explorers.
-- Multi-disciplinary adversarial verification completed (Reviewers 1 & 2 APPROVE, Challengers 1 & 2 APPROVE, Forensic Auditor CLEAN).
-- Gate passed with strict AND criteria.
-- All Milestones M1–M5 marked DONE in `PROJECT.md`.
-- Phase 1 Analytical Screening verified as the ONE minimum next execution block ($N_0 = 100,000$, $90.101\%$ pruned, $N_{\text{survivors}} = 9,899$).
+- Selected Project Pattern for multi-agent adversarial audit.
+- Completed Phase 0 Survey (Specs, Codebase, Data verified).
+- Formulated PROJECT.md with 6 milestones and feature inventory.
+- Milestone 1 (R1) PASSED with clean forensic audit, dual reviewer approvals, and challenger empirical proofs.
+- Milestones M2, M3, M4, M5 completed with verified deliverable reports and 45/45 automated unit tests passing.
+- Worker M6 completed 17-section report at `audit_artifacts/reports/STAGE_2_ADVERSARIAL_VALIDATION.md`, updated `RESEARCH_STATE.yaml`, and verified 51/51 tests passing.
+- Dispatched M6 Reviewers, Challenger, and Forensic Auditor.
 
 ## Team Roster
 | Agent | Type | Work Item | Status | Conv ID |
-|-------|------|-----------|--------|---------|
-| explorer_survey_1 | teamwork_preview_explorer | Survey Core Math & Architecture (R1-R3) | completed | 00d4f0fe-fcec-43a5-8ad5-7567a1173be3 |
-| explorer_survey_2 | teamwork_preview_explorer | Survey Params, Control & Uncertainty (R4-R7) | completed | 493e304d-1908-440a-8036-1644db3f22bc |
-| explorer_survey_3 | teamwork_preview_explorer | Survey Robustness, Ladder & Lineage (R8-R11) | completed | 5c0f2129-4ffe-4352-978c-5cf5d0af4d23 |
-| reviewer_1 | teamwork_preview_reviewer | Review Math, Architecture & Control (R1-R6) | completed (APPROVE) | c470ea1c-fb1a-4ab9-a6cb-3e898d86a35e |
-| reviewer_2 | teamwork_preview_reviewer | Review Uncertainty, Robustness & Decision (R7-R11) | completed (APPROVE) | 0059d8ec-5805-4400-ae66-0b9b32e1a97f |
-| challenger_1 | teamwork_preview_challenger | Code Execution: Theorems 1-2, Routh-Hurwitz, Lyapunov, Kd=0 | completed (APPROVE) | 16cc5ba8-bdd1-4604-a923-ef715bacd845 |
-| challenger_2 | teamwork_preview_challenger | Code Execution: Kou vs Merton AIC, Stage 1 screening, MCDA | completed (APPROVE) | 0f94e6a7-58d2-4c2b-84a7-851699a79389 |
-| auditor_1 | teamwork_preview_auditor | 8-Point Forensic Integrity Audit | completed (CLEAN) | 9d98bfc8-ba16-4a24-a496-8367a6d27653 |
+|---|---|---|---|---|
+| m6_worker | teamwork_preview_worker | M6 Master Report & Provenance | completed | 6f63bde2-3c31-4722-9b1d-aa26385cd3a8 |
+| m6_rev_1 | teamwork_preview_reviewer | M6 Independent Review 1 | in-progress | 4e858016-596e-42b8-8368-f1ec3592f4c9 |
+| m6_rev_2 | teamwork_preview_reviewer | M6 Independent Review 2 | in-progress | 907d59ea-f070-4e03-8c98-83f2c467b3e4 |
+| m6_chal_1 | teamwork_preview_challenger | M6 Empirical Precision Challenge | in-progress | f18c439b-c1b8-4f40-bd10-bf084778f0bc |
+| m6_aud_1 | teamwork_preview_auditor | M6 Final Forensic Audit | in-progress | 3656a39d-c251-4f6f-9c78-8a2fb20006c7 |
 
 ## Succession Status
-- Succession required: no
-- Spawn count: 8 / 16
-- Pending subagents: none
-- Predecessor: none
-- Successor: not yet spawned
+- Succession required: no (Milestone 6 is the terminal milestone)
+- Pending subagents: 4e858016-596e-42b8-8368-f1ec3592f4c9, 907d59ea-f070-4e03-8c98-83f2c467b3e4, f18c439b-c1b8-4f40-bd10-bf084778f0bc, 3656a39d-c251-4f6f-9c78-8a2fb20006c7
 
 ## Active Timers
-- Heartbeat cron: ca6a5bc9-8f00-4424-9bd0-39b865c8f1f1/task-22
+- Heartbeat cron: task-236
 - Safety timer: none
 
 ## Artifact Index
-- /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md — Authoritative User Request
-- /home/hash/Hub/Projects/avalanche-native-stablecoin/PROJECT.md — Master Project Index & Milestones
-- /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_orchestrator_1/GATE_STATUS.md — Gate Status Matrix (PASS)
-- /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_orchestrator_1/handoff.md — Master Orchestrator Handoff
-- /home/hash/Hub/Projects/avalanche-native-stablecoin/audit_artifacts/state/RESEARCH_STATE.yaml — Reconciled Research State
+- /home/hash/Hub/Projects/avalanche-native-stablecoin/audit_artifacts/reports/STAGE_2_ADVERSARIAL_VALIDATION.md — Master 17-Section Report (Completed)
+- /home/hash/Hub/Projects/avalanche-native-stablecoin/audit_artifacts/state/RESEARCH_STATE.yaml — Updated Research State (Completed)
+- /home/hash/Hub/Projects/avalanche-native-stablecoin/PROJECT.md — Global Audit Index & Milestones
+- /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_orchestrator_1/GATE_STATUS.md — Structured verdict tracking

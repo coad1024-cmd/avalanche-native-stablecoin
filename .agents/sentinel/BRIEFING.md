@@ -1,36 +1,33 @@
-# BRIEFING — 2026-08-31T04:25:20Z
+# BRIEFING — 2026-08-31T07:14:29Z
 
 ## Mission
-Manage lifecycle, crons, and independent verification for the Avalanche-native stablecoin research design discovery campaign.
+Perform independent first-principles adversarial validation audit of Stage 2 Architecture & Redistribution Policy Screening.
 
 ## 🔒 My Identity
 - Archetype: sentinel
 - Working directory: /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/sentinel
-- Orchestrator: ca6a5bc9-8f00-4424-9bd0-39b865c8f1f1 (Completed)
-- Victory Auditor: 9aa8598f-e9fe-419f-91cf-d9cfc066d1b1 (VICTORY CONFIRMED)
+- Orchestrator: eeb3e555-14df-40a8-8fe7-f84199bcfa38
+- Victory Auditor: to be spawned on victory claim
 
 ## 🔒 Key Constraints
 - No technical decisions — relay only
 - Victory Audit is MANDATORY before reporting completion
-- Must not write code, analyze problems, or make technical decisions
+- Route chosen: General (teamwork_preview_orchestrator)
+- DO NOT run Stage 3 GSA, DO NOT run NSGA-II, DO NOT alter economic model equations
+- SOURCE-CRITICALITY RULE & STOP RULE
 
 ## User Context
-- **Last user request**: Execute a quantitative mechanism design and stablecoin economics research design discovery campaign (R1-R11, 11 Deliverables)
+- **Last user request**: Adversarial validation audit of Stage 2 Architecture & Redistribution Policy Screening.
 - **Pending clarifications**: none
-- **Delivered results**: 11 Research Design Discovery Deliverables (R1-R11), Stage 1 Analytical Pruning Manifest, Full Forensic Verification
+- **Delivered results**: none
 
 ## Project Status
-- **Phase**: complete
-- **Crons**: Cancelled and cleaned up
-- **Subagents**: Successfully terminated post-audit
+- **Phase**: in progress
 
 ## Victory Audit Status
-- **Triggered**: yes
-- **Verdict**: VICTORY CONFIRMED
+- **Triggered**: no
+- **Verdict**: pending
 - **Retry count**: 0
 
 ## Artifact Index
-- /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md — Authoritative record of user request
-- /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/sentinel/handoff.md — Sentinel final handoff report
-- /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_victory_auditor_1/handoff.md — Independent post-victory audit report
-- /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/teamwork_preview_orchestrator_1/handoff.md — Orchestrator handoff report
+- /home/hash/Hub/Projects/avalanche-native-stablecoin/.agents/ORIGINAL_REQUEST.md — Authoritative user intent record

@@ -88,6 +88,8 @@ baseline_artifacts:
         reason: "Clerical typographical error in conversational summary; no matching artifact exists"
   stage_2_architecture_screening:
     status: "COMPLETED_AND_VALIDATED"
+    audit_status: "VERIFIED"
+    next_stage: "stage3_global_sensitivity_analysis"
     experiment_id: "EXP-STAGE-02-ARCHITECTURE-POLICY-SCREENING-01"
     timestamp_utc: "2026-08-31T06:30:26.413707+00:00"
     script: "simulations/design_discovery/stage2_architecture_screening.py"
@@ -101,6 +103,17 @@ baseline_artifacts:
       sha256: "653890da46dc822e87fda27b7a5e750b68bb54a027dd4864c1addf757211d24f"
     manifest:
       path: "audit_artifacts/execution/STAGE_2_EXPERIMENT_MANIFEST.json"
+      sha256: "6b3e409b1dd72c73996c9c7f9737d20f6ceccfc92576b4d465960b6a642aec91"
+    adversarial_validation_audit:
+      audit_status: "VERIFIED"
+      audit_report: "audit_artifacts/reports/STAGE_2_ADVERSARIAL_VALIDATION.md"
+      audit_commit: "cc1064897c16be16c0bbe2817a37a3911c322247"
+      audit_date: "2026-08-31T08:30:00-04:00"
+      gate_verdict: "PROCEED TO STAGE 3 (WITH CONDITIONALITY)"
+      next_stage: "stage3_global_sensitivity_analysis"
+      dataset_hashes:
+        stage_1_survivors: "3d9ebe70ef522223edf0d115e9c0505b78ef9ceea57e5c40e22892a22bd13319"
+        stage_2_results: "653890da46dc822e87fda27b7a5e750b68bb54a027dd4864c1addf757211d24f"
     retained_architectures:
       - "A2: Dedicated Solvency Buffer Vault (Rank 1 - Mean Haircut: 0.14%, CVaR_99: 0.67%)"
       - "A5.3: Multi-LST Basket Vault (Rank 2 - Mean Haircut: 2.02%, Reset Churn: 1.77/yr)"

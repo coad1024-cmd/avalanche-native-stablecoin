@@ -1,68 +1,56 @@
-# Project: Avalanche-Native Stablecoin First-Principles Research Design Discovery Campaign
+# Project: Stage 2 Architecture & Redistribution Policy Screening Adversarial Validation Audit
 
 ## Architecture
-This project formalizes the complete quantitative mechanism-design problem, architecture search space, parameter bounds, dynamic redistribution policies, controller search space, multi-regime environmental uncertainty, formal robustness criteria, experimental ladder, and Pareto decision framework for an Avalanche-native stablecoin (anUSD).
-
-The architecture establishes:
-1. **Universal Variable Tensor & Continuous-Time State Space**: $\mathcal{T}(t) = (\mathbf{X}(t), \mathbf{U}(t), \mathbf{W}(t), \boldsymbol{\theta}) \in \mathcal{X} \times \mathcal{U} \times \mathcal{W} \times \Theta$ with 28 orthogonal state variables ($\mathbf{x}_{\text{phys}} \in \mathbb{R}_+^6, \mathbf{x}_{\text{val}} \in \mathbb{R}^{11}, \mathbf{x}_{\text{amm}} \in \mathbb{R}_+^4, \mathbf{x}_{\text{ctrl}} \in \mathbb{R}^3, \mathbf{x}_{\text{net}} \in \mathbb{R}_+^4$).
-2. **Axiomatic Four-Tier Taxonomy**: Clear separation of Tier 1 (Hard Constraints / Double-Entry Stock-Flow Closure), Tier 2 (Pareto Optimization Objectives), Tier 3 (Stakeholder Utility Preferences), and Tier 4 (Diagnostic KPIs).
-3. **Discrete Architectural Search Space ($\mathbb{A} = \{\text{A0} \dots \text{A5+}\}$)**: Formal valuation, state transitions, and crash bounds for 8 distinct structural topologies.
-4. **Unified Parameter Inventory & 8-Class Epistemic Taxonomy**: 28 candidate parameters classified with active dimensionality reduction from 28 to 7 continuous levers via Sobol GSA.
-5. **3-Simplex Redistribution Dynamics ($\boldsymbol{\omega}(t) \in \Delta^3$)**: Gross surplus generation $\Phi_{\text{gross}}(t)$ routed across 4 sinks with 5 candidate policy families (POL-01 to POL-05).
-6. **Closed-Loop Dynamic Control & Stability Proofs**: Secondary AMM plant transfer functions $G_{\text{plant}}(s)$, Routh-Hurwitz and Lyapunov stability proofs ($\dot{V} \le 0$), over-damping guarantees ($\zeta > 1.0$), derivative elimination ($K_d \equiv 0$), and anti-windup clamping.
-7. **2,140-Day Empirical Grounding & Kou Jump-Diffusion**: Kou double-exponential SDE MLE calibration ($\sigma = 89.15\%, \lambda = 15.00, p = 59.55\%, \eta_1 = 7.671, \eta_2 = 7.801, \bar{q} = 6.40\%$, $\Delta\text{AIC} = -5.51$ vs Merton) across 11 market regimes.
-8. **Multi-Dimensional Robustness**: 4 formal criteria (Max-Min Wald, Bayesian Utility, $\text{CVaR}_{99\%}$, Wasserstein DRO), 5 analytical failure boundaries $\partial \Omega_{\text{fail}}$, and parameter fragility index $\bar{S}_T$.
-9. **7-Stage Adaptive Computational Sequence**: Stage 1 Analytical Screening $\to$ Stage 2 Architecture Screening $\to$ Stage 3 GSA Sobol $\to$ Stage 4 Twin Sweeps $\to$ Stage 5 Uncertainty Propagation $\to$ Stage 6 NSGA-II $\to$ Stage 7 Adversarial Replay.
-10. **Pareto Decision Framework & MCDA**: 6D vector optimization $\mathbf{J}(\mathbf{u})$, hypervolume indicator, Marginal Rates of Transformation, and TOPSIS / PROMETHEE II MCDA evaluating legacy A0 as an unvalidated hypothesis.
-11. **State Lineage & Strict Stop Rule**: Verified reconciliation against `SNAP-2026-08-30-01` and execution of Phase 1 Analytical Screening ($N_0 = 100,000$, $90.101\%$ pruned, $N_{\text{survivors}} = 9,899$) as the ONE minimum next execution block.
+- **Audit Domain**: Independent first-principles adversarial validation audit of Stage 2 Architecture & Redistribution Policy Screening in `coad1024-cmd/avalanche-native-stablecoin`.
+- **Target Branch**: `research/first-principles-adversarial-audit`.
+- **Core Invariants & Rules**:
+  - Zero tolerance for prior agent unverified claims (SOURCE-CRITICALITY RULE).
+  - Strict separation of Screening Gate Failure vs. Mathematical Pareto Dominance.
+  - Strict preservation of historical outputs (`STAGE_2_RESULTS.parquet`, `STAGE_2_EXPERIMENT_MANIFEST.json`).
+  - Strict non-modification of canonical economic parameters.
+  - Verification across 1,600 configuration cells ($8 \times 5 \times 40$), 500 Kou SDE CRN paths, and 11 KPI metrics.
 
 ## Feature Inventory
-| # | Feature | Description | Milestone | Status |
+| # | Feature | Description | Milestone | Source |
 |---|---------|-------------|-----------|--------|
-| 1 | R1 Mathematical Tensor Decomposition | Universal variable tensor $\mathcal{T}(t)$ and 28-D continuous-time state space | M1 | DONE |
-| 2 | R2 Axiomatic 4-Tier Taxonomy | True hard constraints, stock-flow closure proof, objectives, preferences, KPIs | M1 | DONE |
-| 3 | R3 Discrete Architecture Search Space | 8 topologies (A0-A5+), continuous-time valuation ODEs, Theorem 1 & 2 crash bounds | M1 | DONE |
-| 4 | R4 Parameter Search Space & Taxonomy | 28-parameter inventory, 8-class epistemic classification, GSA dimension reduction | M2 | DONE |
-| 5 | R5 Redistribution Policy Space | Gross surplus $\Phi_{\text{gross}}(t)$, 3-simplex $\Delta^3$ conservation, POL-01 to POL-05 | M2 | DONE |
-| 6 | R6 Closed-Loop Dynamic Control | AMM plant transfer function, Routh-Hurwitz / Lyapunov proofs, $K_d \equiv 0$, anti-windup | M2 | DONE |
-| 7 | R7 Environmental Uncertainty Spec | 2,140-day telemetry grounding, Kou MLE parameters, 11-regime stochastic matrix | M3 | DONE |
-| 8 | R8 Formal Robustness Definition | 4 criteria (Wald, Bayes, CVaR, DRO), 5 failure boundaries $\partial \Omega_{\text{fail}}$, fragility index $\bar{S}_T$ | M3 | DONE |
-| 9 | R9 7-Stage Experimental Hierarchy | Adaptive computational ladder with hierarchical filtering and budget profiling | M3 | DONE |
-| 10 | R10 Pareto Decision Framework | 6D Pareto vector, hypervolume, MRT, TOPSIS/PROMETHEE II MCDA, A0 evaluation | M4 | DONE |
-| 11 | R11 Research State Update & Master Lineage | Reconciliation with SNAP-2026-08-30-01, master visual diagram, Phase 1 execution gate | M4 | DONE |
+| 1 | Specification Reconstruction & 3-Way Reconciliation | Map experimental ladder, manifests, code, Stage 1 inputs; reconcile Spec vs Impl vs Data | M1 | R1 |
+| 2 | Parameter & Gate Discrepancy Matrix | Enumerate every discrepancy across gates, formulas, and parameters | M1 | R1 |
+| 3 | 1,600-Configuration Dataset Integrity | Programmatic verification of 1,600 cells ($8 \times 5 \times 40$), 0 NaN/inf/null/dropped | M2 | R2 |
+| 4 | CRN & Seed Stream Verification | Verify Kou SDE path isolation, randomness streams, bit-for-bit reproducibility | M2 | R2 |
+| 5 | KPI Mathematical & Implementation Audit | Line-by-line verification of Peg RMSE, Reset Churn, Coverage, Solvency, Subsidy, Burn, Yield, Reserves | M3 | R3 |
+| 6 | Objective Direction & Bias Check | Verify minimize/maximize alignments, look-ahead bias, scaling/annualization, path aggregation | M3 | R3 |
+| 7 | Architecture Dominance Formal Proofs/Refutations | Audit A0–A5.3, proving gate failure vs Pareto dominance for all rejected architectures | M4 | R4 |
+| 8 | Redistribution Policy Trade-Off Audit | Audit POL-01–POL-05, evaluating POL-04 frontier extreme vs unmitigated failure | M4 | R4 |
+| 9 | Monte Carlo Sampling Error & Uncertainty Bounds | Compute MC standard errors & 95% CIs across 500 paths to establish statistical significance | M5 | R5 |
+| 10 | Stage-1 Analytical Pruning Selection Bias | Audit survivor distributions from $N_0=100,000 \to 64,052$ for subspace elimination bias | M5 | R5 |
+| 11 | Provisional Lambda Sensitivity Evaluation | Assess architecture/policy ranking dependence on $\lambda = 15.00\text{ yr}^{-1}$ | M5 | R5 |
+| 12 | 17-Section Formal Validation Report Delivery | Synthesize and write `audit_artifacts/reports/STAGE_2_ADVERSARIAL_VALIDATION.md` | M6 | R6 |
+| 13 | Epistemic Classification Table | Assign formal epistemic status to every architecture and policy outcome | M6 | R6 |
+| 14 | Research State & Cryptographic Provenance Update | Update `RESEARCH_STATE.yaml` with commit, hashes, and final gate verdict | M6 | R6 |
 
 ## Milestones
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
-| 1 | M1: Core Mathematical & Architectural Space | Deliverables R1, R2, R3 (`RESEARCH_PROBLEM_FORMULATION.md`, `OBJECTIVES_AND_CONSTRAINTS.md`, `ARCHITECTURE_SEARCH_SPACE.md`) | none | DONE |
-| 2 | M2: Parameters, Redistribution & Control | Deliverables R4, R5, R6 (`PARAMETER_SEARCH_SPACE.md`, `REDISTRIBUTION_SEARCH_SPACE.md`, `CONTROLLER_SEARCH_SPACE.md`) | M1 | DONE |
-| 3 | M3: Uncertainty, Robustness & Experimental Ladder | Deliverables R7, R8, R9 (`ENVIRONMENTAL_UNCERTAINTY_SPEC.md`, `ROBUSTNESS_DEFINITION.md`, `EXPERIMENTAL_HIERARCHY.md`) | M2 | DONE |
-| 4 | M4: Decision Framework, Lineage & Verification | Deliverables R10, R11 (`DECISION_FRAMEWORK.md`, `RESEARCH_STATE.yaml`, Master Flow Diagram, Phase 1 Screening) | M3 | DONE |
-| 5 | M5: Multi-Disciplinary Adversarial Gate & Audit | Multi-reviewer, challenger stress testing, and forensic integrity audit verification | M1, M2, M3, M4 | DONE |
+| 1 | Reconstruct Experiment Specification & 3-Way Reconciliation (R1) | Reconstruct 8 architectures, 5 policies, 40 configs, 500 MC paths; 3-way reconciliation (Spec vs Impl vs Data) | None | DONE |
+| 2 | Dataset Integrity & Genuine CRN Verification (R2) | Programmatic audit of `STAGE_2_RESULTS.parquet`, balance, NaN/inf checks, CRN reproducibility | M1 | IN_PROGRESS |
+| 3 | End-to-End KPI Calculation & Objective Direction Audit (R3) | Audit mathematical formulas, implementation code, parquet storage, sign conventions, biases | M1 | PLANNED |
+| 4 | Architecture & Policy Classification Audit (R4) | Formal audit of A0–A5.3 and POL-01–POL-05; disentangle gate failure from Pareto dominance | M2, M3 | PLANNED |
+| 5 | Sampling Error, Selection Bias & Lambda Sensitivity (R5) | Monte Carlo uncertainty quantification (500 paths), Stage 1 selection bias, $\lambda=15$ sensitivity | M2, M3 | PLANNED |
+| 6 | Deliver Formal Validation Report (17 Sections) & Provenance (R6) | Comprehensive report at `audit_artifacts/reports/STAGE_2_ADVERSARIAL_VALIDATION.md`, update `RESEARCH_STATE.yaml` | M1, M2, M3, M4, M5 | PLANNED |
 
 ## Interface Contracts
-### Continuous Dynamics ↔ Accounting Balance Sheet
-- State vectors $\mathbf{X}(t) \in \mathcal{X} \subset \mathbb{R}^{28}$ strictly preserve double-entry closure:
-  $\mathcal{A}(t) \equiv \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}_{\text{res}}(t) - \mathcal{D}_{\text{insolv}}(t)$.
-- All state transitions preserve stock non-negativity $C_{\text{sAVAX}}(t) \ge 0, B_{\text{res}}(t) \ge 0, N_i(t) \ge 0$.
+### M1 ↔ M2, M3, M4, M5, M6
+- Baseline parameter mapping, gate threshold definitions, candidate index definitions, and 3-way reconciliation tables.
 
-### Secondary AMM Microstructure ↔ PI Controller
-- Plant Transfer Function: $G_{\text{plant}}(s) = \frac{K_{\text{amm}}(L)}{s + 1/\tau_{\text{arb}}} = \frac{K_{\text{DC}}}{1 + \tau_{\text{arb}} s}$.
-- Control Law: $u(t) = \text{clamp}(K_p e(t) + K_i I(t), -0.05, 0.05)$ with $K_d \equiv 0.0000$.
+### M2 & M3 ↔ M4 & M5
+- Verified raw dataset, verified KPI formulas, column names, sign conventions, clean dataset handles, and reproducible CRN seeds.
 
-### Redistribution Routing ↔ 3-Simplex Conservation
-- Surplus routing vector $\boldsymbol{\omega}(t) = [\omega_{\text{burn}}, \omega_{\text{val}}, \omega_{\text{res}}, \omega_{\text{l1}}]^T \in \Delta^3$ satisfies $\sum \omega_i(t) \equiv 1.0000$ and $\omega_i(t) \ge 0$.
+### M4 & M5 ↔ M6
+- Proven Pareto dominance/gate failure matrix, policy trade-off classifications, MC confidence intervals, selection bias verdicts, lambda sensitivity matrices, and epistemic classifications.
 
-## Code Layout & Deliverables
-- `audit_artifacts/design_discovery/RESEARCH_PROBLEM_FORMULATION.md`: Universal variable tensor & 28-D continuous-time state space.
-- `audit_artifacts/design_discovery/OBJECTIVES_AND_CONSTRAINTS.md`: Four-tier taxonomy & stock-flow closure proof.
-- `audit_artifacts/design_discovery/ARCHITECTURE_SEARCH_SPACE.md`: 8 structural topologies, continuous valuation ODEs, crash bounds.
-- `audit_artifacts/design_discovery/PARAMETER_SEARCH_SPACE.md`: Parameter inventory across 8-class epistemic taxonomy.
-- `audit_artifacts/design_discovery/REDISTRIBUTION_SEARCH_SPACE.md`: Gross surplus $\Phi_{\text{gross}}$ & 5 policy families on $\Delta^3$.
-- `audit_artifacts/design_discovery/CONTROLLER_SEARCH_SPACE.md`: AMM transfer functions, stability proofs, $K_d \equiv 0$.
-- `audit_artifacts/design_discovery/ENVIRONMENTAL_UNCERTAINTY_SPEC.md`: 2,140-day empirical grounding & Kou jump SDE.
-- `audit_artifacts/design_discovery/ROBUSTNESS_DEFINITION.md`: 4 formal robustness criteria & failure boundaries.
-- `audit_artifacts/design_discovery/EXPERIMENTAL_HIERARCHY.md`: 7-Stage Adaptive Computational Sequence.
-- `audit_artifacts/design_discovery/DECISION_FRAMEWORK.md`: Pareto optimization, MCDA selection, A0 evaluation.
-- `audit_artifacts/state/RESEARCH_STATE.yaml`: Reconciled research state against `SNAP-2026-08-30-01`.
-- `audit_artifacts/execution/STAGE_1_ANALYTICAL_PRUNING_MANIFEST.json`: Phase 1 screening execution record ($N_{\text{survivors}} = 9,899$).
+## Code Layout
+- `audit_artifacts/reports/STAGE_2_ADVERSARIAL_VALIDATION.md`: Master 17-section adversarial validation report deliverable.
+- `RESEARCH_STATE.yaml`: Provenance, cryptographic checksums, audit history, and Stage 2 gate status.
+- `.agents/`: Agent workspaces and audit metadata (no raw data or modified source code here).
+- `simulations/design_discovery/`: Simulation engine, runner scripts, verification scripts.
+- `audit_artifacts/execution/`: Execution manifests and parquet datasets.
