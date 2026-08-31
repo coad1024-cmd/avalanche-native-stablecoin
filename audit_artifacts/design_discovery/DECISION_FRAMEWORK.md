@@ -109,7 +109,7 @@ subject to the physical and contractual hard constraint set $\mathcal{H}$:
 $$\mathcal{U}_{\text{feasible}} = \left\{ \mathbf{u} \in \mathcal{U} \;\middle|\; g_k(\mathbf{u}, \boldsymbol{\omega}_{\text{env}}) \le 0 \quad \forall k \in \{1, \dots, 5\}, \; \forall \boldsymbol{\omega}_{\text{env}} \in \Omega_{\text{total}} \right\}$$
 
 where:
-1. $g_1(\mathbf{u}) = \sup_t |\mathcal{A}(t) - (\mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}(t))| \le 10^{-10}$ (Double-entry balance sheet closure).
+1. $g_1(\mathbf{u}) = \sup_t |\mathcal{A}(t) - (\mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}_{\text{unallocated}}(t) - \mathcal{D}_{\text{insolvency}}(t))| \le 10^{-10}$ (Double-entry balance sheet closure).
 2. $g_2(\mathbf{u}) = 1.0 - \sum_{i=1}^4 \omega_i(t) = 0$ and $-\omega_i(t) \le 0$ (Simplex weight conservation).
 3. $g_3(\mathbf{u}) = -0.6000 - \Delta P^*_{\text{crit}}(H_d, R, R') \le 0$ (Theorem 1 model-free flash crash solvency bound).
 4. $g_4(\mathbf{u}) = -\text{Re}(s_{\text{dominant}}) < 0$ (Closed-loop Hurwitz asymptotic stability).
@@ -351,7 +351,7 @@ $$\text{Pass}(\mathbf{u}) = \mathbf{1}_{\{F_1(\mathbf{u})\}} \cdot \mathbf{1}_{\
 
 where:
 1. **$F_1$ (Double-Entry Invariant):**
-   $$F_1(\mathbf{u}) = \left( \left| \mathcal{A}(t) - \left( \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}(t) \right) \right| \le 10^{-10} \right)$$
+   $$F_1(\mathbf{u}) = \left( \left| \mathcal{A}(t) - \left( \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}_{\text{unallocated}}(t) - \mathcal{D}_{\text{insolvency}}(t) \right) \right| \le 10^{-10} \right)$$
 2. **$F_2$ (Simplex Closure):**
    $$F_2(\mathbf{u}) = \left( \left| \sum_{i=1}^4 \omega_i - 1.0 \right| \le 10^{-12} \quad \land \quad \min_{i} \omega_i \ge 0 \right)$$
 3. **$F_3$ (Theorem 1 Crash Solvency Gate):**

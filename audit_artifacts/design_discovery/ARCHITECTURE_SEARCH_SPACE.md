@@ -16,7 +16,7 @@
 The **Open Discovery Mandate** establishes that no architectural topology is inherited dogmatically from previous literature, historical drafts, or reference implementations. Specifically:
 1. The dual-tranche scalar rebasing model with discrete resets (`A0`) is **one candidate architecture** among a broader structural manifold $\mathbb{A} = \{\text{A0}, \text{A1}, \text{A2}, \text{A3}, \text{A4}, \text{A5.1}, \text{A5.2}, \text{A5.3}\}$.
 2. Contractual parameters ($H_u = \$2.00, H_d = \$0.25, R = 3.0\%, R' = 2.0\%$) and target allocations ($65/20/0/15$) represent initial heuristic inputs, not immutable truths.
-3. Every candidate topology must strictly satisfy physical non-negativity ($C \ge 0, B \ge 0, N_i \ge 0$), double-entry stock-flow balance sheet closure ($\mathcal{A}(t) \equiv \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}(t) + \mathcal{D}_{\text{insolvency}}(t)$), and non-negative realizable redemption solvency ($M_{\text{redemp}} \ge 0$).
+3. Every candidate topology must strictly satisfy physical non-negativity ($C \ge 0, B \ge 0, N_i \ge 0$), double-entry stock-flow balance sheet closure ($\mathcal{A}(t) \equiv \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}_{\text{unallocated}}(t) - \mathcal{D}_{\text{insolvency}}(t)$), and non-negative realizable redemption solvency ($M_{\text{redemp}} \ge 0$).
 
 This document formalizes the complete discrete architectural search space $\mathbb{A}$, deriving the exact continuous-time valuation equations, stock-flow conservation identities, state transition maps, tail crash bounds, and user friction profiles for eight distinct topologies.
 
@@ -99,14 +99,17 @@ $$V_{B'}(t) = \max\left(0.0, \, 2.0 \cdot V_A(t) - V_{A'}(t)\right) = 1.0000 + (
 #### 4.1.3 Stock-Flow Balance Sheet Conservation Identity
 Let $C(t)$ denote total physical $sAVAX$ held in the vault, and $N_A, N_B, N_{A'}, N_{B'}$ denote nominal issued share balances. Total circulating effective claims are $N_i^{\text{eff}}(t) = N_i \cdot \mathcal{M}_i(t)$.
 The total asset valuation is:
-$$\mathcal{A}(t) = C(t) \cdot P(t) + B_{\text{usd}}(t)$$
+$$\mathcal{A}(t) = C(t) \cdot P(t) + B_{\text{usd}}(t) \equiv \mathcal{A}_{\text{pool}}(t) + B_{\text{usd}}(t)$$
 The nominal senior debt liability is:
 $$\mathcal{D}_{\text{senior}}(t) = N_A^{\text{eff}}(t) V_A(t) + \frac{1}{2}\left[ N_{A'}^{\text{eff}}(t) V_{A'}(t) + N_{B'}^{\text{eff}}(t) V_{B'}(t) \right]$$
-The physical realizable junior equity claim is:
-$$\mathcal{E}_B^{\text{phys}}(t) = \max\left(0, \, \mathcal{A}(t) - \mathcal{D}_{\text{senior}}(t)\right)$$
+The physical realizable junior equity claim in the collateral pool is:
+$$\mathcal{E}_B^{\text{phys}}(t) = \max\left(0, \, C(t) \cdot P(t) - \mathcal{D}_{\text{senior}}(t)\right)$$
+The unallocated reserve buffer and insolvency deficit are:
+$$\mathcal{B}_{\text{unallocated}}(t) = \max\left(0, \, B_{\text{usd}}(t) - \max\left(0, \, \mathcal{D}_{\text{senior}}(t) - C(t) \cdot P(t)\right)\right)$$
+$$\mathcal{D}_{\text{insolvency}}(t) = \max\left(0, \, \mathcal{D}_{\text{senior}}(t) - \mathcal{A}(t)\right)$$
 
 The exact double-entry balance sheet conservation invariant requires:
-$$\boxed{\left| \mathcal{A}(t) - \left( \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B^{\text{phys}}(t) + B_{\text{usd}}(t) \right) \right| \equiv 0 \quad \forall t \ge 0}$$
+$$\boxed{\left| \mathcal{A}(t) - \left( \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B^{\text{phys}}(t) + \mathcal{B}_{\text{unallocated}}(t) - \mathcal{D}_{\text{insolvency}}(t) \right) \right| \equiv 0 \quad \forall t \ge 0}$$
 
 #### 4.1.4 Smart Contract Remediation Mechanics
 To resolve legacy implementation flaws, the corrected A0 implementation strictly enforces:
@@ -238,12 +241,22 @@ $$\mathcal{A}_{\text{post}}(\Delta P) = 2 N_{\text{pair}} P_0 (1 + R v + H_d) \l
 Zero haircut requires $\mathcal{A}_{\text{post}}(\Delta P) \ge N_{A'} (1 + R' v) = N_{\text{pair}} (1 + R' v)$. Rearranging for $1 + \frac{\Delta P}{P}$ yields:
 $$1 + \frac{\Delta P}{P} \ge \frac{N_{\text{pair}} (1 + R' v) - B_{\text{res}}(t)}{2 N_{\text{pair}} P_0 (1 + R v + H_d)} = \frac{1}{2}\left(\frac{1 + R' v}{1 + R v + H_d}\right) - \frac{B_{\text{res}}(t)}{2 N_{\text{pair}} P_0 (1 + R v + H_d)} \quad \blacksquare$$
 
-#### 4.3.4 Numerical Crash Extension Sizing
-Let $b_{\text{res}} = \frac{B_{\text{res}}}{\text{TVL}}$ denote the reserve buffer ratio:
-- At $b_{\text{res}} = 0.00$: Crash tolerance from $H_d$ is $\mathbf{-60.00\%}$ (from Par: $\mathbf{-75.00\%}$).
-- At $b_{\text{res}} = 0.10$ ($10\%$ buffer): Crash tolerance from $H_d$ extends to $\mathbf{-70.00\%}$ (from Par: $\mathbf{-84.17\%}$).
-- At $b_{\text{res}} = 0.15$ ($15\%$ buffer): Crash tolerance from $H_d$ extends to $\mathbf{-75.00\%}$ (from Par: $\mathbf{-88.75\%}$).
-- At $b_{\text{res}} = 0.25$ ($25\%$ buffer): Crash tolerance from $H_d$ extends to $\mathbf{-85.00\%}$ (from Par: $\mathbf{-97.92\%}$).
+#### 4.3.4 Numerical Crash Extension Sizing & Denomination Bases
+In Equation (233), the crash extension term $\frac{B_{\text{res}}(t)}{2 (1 + R v + H_d) N_{\text{pair}} P_0}$ has denominator $\mathcal{V}_{\text{barrier}} = 2 (1 + R v + H_d) N_{\text{pair}} P_0$, representing the total remaining spot collateral backing at the barrier epoch ($2.50 N_{\text{pair}} P_0$ at $v=0, H_d=0.25$).
+
+We distinguish between two standard denomination bases:
+1. **Barrier Collateral Sizing Basis ($b_{\text{res}}^{\text{barrier}} = \frac{B_{\text{res}}}{\mathcal{V}_{\text{barrier}}} = \frac{B_{\text{res}}}{2.50 N_{\text{pair}} P_0}$):**
+   Under this canonical parameterization, each percentage point of reserve buffer adds exactly $1.00\text{ pp}$ of crash tolerance ($\Delta P^* = -60.00\% - b_{\text{res}}^{\text{barrier}}$):
+   - At $b_{\text{res}}^{\text{barrier}} = 0.00$: Crash tolerance from $H_d$ is $\mathbf{-60.00\%}$ (from Par: $\mathbf{-75.00\%}$).
+   - At $b_{\text{res}}^{\text{barrier}} = 0.10$ ($10\%$ barrier collateral $\iff 25.0\%$ of senior debt): Crash tolerance extends to $\mathbf{-70.00\%}$ (from Par: $\mathbf{-84.17\%}$).
+   - At $b_{\text{res}}^{\text{barrier}} = 0.15$ ($15\%$ barrier collateral $\iff 37.5\%$ of senior debt): Crash tolerance extends to $\mathbf{-75.00\%}$ (from Par: $\mathbf{-88.75\%}$).
+   - At $b_{\text{res}}^{\text{barrier}} = 0.25$ ($25\%$ barrier collateral $\iff 62.5\%$ of senior debt): Crash tolerance extends to $\mathbf{-85.00\%}$ (from Par: $\mathbf{-97.92\%}$).
+
+2. **Senior Debt Sizing Basis ($b_{\text{res}}^{\text{senior}} = \frac{B_{\text{res}}}{\mathcal{D}_{\text{senior}}} = \frac{B_{\text{res}}}{1.00 N_{\text{pair}} P_0}$):**
+   If the reserve buffer is instead parameterized directly against nominal senior debt $\mathcal{D}_{\text{senior}}$, the crash extension scales by $\frac{1}{2.50} = 0.40\times$:
+   $$\Delta P^*_{\text{crit, A2}} = -60.00\% - \frac{b_{\text{res}}^{\text{senior}}}{2.50}$$
+   - At $b_{\text{res}}^{\text{senior}} = 0.15$ ($15\%$ of senior debt): Crash tolerance from $H_d$ is $-60.0\% - \frac{0.15}{2.50} = \mathbf{-66.00\%}$ (from Par: $\mathbf{-78.75\%}$).
+   - At $b_{\text{res}}^{\text{senior}} = 0.375$ ($37.5\%$ of senior debt): Reaches $\mathbf{-75.00\%}$ from $H_d$ ($\mathbf{-88.75\%}$ from Par).
 
 ```mermaid
 graph TD

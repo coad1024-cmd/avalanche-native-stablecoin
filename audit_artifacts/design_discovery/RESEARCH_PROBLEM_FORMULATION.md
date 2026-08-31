@@ -61,7 +61,7 @@ $$\mathcal{T}(t) = \left( \mathbf{X}(t), \, \mathbf{U}(t), \, \mathbf{W}(t), \, 
   └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 2.1 State Space $\mathcal{X} \subset \mathbb{R}^{24}$
+### 2.1 State Space $\mathcal{X} \subset \mathbb{R}^{28}$
 The state vector $\mathbf{X}(t) \in \mathcal{X}$ is partitioned into five orthogonal physical and economic subspaces:
 $$\mathbf{X}(t) = \left[ \mathbf{x}_{\text{phys}}(t), \, \mathbf{x}_{\text{val}}(t), \, \mathbf{x}_{\text{amm}}(t), \, \mathbf{x}_{\text{ctrl}}(t), \, \mathbf{x}_{\text{net}}(t) \right]^T$$
 
@@ -71,7 +71,7 @@ $$\mathbf{X}(t) = \left[ \mathbf{x}_{\text{phys}}(t), \, \mathbf{x}_{\text{val}}
    * $N_A(t), N_B(t) \in \mathbb{R}_+$: Base contract raw share balances of Primary Class A (Senior) and Class B (Junior).
    * $N_{A'}(t), N_{B'}(t) \in \mathbb{R}_+$: Secondary contract raw share balances of Class A$'$ (`anUSD`) and Class B$'$ (Yield).
 
-2. **Per-Share Valuation Subspace ($\mathbf{x}_{\text{val}} \in \mathbb{R}^{10}$):**
+2. **Per-Share Valuation Subspace ($\mathbf{x}_{\text{val}} \in \mathbb{R}^{11}$):**
    * $S(t) = \frac{P_{\text{sAVAX}}(t)}{\beta(t) P_0} \in \mathbb{R}_{++}$: Normalized collateral price index relative to the active reset base.
    * $v(t) = t - t_{\text{last\_reset}} \in [0, T_{\max}]$: Time elapsed since the most recent reset epoch (in years).
    * $\beta(t) \in \mathbb{R}_{++}$: Cumulative price scale factor tracking historic compounding resets.
@@ -253,19 +253,19 @@ $$V_A(\tau_d^+) = 1.0000, \quad V_B(\tau_d^+) = 1.0000$$
 ### 3.3 Double-Entry Stock-Flow Balance Sheet Closure
 At all times $t \ge 0$, under every structural architecture $a \in \mathbb{A}$, the total physical balance sheet must close with exact zero unaccounted drift:
 
-$$\boxed{\mathcal{A}(t) \equiv \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}(t) + \mathcal{D}_{\text{insolvency}}(t)}$$
+$$\boxed{\mathcal{A}(t) \equiv \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}_{\text{unallocated}}(t) - \mathcal{D}_{\text{insolvency}}(t)}$$
 
 where:
 1. **Total Custodial Assets ($\mathcal{A}(t)$):**
-   $$\mathcal{A}(t) = C_{\text{sAVAX}}(t) \cdot P_{\text{sAVAX}}(t) + B_{\text{res}}(t)$$
+   $$\mathcal{A}(t) = C_{\text{sAVAX}}(t) \cdot P_{\text{sAVAX}}(t) + B_{\text{res}}(t) \equiv \mathcal{A}_{\text{pool}}(t) + \mathcal{B}_{\text{res}}(t)$$
 2. **Total Senior Obligations ($\mathcal{D}_{\text{senior}}(t)$):**
    $$\mathcal{D}_{\text{senior}}(t) = N_A(t) \mathcal{M}_A(t) V_A(t) + \frac{1}{2}\left[ N_{A'}(t) \mathcal{M}_{A'}(t) V_{A'}(t) + N_{B'}(t) \mathcal{M}_{B'}(t) V_{B'}(t) \right]$$
-3. **Junior Residual Equity ($\mathcal{E}_B(t)$):**
-   $$\mathcal{E}_B(t) = \max\left( 0, \, \mathcal{A}(t) - \mathcal{D}_{\text{senior}}(t) - B_{\text{res}}(t) \right)$$
-4. **Surplus Buffer Stock ($\mathcal{B}(t)$):**
-   $$\mathcal{B}(t) = B_{\text{res}}(t)$$
+3. **Junior Residual Equity in Collateral Pool ($\mathcal{E}_B(t)$):**
+   $$\mathcal{E}_B(t) = \max\left( 0, \, C_{\text{sAVAX}}(t) \cdot P_{\text{sAVAX}}(t) - \mathcal{D}_{\text{senior}}(t) \right)$$
+4. **Unallocated Reserve Buffer ($\mathcal{B}_{\text{unallocated}}(t)$):**
+   $$\mathcal{B}_{\text{unallocated}}(t) = \max\left( 0, \, B_{\text{res}}(t) - \max\left(0, \, \mathcal{D}_{\text{senior}}(t) - C_{\text{sAVAX}}(t) \cdot P_{\text{sAVAX}}(t)\right) \right)$$
 5. **Aggregate Insolvency Deficit ($\mathcal{D}_{\text{insolvency}}(t)$):**
-   $$\mathcal{D}_{\text{insolvency}}(t) = \max\left( 0, \, \mathcal{D}_{\text{senior}}(t) - \mathcal{A}(t) \right)$$
+   $$\mathcal{D}_{\text{insolvency}}(t) = \max\left( 0, \, \mathcal{D}_{\text{senior}}(t) - \mathcal{A}(t) \right) = \max\left( 0, \, \mathcal{D}_{\text{senior}}(t) - (\mathcal{A}_{\text{pool}}(t) + \mathcal{B}_{\text{res}}(t)) \right)$$
 
 *Solvency Health Invariant:* A protocol is **strictly solvent** if and only if $\mathcal{D}_{\text{insolvency}}(t) \equiv 0$, which is mathematically equivalent to $\text{CR}_{\text{phys}}(t) = \frac{\mathcal{A}(t)}{\mathcal{D}_{\text{senior}}(t)} \ge 1.0000$.
 
@@ -285,7 +285,7 @@ $$\mathbf{h}_{\text{hard}}(\mathbf{X}(t), \mathbf{U}(t)) = \mathbf{0} \quad \for
 
 ### 4.1 Explicit Structure of Hard Constraint Vector
 
-$$\mathbf{h}_{\text{hard}}(\mathbf{X}, \mathbf{U}) = \begin{bmatrix} \mathcal{A}(t) - \left( \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}(t) + \mathcal{D}_{\text{insolvency}}(t) \right) \\ \sum_{i \in \{\text{burn, val, res, l1}\}} \omega_i(t) - 1.0000 \\ 2 \cdot \Delta N_A(t) - \Delta N_{A'}(t) - \Delta N_{B'}(t) \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}$$
+$$\mathbf{h}_{\text{hard}}(\mathbf{X}, \mathbf{U}) = \begin{bmatrix} \mathcal{A}(t) - \left( \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}_{\text{unallocated}}(t) - \mathcal{D}_{\text{insolvency}}(t) \right) \\ \sum_{i \in \{\text{burn, val, res, l1}\}} \omega_i(t) - 1.0000 \\ 2 \cdot \Delta N_A(t) - \Delta N_{A'}(t) - \Delta N_{B'}(t) \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}$$
 
 $$\mathbf{g}_{\text{hard}}(\mathbf{X}, \mathbf{U}) = \begin{bmatrix} -C_{\text{sAVAX}}(t) \\ -B_{\text{res}}(t) \\ -N_i(t) \quad \forall i \in \{A, B, A', B'\} \\ -\omega_i(t) \quad \forall i \in \{\text{burn, val, res, l1}\} \\ -M_{\text{redemp}}(t) \end{bmatrix} \le \begin{bmatrix} 0 \\ 0 \\ \mathbf{0} \\ \mathbf{0} \\ 0 \end{bmatrix}$$
 
@@ -332,7 +332,7 @@ To independently verify the continuous-discrete state transition equations and b
    ```bash
    python3 /home/hash/Hub/Projects/avalanche-native-stablecoin/simulations/canonical_accounting.py
    ```
-   *Expected Output:* Confirms $|\mathcal{A}(t) - (\mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}(t))| \le 10^{-14}$ across all parameter shock combinations.
+   *Expected Output:* Confirms $|\mathcal{A}(t) - (\mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}_{\text{unallocated}}(t) - \mathcal{D}_{\text{insolvency}}(t))| \le 10^{-14}$ across all parameter shock combinations.
 2. **Foundry EVM Invariant Suite:**
    ```bash
    forge test --root /home/hash/Hub/Projects/avalanche-native-stablecoin/contracts -vv

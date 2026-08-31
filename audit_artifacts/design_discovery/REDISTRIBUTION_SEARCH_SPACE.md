@@ -221,10 +221,13 @@ $$\mathbf{W} = \begin{bmatrix}
 -0.50 & -0.50 & -0.50 & -0.50
 \end{bmatrix}, \quad \mathbf{b} = \begin{bmatrix} +0.65 \\ -0.50 \\ -1.20 \\ -0.80 \end{bmatrix}$$
 
-#### 2.5.2 Autonomous Regulating Properties
+##### 2.5.2 Autonomous Regulating Properties & Logit Stabilization
 1. **Calm Bull Regime ($\mathbf{s} \to \mathbf{0}$):** Logits yield baseline $\boldsymbol{\omega} \approx [0.62, 0.20, 0.05, 0.13]^T$, maximizing AVAX burns.
 2. **Crash & Volatility Surge ($D \uparrow, \sigma \uparrow$):** Row 2 and Row 3 dominate, automatically scaling $\omega_{\text{val}} \to 45\%$ and $\omega_{\text{res}} \to 35\%$ while throttling $\omega_{\text{burn}} \to 10\%$.
 3. **Mathematical Simplex Invariant:** The Softmax formulation strictly guarantees $\sum \omega_i(t) \equiv 1.0000$ and $\omega_i(t) > 0.0000$ for all possible state vectors $\mathbf{s}(t) \in \mathbb{R}^4$, completely preventing out-of-bounds boundary violations.
+4. **Numerical Logit Stabilization ($\mathbf{z} - \max \mathbf{z}$):** In discrete simulation engines and on-chain fixed-point arithmetic, raw logits $\mathbf{z}(t) = \mathbf{W}\mathbf{s}(t) + \mathbf{b}$ are numerically stabilized against exponential overflow by subtracting the maximum logit:
+   $$\mathbf{z}'(t) = \mathbf{z}(t) - \max_{k \in \{1..4\}} z_k(t), \quad \boldsymbol{\omega}(t) = \frac{\exp\left(\mathbf{z}'(t)\right)}{\sum_{k=1}^4 \exp\left(z'_k(t)\right)}$$
+   Because $\frac{\exp(z_i - \max \mathbf{z})}{\sum_k \exp(z_k - \max \mathbf{z})} \equiv \frac{\exp(z_i)}{\sum_k \exp(z_k)}$, this identity is mathematically exact, ensures $\exp(z'_i) \in (0, 1.0]$, and strictly prevents floating-point and EVM integer overflow during extreme black-swan state excursions.
 
 ---
 
@@ -233,7 +236,7 @@ $$\mathbf{W} = \begin{bmatrix}
 A major failure mode of legacy tokenomic designs is the conflation of stakeholder utilities, mechanisms, and measurable outcomes. The matrix below rigorously separates these five domains.
 
 | # | Stakeholder Group | Core Economic Utility Function $U_i$ | Primary Conflicts with Other Stakeholders | Governing Policy Levers & Mechanisms | Measurable Mathematical KPI | Numerical Acceptance Gate |
-| :---: | :--- | :--- | :--- | :--- | :--- | :--- |
+| :---: | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **1** | **anUSD Stablecoin Holders** | Maximize capital preservation, redemption parity, and zero haircut probability: $U_{\text{usd}} = -\text{RMSE}(P_{\text{DEX}}) - \lambda_{\text{tail}} \mathbb{P}(\text{Haircut})$. | **Conflict with Junior & Burn:** Junior seeks higher leverage (lower backing); Burn diverts yield away from reserve buffer $B_{\text{res}}$. | Senior priority claim ($V_A$), Reserve buffer allocation ($\omega_{\text{res}}$), Primary 1:1 redemption parity. | Annualized Peg Tracking Volatility ($\sigma_{\text{peg}}$), Max Flash Crash Haircut ($\mathcal{L}_{\max}$). | $\sigma_{\text{peg}} < 1.50\%$ p.a.<br>Haircut $\equiv 0.00\%$ for drops $\le -60.0\%$. |
 | **2** | **Junior Tranche Speculators (Class B)** | Maximize capital return on leveraged collateral upside while minimizing borrowing costs: $U_B = \mathbb{E}[r_B] - \gamma_{\text{decay}} f_{\text{reset}}$. | **Conflict with Senior & Validators:** High senior coupons ($R$) and large validator subsidies ($\omega_{\text{val}}$) reduce junior yield passthrough. | Coupon rate $R$, downward barrier $H_d$, bear subsidy $\tilde{R}$, split ratio $\chi$, floating equity mechanism (A3). | Junior Sharpe Ratio ($\text{SR}_B$), Annualized Reset Churn Frequency ($f_{\text{reset}}$). | $\text{SR}_B \ge 0.80$<br>$f_{\text{reset}} < 2.0\text{ resets/yr}$. |
 | **3** | **Avalanche Network Validators** | Guarantee continuous node operating solvency across market cycles: $U_{\text{val}} = \mathbb{E}[\Pi_{\text{node}}] - \theta_{\text{def}} \mathbb{P}(\Pi_{\text{node}} < 0)$. | **Conflict with AVAX Burn:** Every dollar allocated to validator subsidies directly reduces AVAX buyback & burn volume. | Dynamic subsidy slope $\kappa_{\text{dd}}$, Baseline validator share $\omega_{\text{val}}^0$, Yield floor $r_{\text{floor}}$. | Validator OpEx Coverage Ratio ($\text{CR}_{\text{OpEx}}$), Validator Default Rate ($\mathbb{P}(\text{Default})$). | $\text{CR}_{\text{OpEx}} \ge 1.20\times$ down to $-70\%$ drawdown.<br>$\mathbb{P}(\text{Default}) < 0.01\%$. |
@@ -277,7 +280,7 @@ To independently verify the policy simplex formulas, validator coverage calculat
 1. **Verify Simplex Conservation and Validator Subsidy Mechanics:**
    ```bash
    cd /home/hash/Hub/Projects/avalanche-native-stablecoin/contracts
-   forge test --match-contract DynamicValidatorSubsidyTest -vvv
+   forge test --match-contract YieldRecyclerUnitTest -vvv
    ```
 2. **Execute Full Multi-Regime Policy Stress Grid:**
    ```bash

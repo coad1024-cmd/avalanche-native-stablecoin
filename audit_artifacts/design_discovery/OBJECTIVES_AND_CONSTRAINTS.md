@@ -20,7 +20,7 @@ This document establishes an axiomatic **Four-Tier Taxonomy** for the Avalanche-
   ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
   │ TIER 1: True Physical & Mathematical Hard Constraints (Inviolable Axioms)                        │
   │ • Stock non-negativity (C ≥ 0, B ≥ 0, N_i ≥ 0)                                                    │
-  │ • Double-entry stock-flow closure (A(t) ≡ D_senior(t) + E_B(t) + B(t) + D_insolvency(t))         │
+  │ • Double-entry stock-flow closure (A(t) ≡ D_senior(t) + E_B(t) + B_unallocated(t) - D_insolvency(t)) │
   │ • Realizable redemption solvency (M_redemp ≥ 0)                                                  │
   │ • Simplex weight conservation (∑ ω_i = 1.0, ω_i ≥ 0)                                              │
   │ • 2:1 token pair mass conservation (2 Token A ↔ 1 Token A' + 1 Token B')                         │
@@ -54,14 +54,14 @@ No physical token balance, custody stock, or circulating share balance may be ne
 $$\boxed{C_{\text{sAVAX}}(t) \ge 0, \quad B_{\text{res}}(t) \ge 0, \quad N_i(t) \ge 0 \quad \forall i \in \{A, B, A', B'\}, \quad \forall t \ge 0}$$
 
 #### Constraint 1.2: Double-Entry Stock-Flow Balance Sheet Closure
-Total custodial assets must identically equal the sum of senior debt obligations, junior equity claims, dedicated surplus reserves, and insolvency deficits with zero unaccounted drift:
-$$\boxed{\mathcal{A}(t) \equiv \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}(t) + \mathcal{D}_{\text{insolvency}}(t) \quad \forall t \ge 0}$$
+Total custodial assets must identically equal the sum of senior debt obligations, junior equity claims, unallocated surplus reserves, and insolvency deficits with zero unaccounted drift:
+$$\boxed{\mathcal{A}(t) \equiv \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}_{\text{unallocated}}(t) - \mathcal{D}_{\text{insolvency}}(t) \quad \forall t \ge 0}$$
 where:
-* $\mathcal{A}(t) = C_{\text{sAVAX}}(t) \cdot P_{\text{sAVAX}}(t) + B_{\text{res}}(t)$
+* $\mathcal{A}(t) = C_{\text{sAVAX}}(t) \cdot P_{\text{sAVAX}}(t) + B_{\text{res}}(t) \equiv \mathcal{A}_{\text{pool}}(t) + \mathcal{B}_{\text{res}}(t)$
 * $\mathcal{D}_{\text{senior}}(t) = N_A^{\text{eff}}(t) V_A(t) + \frac{1}{2}\left[ N_{A'}^{\text{eff}}(t) V_{A'}(t) + N_{B'}^{\text{eff}}(t) V_{B'}(t) \right]$
-* $\mathcal{E}_B(t) = \max\left( 0, \, \mathcal{A}(t) - \mathcal{D}_{\text{senior}}(t) - B_{\text{res}}(t) \right)$
-* $\mathcal{B}(t) = B_{\text{res}}(t)$
-* $\mathcal{D}_{\text{insolvency}}(t) = \max\left( 0, \, \mathcal{D}_{\text{senior}}(t) - \mathcal{A}(t) \right)$
+* $\mathcal{E}_B(t) = \max\left( 0, \, C_{\text{sAVAX}}(t) \cdot P_{\text{sAVAX}}(t) - \mathcal{D}_{\text{senior}}(t) \right)$ (Junior Residual Equity in pool)
+* $\mathcal{B}_{\text{unallocated}}(t) = \max\left( 0, \, B_{\text{res}}(t) - \max\left(0, \, \mathcal{D}_{\text{senior}}(t) - C_{\text{sAVAX}}(t) \cdot P_{\text{sAVAX}}(t)\right) \right)$ (Unallocated buffer remaining after absorbing any pool shortfall)
+* $\mathcal{D}_{\text{insolvency}}(t) = \max\left( 0, \, \mathcal{D}_{\text{senior}}(t) - \mathcal{A}(t) \right) = \max\left( 0, \, \mathcal{D}_{\text{senior}}(t) - (\mathcal{A}_{\text{pool}}(t) + \mathcal{B}_{\text{res}}(t)) \right)$ (Unbacked deficit / shortfall)
 
 #### Constraint 1.3: Realizable Redemption Solvency Margin
 A stablecoin holder executing a primary redemption must receive realizable backing. The realizable margin $M_{\text{redemp}}(t)$ cannot be negative:
@@ -173,7 +173,7 @@ Tier 4 metrics do not enter the optimization objective vector directly, but serv
 
 | Metric ID | Metric Name & Formula | Diagnostic Threshold | Failure Signature / Health Action |
 | :---: | :--- | :---: | :--- |
-| **D01** | **Closed-Loop Damping Ratio:** $\zeta = \frac{1 + K_{\text{amm}} \tau K_p}{2 \sqrt{K_{\text{amm}} \tau K_i}}$ | $\zeta \ge 1.00$ (Overdamped) | If $\zeta < 1.00$, the system enters underdamped resonant peg oscillations. Requires increasing $K_p$ or reducing $K_i$. |
+| **D01** | **Closed-Loop Damping Ratio:** $\zeta = \frac{1 + K_{\text{amm}} \tau K_p}{2 \sqrt{K_{\text{amm}} \tau^2 K_i}}$ | $\zeta \ge 1.00$ (Overdamped) | If $\zeta < 1.00$, the system enters underdamped resonant peg oscillations. Requires increasing $K_p$ or reducing $K_i$. |
 | **D02** | **Phase Margin (PM):** $\text{PM} = 180^\circ + \angle L(j \omega_{\text{gc}})$ | $\text{PM} \ge 60.0^\circ$ | If $\text{PM} < 45^\circ$, oracle delays ($\tau_{\text{heart}}$) cause limit-cycle instability. |
 | **D03** | **Reserve Buffer Fill Time:** $\tau_{\text{fill}} = \inf \{ t \mid B_{\text{res}}(t) \ge B_{\text{target}} \}$ | $\tau_{\text{fill}} \le 180\text{ days}$ | If $\tau_{\text{fill}} > 365\text{ days}$, the protocol remains unhedged against $> -60\%$ tail crashes for too long. |
 | **D04** | **Parameter Fragility Index:** $\bar{S}_T = \frac{1}{D}\sum_{i=1}^D S_{Ti}$ | $\bar{S}_T \le 0.35$ | If $\bar{S}_T > 0.50$, small calibration shifts create massive output swings. |
@@ -220,7 +220,7 @@ $$\Delta P^*_{\text{crit}} = \frac{1}{2(1 + 0.25)} - 1 = \frac{1}{2.50} - 1 = \m
 
 *Debunking Insight:*
 1. The $-60.00\%$ zero-haircut threshold is an **endogenous mathematical property** resulting from the specific choice of $H_d = 0.25$. If governance selects $H_d = 0.35$, the crash tolerance becomes $-53.7\%$; if $H_d = 0.15$, it becomes $-65.2\%$.
-2. For jumps exceeding $-60.00\%$ (e.g., $-75\%$ or $-95\%$), the protocol does **not** experience undefined behavior or divide-by-zero errors. It executes an exact, deterministic proportional haircut ($h = 37.35\%$ at $-75\%$ drop, $h = 87.47\%$ at $-95\%$ drop) while maintaining perfect double-entry closure ($\mathcal{A} \equiv \mathcal{D}_{\text{senior}} + \mathcal{E}_B + \mathcal{B}$).
+2. For jumps exceeding $-60.00\%$ (e.g., $-75\%$ or $-95\%$), the protocol does **not** experience undefined behavior or divide-by-zero errors. It executes an exact, deterministic proportional haircut ($h = 37.35\%$ at $-75\%$ drop, $h = 87.47\%$ at $-95\%$ drop) while maintaining perfect double-entry closure ($\mathcal{A} \equiv \mathcal{D}_{\text{senior}} + \mathcal{E}_B + \mathcal{B}_{\text{unallocated}} - \mathcal{D}_{\text{insolvency}}$).
 3. Furthermore, under Architecture A2 (Dedicated Solvency Reserve), adding a $15\%$ reserve buffer ($B_{\text{res}}/\text{TVL} = 0.15$) extends the zero-haircut tolerance to **$-75.00\%$ from the barrier** and **$-88.75\%$ from par**.
 4. Therefore, crash resilience is an **optimization objective ($J_{\text{tail}}$)** on the Pareto frontier, traded off against capital efficiency ($J_{\text{cap}}$) and reserve accumulation speed ($\tau_{\text{fill}}$), not an immutable physical hard constraint.
 
@@ -328,7 +328,7 @@ This objective and constraint specification shall be considered invalidated if:
 # Verify double-entry balance sheet closure across 1,000 randomized state vectors
 python3 -c "
 import numpy as np
-from simulations.canonical_accounting import PhysicalBalanceSheet, TrancheNAV, evaluate_balance_sheet
+from simulations.canonical_accounting import PhysicalBalanceSheet, TrancheNAV
 
 for _ in range(1000):
     P_avax = np.random.uniform(5.0, 150.0)
@@ -340,12 +340,18 @@ for _ in range(1000):
     N_Bp = N_A / 2.0
     
     sheet = PhysicalBalanceSheet(
-        C_savax=C_savax, P_avax=P_avax, r_savax=1.15, B_usd=B_usd,
-        N_A=N_A, N_B=N_B, N_A_prime=N_Ap, N_B_prime=N_Bp
+        collateral_savax=C_savax,
+        spot_price_avax=P_avax,
+        savax_rate=1.15,
+        surplus_reserve_usd=B_usd,
+        supply_A=N_A,
+        supply_B=N_B,
+        supply_A_prime=N_Ap,
+        supply_B_prime=N_Bp
     )
-    nav = TrancheNAV(R=0.08, R_prime=0.03, v=0.25, S=0.85)
-    ev = evaluate_balance_sheet(sheet, nav)
-    assert abs(ev['invariant_balance_diff']) < 1e-8, 'Double-entry failure!'
+    nav = sheet.compute_model_navs(R=0.08, R_prime=0.03, P_0=P_avax, v=0.25)
+    inv = sheet.verify_all_invariants(nav)
+    assert inv['INV_PHYSICAL_BALANCE'][0], f'Double-entry failure: {inv[\"INV_PHYSICAL_BALANCE\"][2]}'
 print('Verification PASSED: 1000/1000 states preserve Tier 1 Double-Entry Closure.')
 "
 ```

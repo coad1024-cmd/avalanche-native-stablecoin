@@ -112,7 +112,7 @@ Matching $\Delta(s) = s^2 + 2\zeta \omega_n s + \omega_n^2 = 0$:
    $$\boxed{\omega_n = \sqrt{\frac{K_{\text{DC}} K_i}{\tau_{\text{arb}}}} = \sqrt{K_{\text{amm}}(L) \cdot K_i}}$$
 
 2. **Damping Ratio ($\zeta$):**
-   $$\boxed{\zeta = \frac{\frac{1}{\tau_{\text{arb}}} + K_{\text{amm}}(L) K_p}{2 \omega_n} = \frac{1 + K_{\text{amm}}(L) \tau_{\text{arb}} K_p}{2 \sqrt{K_{\text{amm}}(L) \tau_{\text{arb}} K_i}}}$$
+   $$\boxed{\zeta = \frac{\frac{1}{\tau_{\text{arb}}} + K_{\text{amm}}(L) K_p}{2 \omega_n} = \frac{1 + K_{\text{amm}}(L) \tau_{\text{arb}} K_p}{2 \sqrt{K_{\text{amm}}(L) \tau_{\text{arb}}^2 K_i}}}$$
 
 ---
 
@@ -172,15 +172,20 @@ Therefore, the only invariant trajectory contained entirely within $\mathcal{S}$
 
 To prevent underdamped ringing, cyclical overshoot, and peg oscillation, the system must remain strictly overdamped ($\zeta \ge 1.0$) across all plausible liquidity tiers.
 
-Evaluating under calibrated baseline parameters ($\alpha_{\text{elasticity}} = \$5.0\text{M}$, $\tau_{\text{arb}} = 5.55\text{d} = 0.0152\text{ yr}$, $K_p = 0.150$, $K_i = 0.020$):
+Evaluating under calibrated baseline parameters ($\alpha_{\text{elasticity}} = \$5.0\text{M}$, $K_p = 0.150$, $\tau_{\text{arb}} = 5.55\text{ days}$, and $K_i = 0.020$):
 
-| DEX Liquidity ($L$) | Plant Gain $K_{\text{amm}}(L)$ | DC Gain $K_{\text{DC}} = K_{\text{amm}} \tau$ | Natural Freq $\omega_n$ ($\text{rad/yr}$) | Damping Ratio $\zeta$ | Regime Classification | Settling Time ($t_{2\%}$) |
+* **Daily Time Units ($t$ in days, $\tau_{\text{arb}} = 5.55\text{ d}$, $K_i = 0.020\text{ d}^{-1}$):**
+  $$\zeta = \frac{\frac{1}{5.55} + K_{\text{amm}} \cdot 0.150}{2 \sqrt{K_{\text{amm}} \cdot 0.020}} \in [1.28, 1.78] > 1.00 \quad (\text{Overdamped})$$
+* **Annualized Time Units ($t$ in years, $\tau_{\text{arb}} = \frac{5.55}{365} = 0.0152\text{ yr}$, $K_i = 0.020\text{ yr}^{-2}$):**
+  $$\zeta = \frac{\frac{365}{5.55} + K_{\text{amm}} \cdot 0.150}{2 \sqrt{K_{\text{amm}} \cdot 0.020}} \ge 128.32 \gg 1.00 \quad (\text{Strongly Overdamped})$$
+
+| DEX Liquidity ($L$) | Plant Gain $K_{\text{amm}}(L)$ | $\omega_n$ ($\text{rad/day}$) | $\zeta$ (Daily Units) | $\zeta$ (Annual Units) | Regime Classification | Settling Time ($t_{2\%}$) |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **$\$1.5\text{M}$ (Illiquid)** | $3.3333$ | $0.0507$ | $0.2582$ | $\mathbf{12.82} \gg 1.0$ | **Strongly Overdamped** | $4.6\text{ days}$ |
-| **$\$10.0\text{M}$ (Moderate)** | $0.5000$ | $0.0076$ | $0.1000$ | $\mathbf{32.93} \gg 1.0$ | **Strongly Overdamped** | $2.8\text{ days}$ |
-| **$\$30.0\text{M}$ (Deep)** | $0.1667$ | $0.0025$ | $0.0577$ | $\mathbf{57.01} \gg 1.0$ | **Strongly Overdamped** | $1.4\text{ days}$ |
+| **$\$1.5\text{M}$ (Illiquid)** | $3.3333$ | $0.2582$ | $\mathbf{1.317} > 1.0$ | $\mathbf{128.32} \gg 1.0$ | **Strictly Overdamped** | $4.6\text{ days}$ |
+| **$\$10.0\text{M}$ (Moderate)** | $0.5000$ | $0.1000$ | $\mathbf{1.276} > 1.0$ | $\mathbf{329.20} \gg 1.0$ | **Strictly Overdamped** | $2.8\text{ days}$ |
+| **$\$30.0\text{M}$ (Deep)** | $0.1667$ | $0.0577$ | $\mathbf{1.777} > 1.0$ | $\mathbf{569.76} \gg 1.0$ | **Strictly Overdamped** | $1.4\text{ days}$ |
 
-*Conclusion:* The system is **unconditionally overdamped** across the entire empirical liquidity spectrum, completely ruling out resonant oscillations.
+*Conclusion:* In both daily and annualized time units, the closed-loop system is **unconditionally overdamped ($\zeta > 1.00$)** across the entire empirical liquidity spectrum, completely ruling out resonant oscillations or limit cycles.
 
 ---
 

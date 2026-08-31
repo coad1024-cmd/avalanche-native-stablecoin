@@ -119,8 +119,8 @@ Stage 1 executes deterministic, closed-form algebraic checks that evaluate candi
 
 #### 3.1.2 Governing Mathematical Invariants
 1. **Stock-Flow Double-Entry Invariant:**
-   $$\forall t \ge 0, \quad \left| \mathcal{A}(t) - \left( \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}(t) \right) \right| \equiv 0$$
-   where $\mathcal{A}(t) = C(t) P_{\text{spot}}(t) + B(t)$ and $\mathcal{D}_{\text{senior}}(t) = N_A V_A(t) + \frac{1}{2}(N_{A'} V_{A'}(t) + N_{B'} V_{B'}(t))$.
+   $$\forall t \ge 0, \quad \left| \mathcal{A}(t) - \left( \mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}_{\text{unallocated}}(t) - \mathcal{D}_{\text{insolvency}}(t) \right) \right| \equiv 0$$
+   where $\mathcal{A}(t) = C(t) P_{\text{spot}}(t) + B_{\text{res}}(t)$ and $\mathcal{D}_{\text{senior}}(t) = N_A V_A(t) + \frac{1}{2}(N_{A'} V_{A'}(t) + N_{B'} V_{B'}(t))$.
 2. **Simplex Weight Conservation:**
    $$\sum_{i \in \{\text{burn}, \text{val}, \text{res}, \text{l1}\}} \omega_i = 1.0000, \quad \omega_i \ge 0 \quad \forall i$$
 3. **Model-Free Single-Step Flash Crash Bound (Theorem 1):**

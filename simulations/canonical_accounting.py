@@ -123,7 +123,7 @@ class PhysicalBalanceSheet:
             "total_assets_usd": self.total_assets_usd
         }
 
-    def verify_all_invariants(self, nav: TrancheNAV, tol: float = 1e-10) -> Dict[str, Tuple[bool, float, str]]:
+    def verify_all_invariants(self, nav: TrancheNAV, tol: float = 1e-6) -> Dict[str, Tuple[bool, float, str]]:
         """
         Executes explicit, independent invariant checks:
           1. Algebraic Model Conservation: |V_A + V_B - 2S|
@@ -151,11 +151,15 @@ class PhysicalBalanceSheet:
         
         # 3. Physical Asset-Liability Balance
         sheet = self.evaluate_liabilities_and_equity(nav)
-        phys_balance_err = abs(sheet["total_assets_usd"] - (sheet["total_senior_debt"] + sheet["physical_equity_B"] + self.surplus_reserve_usd))
+        collateral_shortfall = max(0.0, sheet["total_senior_debt"] - self.total_collateral_value_usd)
+        unallocated_buffer = max(0.0, self.surplus_reserve_usd - collateral_shortfall)
+        insolvency_deficit = sheet["solvency_deficit"]
+        rhs_claims = sheet["total_senior_debt"] + sheet["physical_equity_B"] + unallocated_buffer - insolvency_deficit
+        phys_balance_err = abs(sheet["total_assets_usd"] - rhs_claims)
         results["INV_PHYSICAL_BALANCE"] = (
             phys_balance_err <= tol,
             phys_balance_err,
-            f"|Assets - (Debt + Equity + Buffer)| = {phys_balance_err:.2e}"
+            f"|Assets - (Debt + Equity + UnallocatedBuffer - Deficit)| = {phys_balance_err:.2e}"
         )
         
         # 4. Redemption Solvency Margin

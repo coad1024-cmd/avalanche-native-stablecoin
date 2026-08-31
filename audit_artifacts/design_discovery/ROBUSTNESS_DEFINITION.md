@@ -312,7 +312,7 @@ $$\boxed{\text{PM}(L, \tau_{\text{delay}}) = 180^\circ + \arctan\left(\frac{K_p 
 
 ### 7.1 Robustness Sign-Off Criteria
 A mechanism architecture and parameter candidate tuple $\mathbf{u}^*$ is formally approved for Stage 7 out-of-sample deployment if and only if it satisfies all four criteria:
-1. **Double-Entry Balance Closure:** $|\mathcal{A}(t) - (\mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}(t))| \le 10^{-12}$ across all 11 market regimes.
+1. **Double-Entry Balance Closure:** $|\mathcal{A}(t) - (\mathcal{D}_{\text{senior}}(t) + \mathcal{E}_B(t) + \mathcal{B}_{\text{unallocated}}(t) - \mathcal{D}_{\text{insolvency}}(t))| \le 10^{-12}$ across all 11 market regimes.
 2. **Zero-Haircut Tail Gate:** Senior haircut $h(\Delta P) \equiv 0.0000$ for all single-step shocks $\Delta P \ge -60.00\%$ from downward reset barrier $H_d$.
 3. **Safety Distance Margin:** $\text{dist}(\boldsymbol{\theta}^*, \partial \Omega_{\text{fail}}) \ge 0.20$.
 4. **Dynamic Phase Margin:** $\text{PM}(L_{\min}, \tau_{\text{heart}}) \ge 60.0^\circ$ across all liquidity tiers.
