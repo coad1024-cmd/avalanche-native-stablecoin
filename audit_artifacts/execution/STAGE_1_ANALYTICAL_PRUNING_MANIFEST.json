@@ -1,12 +1,13 @@
 {
   "metadata": {
-    "stage": "Stage 1: Analytical Screening & Feasible Space Pruning",
-    "execution_timestamp_utc": "2026-08-31T04:22:43.739858+00:00",
+    "stage": "Stage 1: Analytical Screening & Feasible Space Pruning (Corrected & Validated)",
+    "execution_timestamp_utc": "2026-08-31T04:49:38.475481+00:00",
+    "sampling_methodology": "Vectorized Uniform Random & Dirichlet(1,1,1,1) Simplex Random Sampling",
     "sample_size_initial": 100000,
-    "survivors_total": 9899,
-    "overall_pruning_rate_pct": 90.101,
+    "survivors_total": 64052,
+    "overall_pruning_rate_pct": 35.948,
     "random_seed": 2026,
-    "empirical_staking_apr_q_bar": 0.064
+    "q_max_envelope": 0.1
   },
   "filter_attrition": [
     {
@@ -18,100 +19,116 @@
     },
     {
       "filter_name": "F2_Yield_Feasibility",
-      "individual_pass_count": 29728,
-      "individual_pass_pct": 29.727999999999998,
-      "cumulative_survivor_count": 29728,
-      "cumulative_survivor_pct": 29.727999999999998
-    },
-    {
-      "filter_name": "F3_Theorem_1_Solvency",
-      "individual_pass_count": 45568,
-      "individual_pass_pct": 45.568,
-      "cumulative_survivor_count": 13528,
-      "cumulative_survivor_pct": 13.528
+      "individual_pass_count": 64052,
+      "individual_pass_pct": 64.05199999999999,
+      "cumulative_survivor_count": 64052,
+      "cumulative_survivor_pct": 64.05199999999999
     },
     {
       "filter_name": "F4_Hurwitz_Overdamping",
       "individual_pass_count": 100000,
       "individual_pass_pct": 100.0,
-      "cumulative_survivor_count": 13528,
-      "cumulative_survivor_pct": 13.528
+      "cumulative_survivor_count": 64052,
+      "cumulative_survivor_pct": 64.05199999999999
     },
     {
       "filter_name": "F5_Barrier_Ordering",
-      "individual_pass_count": 44154,
-      "individual_pass_pct": 44.153999999999996,
-      "cumulative_survivor_count": 9899,
-      "cumulative_survivor_pct": 9.899
+      "individual_pass_count": 100000,
+      "individual_pass_pct": 100.0,
+      "cumulative_survivor_count": 64052,
+      "cumulative_survivor_pct": 64.05199999999999
     }
   ],
   "architecture_breakdown": {
     "A0_Dual_Tranche_Reset": {
-      "initial_samples": 20109,
-      "survivors": 1856,
-      "survival_rate_pct": 9.229698145109156
+      "initial_samples": 12632,
+      "survivors": 8096,
+      "survival_rate_pct": 64.09119696010133
     },
     "A1_Continuous_Amortization": {
-      "initial_samples": 19893,
-      "survivors": 2635,
-      "survival_rate_pct": 13.245865379781833
+      "initial_samples": 12477,
+      "survivors": 7959,
+      "survival_rate_pct": 63.78937244529935
     },
     "A2_Solvency_Buffer": {
-      "initial_samples": 20113,
-      "survivors": 1769,
-      "survival_rate_pct": 8.795306518172326
+      "initial_samples": 12483,
+      "survivors": 7903,
+      "survival_rate_pct": 63.310101738364175
     },
     "A3_Floating_Junior": {
-      "initial_samples": 20027,
-      "survivors": 1788,
-      "survival_rate_pct": 8.927947271183902
+      "initial_samples": 12467,
+      "survivors": 8023,
+      "survival_rate_pct": 64.35389428090159
     },
     "A4_Zero_Controller": {
-      "initial_samples": 19858,
-      "survivors": 1851,
-      "survival_rate_pct": 9.321180380702991
+      "initial_samples": 12524,
+      "survivors": 8094,
+      "survival_rate_pct": 64.62791440434366
+    },
+    "A5_1_Convertible_Debt": {
+      "initial_samples": 12647,
+      "survivors": 8091,
+      "survival_rate_pct": 63.975646398355345
+    },
+    "A5_2_Protocol_Owned_AMM": {
+      "initial_samples": 12317,
+      "survivors": 7944,
+      "survival_rate_pct": 64.4962247300479
+    },
+    "A5_3_Multi_LST_Basket": {
+      "initial_samples": 12453,
+      "survivors": 7942,
+      "survival_rate_pct": 63.775796996707626
     }
   },
-  "bounded_feasible_manifold_theta": {
+  "survivor_bounding_box": {
     "R": [
-      0.01010852452884195,
-      0.15383724758474188
+      0.0100287126638566,
+      0.19999723350455675
     ],
     "R_prime": [
-      0.005012290865511759,
-      0.06399370314270879
+      0.005000283495863172,
+      0.09999790204716957
     ],
     "H_d": [
-      0.1500090841450284,
-      0.3999800986494634
+      0.05001421190200737,
+      0.5999733879323967
     ],
     "H_u": [
-      1.1014591250707157,
-      3.4972279362412144
+      1.100045154782417,
+      3.4999856499602733
     ],
     "omega_burn": [
       3.399662014318779e-06,
-      0.9589206617567853
+      0.9719930617779509
     ],
     "omega_val": [
       5.26256229955052e-07,
-      0.9476871503868236
+      0.9852986039632984
     ],
     "omega_res": [
       8.190400606858328e-06,
       0.9777913374754502
     ],
     "omega_l1": [
-      6.213427456575027e-05,
-      0.9553848872556888
+      2.236813477174557e-06,
+      0.9759270391021594
     ],
     "K_p": [
-      0.010000442373279158,
-      0.5999035068168848
+      0.010000082694093148,
+      0.5999860804331149
     ],
     "K_i": [
-      0.001001666202421807,
-      0.0999719001607282
+      0.0010013235923495305,
+      0.09999912612052997
+    ],
+    "B_target": [
+      1.2523702293876227e-05,
+      0.29999280788118154
+    ],
+    "kappa_dd": [
+      0.05001222419760025,
+      0.7999737428708164
     ]
   }
 }
